@@ -37,9 +37,9 @@ if (!is_category()) {
 }
 %>
 
-<div id="view-home" class="view-section active animate-enter">
+<div id="view-home" class="view-section active">
     <% if (!is_category() && latestPost) { %>
-    <section class="hero-section">
+    <section class="hero-section animate-enter">
         <div class="hero-bg" style="background-image: url('<%- getCover(latestPost) %>');"></div>
         <div class="hero-overlay"></div>
         <div class="hero-content">

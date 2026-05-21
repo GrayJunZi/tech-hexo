@@ -55,7 +55,10 @@
             70% { box-shadow: 0 0 0 10px rgba(217, 106, 41, 0); }
             100% { box-shadow: 0 0 0 0 rgba(217, 106, 41, 0); }
         }
-        .animate-enter { animation: fadeInUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
+        .animate-enter { 
+            opacity: 0;
+            animation: fadeInUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) both; 
+        }
 
         /* ================= 整体布局 ================= */
         .layout-container { display: flex; min-height: 100vh; }
