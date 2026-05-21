@@ -115,13 +115,41 @@ if (!is_category()) {
 
             <div class="widget">
                 <div class="section-header"><div class="section-title">全部分类 <span>CATEGORIES</span></div></div>
-                <div class="cat-grid">
-                    <% site.categories.forEach(function(cat){ %>
-                        <a class="cat-item site_url" href="<%- url_for(cat.path) %>">
-                            <span class="cat-title"><%= cat.name %></span>
-                            <span class="cat-count"><%= cat.posts.length %></span>
-                        </a>
-                    <% }); %>
+                <div class="cat-outline">
+                    <%
+                    var childCategoryMap = {};
+                    site.myCategories.forEach(function (category) {
+                        if (category.parent) {
+                            if (childCategoryMap[category.parent]) {
+                                childCategoryMap[category.parent].push(category);
+                            } else {
+                                childCategoryMap[category.parent] = [category];
+                            }
+                        }
+                    })
+                    %>
+                    <% function renderHomeCategory(category) { %>
+                        <li class="cat-list-item">
+                            <a class="site_url" href="<%- url_for(category.path) %>">
+                                <span class="cat-list-link"><%= category.name %></span>
+                                <span class="cat-list-count"><%= category.posts.length %></span>
+                            </a>
+                            <% if (childCategoryMap[category._id]) { %>
+                                <ul class="cat-list-child">
+                                    <% childCategoryMap[category._id].forEach(function (child) { %>
+                                        <%= renderHomeCategory(child) %>
+                                    <% }) %>
+                                </ul>
+                            <% } %>
+                        </li>
+                    <% } %>
+                    <ul class="cat-list">
+                        <% site.myCategories.forEach(function(category){ %>
+                            <% if(!category.parent) { %>
+                                <%= renderHomeCategory(category) %>
+                            <% } %>
+                        <% }) %>
+                    </ul>
                 </div>
             </div>
         </div>

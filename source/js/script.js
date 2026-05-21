@@ -255,19 +255,41 @@ function bind() {
         var $grid = $('#home-post-grid');
         var $items = $grid.children('.post-card');
 
-        $('.sort-btn').removeClass('active');
-        $btn.addClass('active');
+        if ($btn.hasClass('active')) {
+            // 切换升降序
+            if ($btn.hasClass('desc')) {
+                $btn.removeClass('desc').addClass('asc');
+            } else {
+                $btn.removeClass('asc').addClass('desc');
+            }
+        } else {
+            $('.sort-btn').removeClass('active');
+            $btn.addClass('active');
+        }
+
+        var isDesc = $btn.hasClass('desc');
 
         $items.sort(function(a, b) {
-            if (sortType === 'date-desc') {
-                return $(b).data('date') - $(a).data('date');
-            } else if (sortType === 'title-asc') {
-                return $(a).data('title').localeCompare($(b).data('title'), 'zh-CN');
+            var valA, valB;
+            if (sortType === 'date') {
+                valA = $(a).data('date');
+                valB = $(b).data('date');
+                return isDesc ? valB - valA : valA - valB;
+            } else if (sortType === 'title') {
+                valA = $(a).data('title').toString();
+                valB = $(b).data('title').toString();
+                return isDesc ? valB.localeCompare(valA, 'zh-CN') : valA.localeCompare(valB, 'zh-CN');
             }
             return 0;
         });
 
         $grid.append($items);
+    });
+
+    // 导航栏点击切换高亮
+    $('.nav-left ul li div').on('click', function() {
+        $('.nav-left ul li div').removeClass('active');
+        $(this).addClass('active');
     });
 
     // 公告更多展示
