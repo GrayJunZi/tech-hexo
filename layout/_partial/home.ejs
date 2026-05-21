@@ -45,11 +45,12 @@ if (!is_category()) {
                 <% } %>
             </p>
             <a class="hero-btn site_url" href="<%- url_for(latestPost.path) %>">VIEW MORE <span>></span></a>
-        </div>
-        <div class="hero-date">
-            <div class="hero-date-tag">LATEST UPDATE</div>
-            <div class="hero-date-num"><%- date(latestPost.date, 'MM / DD') %></div>
-            <div class="hero-date-sub"><%- date(latestPost.date, 'YYYY') %></div>
+            
+            <div class="hero-date">
+                <div class="hero-date-tag">LATEST UPDATE</div>
+                <div class="hero-date-num"><%- date(latestPost.date, 'MM / DD') %></div>
+                <div class="hero-date-sub"><%- date(latestPost.date, 'YYYY') %></div>
+            </div>
         </div>
     </section>
     <% } %>

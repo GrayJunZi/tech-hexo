@@ -52,13 +52,30 @@ $(document).pjax('.site_url,.nav-item a,.post-card,.hero-btn', '.pjax', {fragmen
     }
 });
 function afterPjax() {
-
     // 文章默认背景
-    if (blog_path===''?location.pathname==='/':blog_path === location.pathname.split('/')[1]) {
-        container.addClass('index')
+    var path = window.location.pathname;
+    var blog_path = $('.theme_blog_path').val() || '';
+    if (blog_path === '' ? path === '/' : path === blog_path || path === blog_path + '/') {
+        container.addClass('index');
     } else {
-        container.removeClass('index')
+        container.removeClass('index');
     }
+
+    // 导航栏高亮更新
+    $('.nav-item').removeClass('active');
+    $('.nav-item a').each(function() {
+        var href = $(this).attr('href');
+        // 处理各种路径匹配情况，确保高亮正确
+        if (path === href || 
+            path === href + 'index.html' || 
+            (href !== '/' && href !== blog_path && path.indexOf(href) === 0)) {
+            $(this).parent().addClass('active');
+        }
+    });
+
+    // 搜索结果清空
+    $localSearchResult.hide().html('');
+    $searchInput.val('');
 
     /*渲染MathJax数学公式*/
     if($("script[type='text/x-mathjax-config']").length>0){
