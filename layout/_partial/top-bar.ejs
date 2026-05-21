@@ -28,8 +28,17 @@
         %>
         <a class="site_url" href="<%- url_for(theme.menu.about.url || '/about/') %>">关于</a>
     </div>
-    <div class="sys-status">
-        <svg viewBox="0 0 100 30">
+    <div class="sys-status" id="sys-status">
+        <div class="music-controls" id="music-controls">
+            <svg class="music-btn" id="prev-btn" viewBox="0 0 6 4" width="8" height="8">
+                <polygon points="3,0 6,4 0,4" fill="none" stroke-width="0.8"/>
+            </svg>
+            <svg class="music-btn" id="next-btn" viewBox="0 0 6 4" width="8" height="8">
+                <polygon points="0,0 6,0 3,4" fill="none" stroke-width="0.8"/>
+            </svg>
+        </div>
+        <svg viewBox="0 0 100 30" id="visualizer-svg" style="cursor: pointer;">
+            <polyline class="visualizer-line-bg" points="0,15 20,15 25,5 30,25 35,15 100,15" stroke-width="2"></polyline>
             <polyline id="visualizer-line" points="0,15 20,15 25,5 30,25 35,15 100,15" stroke-width="2"></polyline>
         </svg>
         <div class="sys-text">
@@ -39,6 +48,128 @@
         </div>
     </div>
 </header>
+
+<script>
+(function() {
+    var musicList = <%- get_music_list() %>;
+    if (!musicList || musicList.length === 0) {
+        musicList = ['/music/example.mp3'];
+    }
+    var currentTrack = 0;
+    var audioCtx, analyser, dataArray, source, audio;
+    var isPlaying = false;
+    var animationId;
+
+    var container = document.getElementById('sys-status');
+    var controls = document.getElementById('music-controls');
+    var svg = document.getElementById('visualizer-svg');
+    var polyline = document.getElementById('visualizer-line');
+    var defaultPoints = "0,15 20,15 25,5 30,25 35,15 100,15";
+
+    function initAudio() {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        analyser = audioCtx.createAnalyser();
+        // 使用参考代码中推荐的高精度 FFT 窗口
+        analyser.fftSize = 4096; 
+        dataArray = new Uint8Array(analyser.frequencyBinCount);
+        audio = new Audio();
+        audio.crossOrigin = "anonymous";
+        audio.src = musicList[currentTrack];
+        audio.onended = nextTrack;
+        source = audioCtx.createMediaElementSource(audio);
+        source.connect(analyser);
+        analyser.connect(audioCtx.destination);
+    }
+
+    function updatePoints() {
+        if (!isPlaying) return;
+        analyser.getByteFrequencyData(dataArray);
+        
+        var points = "";
+        // 点数决定了折线的精细度，SVG 宽度 100，所以 100 个点足够
+        var pointsCount = 100; 
+        var sliceWidth = 100 / (pointsCount - 1);
+        
+        for (var i = 0; i < pointsCount; i++) {
+            // 核心算法同步：对数频率映射
+            var t = i / (pointsCount - 1);
+            var logIndex = Math.floor(Math.pow(t, 1.8) * (dataArray.length * 0.85));
+            var value = dataArray[logIndex] || 0;
+
+            // 核心算法同步：频率权重补偿
+            if (value > 10) {
+                var compensation = 1.0 + t * 1.5; 
+                value = value * compensation;
+            }
+            value = Math.min(255, value);
+
+            // 映射到 SVG 坐标系 (高度 30，居中对称弹跳)
+            var percent = value / 255;
+            // 控制最大振幅，防止超出 SVG 范围
+            var amplitude = (30 * 0.45) * percent; 
+            
+            var x = i * sliceWidth;
+            var y = 15 - amplitude; // 居中 15 向上波动
+
+            points += x + "," + y + " ";
+        }
+        
+        polyline.setAttribute('points', points);
+        animationId = requestAnimationFrame(updatePoints);
+    }
+
+    function togglePlay() {
+        if (!audioCtx) initAudio();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+
+        if (isPlaying) {
+            audio.pause();
+            isPlaying = false;
+            container.classList.remove('playing');
+            controls.classList.remove('active');
+            cancelAnimationFrame(animationId);
+            polyline.setAttribute('points', defaultPoints);
+        } else {
+            audio.play().catch(e => console.error("Playback failed", e));
+            isPlaying = true;
+            container.classList.add('playing');
+            controls.classList.add('active');
+            updatePoints();
+        }
+    }
+
+    function nextTrack() {
+        currentTrack = (currentTrack + 1) % musicList.length;
+        if (audio) {
+            audio.src = musicList[currentTrack];
+            if (isPlaying) audio.play();
+        }
+    }
+
+    function prevTrack() {
+        currentTrack = (currentTrack - 1 + musicList.length) % musicList.length;
+        if (audio) {
+            audio.src = musicList[currentTrack];
+            if (isPlaying) audio.play();
+        }
+    }
+
+    svg.addEventListener('click', function(e) {
+        e.stopPropagation();
+        togglePlay();
+    });
+
+    document.getElementById('prev-btn').addEventListener('click', function(e) {
+        e.stopPropagation();
+        prevTrack();
+    });
+
+    document.getElementById('next-btn').addEventListener('click', function(e) {
+        e.stopPropagation();
+        nextTrack();
+    });
+})();
+</script>
 
 <% if (theme.searchAll) { %>
 <script>
