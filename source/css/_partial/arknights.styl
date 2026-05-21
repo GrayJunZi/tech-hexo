@@ -274,7 +274,7 @@
         .art-meta svg { width: 14px; height: 14px; fill: var(--text-sub); }
 
         /* 文章正文 Markdown 渲染 */
-        .art-content { font-size: 15px; line-height: 1.9; color: var(--text-main); }
+        .art-content { font-size: 15px; line-height: 1.9; color: var(--text-main); min-width: 0; }
         .art-content h1, .art-content h2, .art-content h3,
         .art-content h4, .art-content h5, .art-content h6 { color: var(--text-main); line-height: 1.4; margin-top: 35px; margin-bottom: 12px; }
         .art-content h1 { font-size: 2em; border-bottom: 2px solid var(--color-orange); padding-bottom: 8px; }
@@ -293,7 +293,7 @@
         .art-content th { background: var(--bg-panel); color: var(--text-main); font-weight: bold; }
         .art-content :not(pre) > code { background: rgba(217, 106, 41, 0.15); color: #ff8c42; padding: 2px 6px; border-radius: 3px; font-size: 0.875em; font-family: monospace; }
         .art-content pre { background: #0d0d0f; border: 1px solid var(--border); border-radius: 4px; padding: 20px; overflow-x: auto; margin: 20px 0; position: relative; }
-        .art-content pre code { background: none; color: #e0e0e0; padding: 0; font-size: 13px; font-family: monospace; }
+        .art-content pre code { background: none; color: #e0e0e0; padding: 0; font-size: 13px; font-family: monospace; white-space: pre-wrap; word-break: break-word; }
 
         .copy-btn {
             position: absolute; top: 10px; right: 10px; padding: 4px 8px; font-size: 10px; font-family: var(--font-en);
