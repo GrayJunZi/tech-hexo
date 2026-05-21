@@ -131,11 +131,25 @@
             background: linear-gradient(to bottom, var(--bg-main) 0%, rgba(255,255,255,0.6) 60%, transparent 100%);
         }
 
-        .search-box { display: flex; align-items: center; background: rgba(255,255,255,0.1); border-radius: 4px; padding: 8px 15px; width: 240px; transition: 0.3s; border: 1px solid transparent;}
-        .search-box:focus-within { border-color: var(--color-orange); background: rgba(255,255,255,0.15); }
+        .search-box { 
+            display: flex; 
+            align-items: center; 
+            background: rgba(255,255,255,0.1); 
+            border-radius: 4px; 
+            padding: 8px 15px; 
+            width: 140px; /* 初始半宽 */
+            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s, border-color 0.3s; 
+            border: 1px solid transparent;
+            overflow: hidden;
+        }
+        .search-box:focus-within { 
+            border-color: var(--color-orange); 
+            background: rgba(255,255,255,0.15); 
+            width: 260px; /* 点击后延伸 */
+        }
         .search-box input { background: transparent; color: #fff; border: none; width: 100%; font-size: 12px; }
         .search-box input::placeholder { color: rgba(255,255,255,0.4); }
-        .search-box svg { width: 16px; height: 16px; fill: #888; cursor: pointer; transition: 0.3s;}
+        .search-box svg { width: 16px; height: 16px; fill: #888; cursor: pointer; transition: 0.3s; flex-shrink: 0;}
         .search-box svg:hover { fill: var(--color-orange); }
         
         .top-links { display: flex; gap: 30px; font-size: 13px; font-weight: bold; color: #fff; }
@@ -144,12 +158,35 @@
         .top-links a:hover::after { width: 100%; }
         .top-links a:hover { color: var(--color-orange); }
         
-        .sys-status { display: flex; align-items: center; gap: 10px; color: #fff; height: 100%; }
-        #visualizer-svg { width: 80px; height: 40px; stroke: #fff; fill: none; flex-shrink: 0; }
-        .sys-text { display: flex; flex-direction: column; font-family: var(--font-en); font-size: 10px; line-height: 1.1; letter-spacing: 1px;}
-        .sys-text .big { font-size: 14px; font-weight: bold; }
-        .sys-text .sys-month { font-size: 8px; font-weight: normal; opacity: 0.7; }
-        .sys-text .sys-year { font-size: 8px; font-weight: normal; opacity: 0.5; }
+        .sys-status { 
+            display: flex; 
+            align-items: center; 
+            gap: 20px; /* 整体放大间距 */
+            color: #fff; 
+            height: 100%; 
+            position: relative;
+        }
+        #visualizer-svg { 
+            width: 100px; /* 整体放大折线图 */
+            height: 50px; 
+            stroke: #fff; 
+            fill: none; 
+            flex-shrink: 0; 
+            transition: all 0.5s ease;
+        }
+        .sys-text { 
+            display: flex; 
+            flex-direction: column; 
+            font-family: var(--font-en); 
+            font-size: 16px; /* 整体放大文字 */
+            line-height: 1.1; 
+            letter-spacing: 1px;
+            text-align: right; 
+            min-width: 100px;
+        }
+        .sys-text .big { font-size: 16px; font-weight: bold; }
+        .sys-text .sys-month { font-size: 12px; font-weight: normal; opacity: 0.7; }
+        .sys-text .sys-year { font-size: 12px; font-weight: normal; opacity: 0.5; }
 
         /* 视图容器控制 */
         .view-section { display: none; flex-direction: column; flex: 1; padding-top: var(--top-bar-height); }
@@ -377,18 +414,39 @@
 
         /* 音乐控制按钮样式 - 简明无菌风格 */
         .music-controls {
-            display: none;
-            flex-direction: column;
-            gap: 2px;
-            margin-right: 12px;
-            align-items: center;
-        }
-        .music-controls.active {
             display: flex;
+            flex-direction: row;
+            gap: 12px;
+            max-width: 0; /* 默认隐藏并渐变压缩布局 */
+            opacity: 0;
+            overflow: hidden;
+            align-items: center;
+            transition: max-width 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+                        opacity 0.4s ease, 
+                        margin 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+                        transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            margin: 0;
+            transform: rotate(-90deg); /* 整体初始左旋收回状态 */
+            transform-origin: center;
+        }
+
+        .music-controls.active {
+            max-width: 140px; /* 适当增加宽度以容纳放大的图标 */
+            opacity: 1;
+            margin: 0 20px;
+            transform: rotate(0deg); /* 整体向右旋转出现 */
+        }
+
+        /* 确保自定义提示框层级 */
+        #tooltip {
+            pointer-events: none;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            font-family: var(--font-zh);
+            white-space: nowrap;
         }
         .music-btn {
             cursor: pointer;
-            transition: 0.2s;
+            transition: stroke 0.2s;
             opacity: 1;
             display: block;
             stroke: #fff !important; /* 纯白 */

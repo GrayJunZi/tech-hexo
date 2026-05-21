@@ -29,22 +29,25 @@
         <a class="site_url" href="<%- url_for(theme.menu.about.url || '/about/') %>">关于</a>
     </div>
     <div class="sys-status" id="sys-status">
-        <div class="music-controls" id="music-controls">
-            <svg class="music-btn" id="prev-btn" viewBox="0 0 6 4" width="8" height="8">
-                <polygon points="3,0 6,4 0,4" fill="none" stroke-width="0.8"/>
-            </svg>
-            <svg class="music-btn" id="next-btn" viewBox="0 0 6 4" width="8" height="8">
-                <polygon points="0,0 6,0 3,4" fill="none" stroke-width="0.8"/>
-            </svg>
-        </div>
-        <svg viewBox="0 0 100 30" id="visualizer-svg" style="cursor: pointer;">
+        <svg viewBox="0 0 100 30" id="visualizer-svg" style="cursor: pointer;" data-title="播放音乐">
             <polyline class="visualizer-line-bg" points="0,15 20,15 25,5 30,25 35,15 100,15" stroke-width="2"></polyline>
             <polyline id="visualizer-line" points="0,15 20,15 25,5 30,25 35,15 100,15" stroke-width="2"></polyline>
         </svg>
+        <div class="music-controls" id="music-controls">
+            <svg class="music-btn" id="prev-btn" viewBox="0 0 6 6" width="12" height="12" data-title="上一首">
+                <polygon points="6,0 0,3 6,6" fill="none" stroke-width="0.8"/>
+            </svg>
+            <svg class="music-btn" id="loop-btn" viewBox="0 0 12 12" width="14" height="14" data-title="单曲循环">
+                <circle id="loop-circle" cx="6" cy="6" r="4.5" fill="none" stroke-width="1"/>
+            </svg>
+            <svg class="music-btn" id="next-btn" viewBox="0 0 6 6" width="12" height="12" data-title="下一首">
+                <polygon points="0,0 6,3 0,6" fill="none" stroke-width="0.8"/>
+            </svg>
+        </div>
         <div class="sys-text">
             <span><span class="big"><%- new Date().getDate() %></span><span class="sys-month">/<%- (new Date().getMonth() + 1).toString().padStart(2, '0') %></span><span class="sys-year">/<%- new Date().getFullYear() %></span></span>
-            <span><%- config.title ? config.title.toUpperCase() : 'ARKNIGHTS' %></span>
-            <span>/ <%- site.posts.length %> BLOG</span>
+            
+            <span><%- site.posts.length %> BLOG</span>
         </div>
     </div>
 </header>
@@ -75,6 +78,7 @@
         audio = new Audio();
         audio.crossOrigin = "anonymous";
         audio.src = musicList[currentTrack];
+        audio.loop = isSingleLoop;
         audio.onended = nextTrack;
         source = audioCtx.createMediaElementSource(audio);
         source.connect(analyser);
@@ -86,30 +90,29 @@
         analyser.getByteFrequencyData(dataArray);
         
         var points = "";
-        // 点数决定了折线的精细度，SVG 宽度 100，所以 100 个点足够
-        var pointsCount = 100; 
+        // 减少点数以避免过于密集
+        var pointsCount = 40; 
         var sliceWidth = 100 / (pointsCount - 1);
         
         for (var i = 0; i < pointsCount; i++) {
-            // 核心算法同步：对数频率映射
             var t = i / (pointsCount - 1);
-            var logIndex = Math.floor(Math.pow(t, 1.8) * (dataArray.length * 0.85));
+            // 调整映射，使其对频率更敏感且分布更均匀
+            var logIndex = Math.floor(Math.pow(t, 1.4) * (dataArray.length * 0.6));
             var value = dataArray[logIndex] || 0;
 
-            // 核心算法同步：频率权重补偿
-            if (value > 10) {
-                var compensation = 1.0 + t * 1.5; 
+            if (value > 5) {
+                // 增加权重补偿，提升纵向波动感
+                var compensation = 1.2 + t * 0.8; 
                 value = value * compensation;
             }
             value = Math.min(255, value);
 
-            // 映射到 SVG 坐标系 (高度 30，居中对称弹跳)
             var percent = value / 255;
-            // 控制最大振幅，防止超出 SVG 范围
-            var amplitude = (30 * 0.45) * percent; 
+            // 增加振幅因子 (30 * 0.8)
+            var amplitude = (30 * 0.8) * percent; 
             
             var x = i * sliceWidth;
-            var y = 15 - amplitude; // 居中 15 向上波动
+            var y = 15 - (amplitude / 2); // 减小基准高度，让波动更明显
 
             points += x + "," + y + " ";
         }
@@ -129,13 +132,46 @@
             controls.classList.remove('active');
             cancelAnimationFrame(animationId);
             polyline.setAttribute('points', defaultPoints);
+            updateTooltip(svg, '播放音乐');
         } else {
             audio.play().catch(e => console.error("Playback failed", e));
             isPlaying = true;
             container.classList.add('playing');
             controls.classList.add('active');
             updatePoints();
+            updateTooltip(svg, '暂停播放');
         }
+    }
+
+    var isSingleLoop = false;
+    var loopBtn = document.getElementById('loop-btn');
+    var loopCircle = document.getElementById('loop-circle');
+
+    loopBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        isSingleLoop = !isSingleLoop;
+        if (isSingleLoop) {
+            if (audio) audio.loop = true;
+            loopCircle.setAttribute('fill', 'currentColor');
+            updateTooltip(this, '列表循环');
+        } else {
+            if (audio) audio.loop = false;
+            loopCircle.setAttribute('fill', 'none');
+            updateTooltip(this, '单曲循环');
+        }
+    });
+
+    function updateTooltip(el, newTitle) {
+        el.setAttribute('data-title', newTitle);
+        if (typeof jQuery.fn.quberTip === 'function') {
+            $(el).off('mouseenter mouseleave mousemove');
+            $(el).quberTip();
+        }
+    }
+
+    // 初始化提示框
+    if (typeof jQuery.fn.quberTip === 'function') {
+        $('.music-btn, #visualizer-svg').quberTip();
     }
 
     function nextTrack() {
