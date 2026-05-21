@@ -102,7 +102,7 @@
         .sidebar-bottom { margin-top: auto; padding: 0 30px 30px 30px; display: flex; flex-direction: column; gap: 20px; }
         .user-info { display: flex; align-items: center; gap: 15px; cursor: pointer; transition: 0.3s;}
         .user-info:hover .avatar { animation: pulseGlow 1.5s infinite; }
-        .avatar { width: 40px; height: 40px; background-color: #2a2a2c; background-size: cover; background-position: center; border-radius: 2px;}
+        .avatar { width: 40px; height: 40px; background-color: #2a2c2c; background-size: cover; background-position: center; border-radius: 2px;}
         .user-name { font-size: 14px; font-weight: bold; font-family: var(--font-en); }
         .user-id { font-size: 10px; color: var(--text-sub); font-family: monospace; }
         .user-desc { font-size: 12px; color: var(--text-sub); line-height: 1.6; }
@@ -148,13 +148,15 @@
         .sys-status svg { width: 40px; height: 20px; stroke: #fff; fill: none; }
         .sys-text { display: flex; flex-direction: column; font-family: var(--font-en); font-size: 10px; line-height: 1.1; letter-spacing: 1px;}
         .sys-text .big { font-size: 14px; font-weight: bold; }
+        .sys-text .sys-month { font-size: 8px; font-weight: normal; opacity: 0.7; }
+        .sys-text .sys-year { font-size: 8px; font-weight: normal; opacity: 0.5; }
 
         /* 视图容器控制 */
         .view-section { display: none; flex-direction: column; flex: 1; padding-top: var(--top-bar-height); }
         .view-section.active { display: flex; }
 
         /* ================= 视图 1：首页 (Home View) ================= */
-        .hero-section { position: relative; height: var(--hero-height); min-height: 450px; background-color: #111; display: flex; flex-direction: column; margin-top: calc(-1 * var(--top-bar-height)); }
+        .hero-section { position: relative; height: var(--hero-height); min-height: 450px; background-color: #111; display: flex; flex-direction: column; margin-top: calc(-1 * var(--top-bar-height)); overflow: hidden; }
         .hero-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: #1a1a1c; background-size: cover !important; background-position: center !important; transition: transform 10s linear; z-index: 1;}
         .hero-section:hover .hero-bg { transform: scale(1.05); }
         .hero-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(90deg, rgba(10,10,12,0.95) 0%, rgba(10,10,12,0.6) 40%, transparent 100%); z-index: 2; }
@@ -172,15 +174,16 @@
         .hero-btn:hover { background: var(--color-orange); color: #fff; }
         
         .hero-date {
-            margin-top: 40px;
-            background: rgba(0,0,0,0.4); padding: 15px 25px;
+            margin-top: 30px;
+            background: transparent;
+            padding: 5px 0 5px 15px;
             border-left: 2px solid var(--color-orange); z-index: 10;
             text-align: left; font-family: var(--font-en);
             width: fit-content;
         }
-        .hero-date-tag { font-size: 9px; letter-spacing: 2px; color: var(--color-orange); margin-bottom: 5px; }
-        .hero-date-num { font-size: 28px; font-weight: bold; color: #fff; line-height: 1; }
-        .hero-date-sub { font-size: 11px; color: rgba(255,255,255,0.5); }
+        .hero-date-tag { font-size: 9px; letter-spacing: 2px; color: var(--color-orange); margin-bottom: 4px; }
+        .hero-date-num { font-size: 24px; font-weight: bold; color: #fff; line-height: 1; }
+        .hero-date-sub { font-size: 10px; color: rgba(255,255,255,0.5); }
 
         .home-content-section { background-color: var(--bg-content); color: var(--text-main); padding: 40px var(--content-padding); display: grid; grid-template-columns: 2fr 1fr; gap: 50px; flex: 1; transition: background-color 0.3s; }
         .section-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 25px; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
@@ -346,7 +349,21 @@
         .theme-toggle svg { width: 16px; height: 16px; fill: var(--text-sub); transition: 0.3s; }
         .theme-toggle:hover svg { fill: #fff; }
 
-        #visualizer-line { stroke: var(--color-orange); stroke-width: 2; }
+        #visualizer-line { stroke: #fff; stroke-width: 2; transform-origin: center; }
+
+        @keyframes heartbeat {
+            0%   { transform: scaleY(1); }
+            6%   { transform: scaleY(0.65); }
+            12%  { transform: scaleY(1.35); }
+            18%  { transform: scaleY(0.7); }
+            24%  { transform: scaleY(1.2); }
+            30%  { transform: scaleY(0.8); }
+            38%  { transform: scaleY(1); }
+            100% { transform: scaleY(1); }
+        }
+        .sys-status svg:hover #visualizer-line {
+            animation: heartbeat 0.7s ease-in-out;
+        }
 
         /* ================= 底部版权区 (Footer) ================= */
         .app-footer {

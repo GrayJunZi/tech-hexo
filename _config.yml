@@ -1,6 +1,6 @@
 version: 1.1.0
 # 你的头像url
-avatar: https://testingcf.jsdelivr.net/gh/sanqi-normal/sanqi-normal.github.io/img/avatar_vaporwave_advanced.jpg
+avatar: https://testingcf.jsdelivr.net/gh/sanqi-normal/sanqi-normal.github.io/img/avatar.jpg
 favicon: https://testingcf.jsdelivr.net/gh/sanqi-normal/sanqi-normal.github.io/img/top.png
 #如果博客放置位置不是根目录，则可以通过配置此路径解决静态文件路径错误问题
 # 比如访问地址为 yelog.org/blog 那就需要配置为 blog_path: /blog 才能正常访问
