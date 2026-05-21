@@ -6,7 +6,15 @@ function getCover(post) {
     if (imgMatch && imgMatch[1]) {
         return imgMatch[1];
     }
-    return 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="400" height="280" viewBox="0 0 400 280"><rect width="400" height="280" fill="#1a1a1c"/><polygon points="200,40 380,240 20,240" fill="#2a2a2c" opacity="0.5"/></svg>');
+    
+    // 动态匹配分类本地图：读取 /img/categories/[分类名].jpg
+    if (post.categories && post.categories.length > 0) {
+        var catName = post.categories.data[0].name;
+        // 自动适配所有分类名，不再设限
+        return url_for('/img/categories/' + catName + '.jpg');
+    }
+
+    return 'https://images.unsplash.com/photo-1605806616949-1e87b487cb2a?q=80&w=400&auto=format&fit=crop';
 }
 
 // Announcements (Top posts)

@@ -3,11 +3,8 @@
 <script src="<%=theme.CDN.photoswipe_js%>"></script>
 <script src="<%=theme.CDN.photoswipe_ui_js%>"></script>
 <% } %>
-<!-- 引入磁带播放器组件 -->
-<% if (theme.music_player && theme.music_player.enable) { %>
-  <%- partial('_partial/cassette-player') %>
-<% } %>
 <script src="<%=theme.blog_path?theme.blog_path.lastIndexOf("/") === theme.blog_path.length-1?theme.blog_path.slice(0, theme.blog_path.length-1):theme.blog_path:'' %>/js/script.js?v=<%=theme.version%>" ></script>
+
 <script>
     var img_resize = '<%=theme.img_resize %>';
     function initArticle() {
