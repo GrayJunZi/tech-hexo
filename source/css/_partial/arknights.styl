@@ -99,6 +99,32 @@
         .nav-item.active .zh, .nav-item:hover .zh { color: #fff; }
         .nav-item.active .en, .nav-item:hover .en { color: var(--color-orange); opacity: 0.7; }
 
+        /* Character Jump Animation */
+        @keyframes charJump {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-4px); }
+        }
+
+        .jump-char {
+            display: inline-block;
+            transition: 0.3s;
+        }
+
+        .nav-item:hover .jump-char, .top-links a:hover .jump-char {
+            animation: charJump 0.3s ease;
+        }
+
+        /* Glitch Effect Styles */
+        .brand-text h1 {
+            transition: 0.2s;
+            position: relative;
+        }
+        
+        .brand-text h1.glitching {
+            color: var(--color-orange);
+            text-shadow: 2px 0 #ff00c1, -2px 0 #00fff9;
+        }
+
         .sidebar-bottom { margin-top: auto; padding: 0 30px 30px 30px; display: flex; flex-direction: column; gap: 20px; }
         .user-info { display: flex; align-items: center; gap: 15px; cursor: pointer; transition: 0.3s;}
         .user-info:hover .avatar { animation: pulseGlow 1.5s infinite; }
@@ -142,10 +168,10 @@
             border: 1px solid transparent;
             overflow: hidden;
         }
-        .search-box:focus-within { 
+        .search-box:hover, .search-box:focus-within { 
             border-color: var(--color-orange); 
             background: rgba(255,255,255,0.15); 
-            width: 260px; /* 点击后延伸 */
+            width: 260px; /* 悬浮或点击后延伸 */
         }
         .search-box input { background: transparent; color: #fff; border: none; width: 100%; font-size: 12px; }
         .search-box input::placeholder { color: rgba(255,255,255,0.4); }
@@ -204,11 +230,31 @@
         .hero-subtitle { font-size: 14px; color: rgba(255,255,255,0.6); max-width: 500px; line-height: 1.6; margin-bottom: 30px; }
         .hero-btn {
             display: inline-flex; align-items: center; gap: 8px;
-            border: 1px solid var(--color-orange); color: var(--color-orange);
+            border: 1px solid transparent; color: var(--color-orange);
             padding: 10px 24px; font-size: 12px; font-family: var(--font-en); letter-spacing: 2px;
             transition: 0.3s; width: fit-content; background: transparent;
         }
-        .hero-btn:hover { background: var(--color-orange); color: #fff; }
+        .hero-btn:hover { 
+            border: 1px solid var(--color-orange);
+            background: transparent;
+            color: var(--color-orange);
+        }
+
+        @keyframes waveEffect {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(4px); }
+            50% { transform: translateX(8px); }
+            75% { transform: translateX(4px); }
+        }
+
+        .wave-char {
+            display: inline-block;
+            transition: 0.3s;
+        }
+
+        .hero-btn:hover .wave-char {
+            animation: waveEffect 0.6s ease-in-out;
+        }
         
         .hero-date {
             margin-top: 30px;
