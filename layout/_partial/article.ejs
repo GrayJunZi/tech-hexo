@@ -1,0 +1,140 @@
+<%
+function getCover(post) {
+    if (post.cover) return url_for(post.cover);
+    if (post.img) return url_for(post.img);
+    var imgMatch = post.content.match(/<img[^>]+src="?([^"\s]+)"?[^>]*>/);
+    if (imgMatch && imgMatch[1]) {
+        return imgMatch[1];
+    }
+    return 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="400" height="280" viewBox="0 0 400 280"><rect width="400" height="280" fill="#1a1a1c"/><polygon points="200,40 380,240 20,240" fill="#2a2a2c" opacity="0.5"/></svg>');
+}
+
+// Improved tag-based related posts logic
+var relatedPosts = [];
+if (post.tags && post.tags.length > 0) {
+    var currentTagNames = post.tags.map(function(t) { return t.name; });
+    var scoredPosts = [];
+    site.posts.each(function(p) {
+        if (p._id !== post._id && !p.hidden) {
+            var score = 0;
+            if (p.tags && p.tags.length > 0) {
+                p.tags.each(function(pt) {
+                    if (currentTagNames.indexOf(pt.name) !== -1) score++;
+                });
+            }
+            if (score > 0) {
+                scoredPosts.push({ post: p, score: score });
+            }
+        }
+    });
+    scoredPosts.sort(function(a, b) {
+        if (b.score !== a.score) return b.score - a.score;
+        return b.post.date - a.post.date;
+    });
+    relatedPosts = scoredPosts.slice(0, 5).map(function(sp) { return sp.post; });
+}
+
+// Fallback to latest posts if no tag-based related posts found
+if (relatedPosts.length === 0) {
+    relatedPosts = site.posts.sort('-date').filter(function(p) { return !p.hidden && p._id !== post._id; }).data.slice(0, 5);
+}
+%>
+
+<div id="view-article" class="view-section active animate-enter">
+    <div class="breadcrumb animate-enter" style="animation-delay: 0.1s;">
+        <svg viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2z"/></svg>
+        <a class="site_url" href="<%- url_for('/') %>">/ BLOG</a>
+        <a class="site_url" href="<%- post.categories && post.categories.length ? url_for(post.categories.data[0].path) : url_for('/archives/') %>">/ <%- post.categories && post.categories.length ? post.categories.data[0].name.toUpperCase() : 'ARTICLES' %></a>
+        <span>/ <%- strip_html(post.title).substring(0, 20) %></span>
+    </div>
+
+    <div class="article-layout">
+        <article id="<%= post.layout %>-<%= post.slug %>" class="article-main animate-enter" style="animation-delay: 0.2s;" itemscope itemprop="blogPost">
+            <header class="art-header">
+                <h1 class="art-title" itemprop="name"><%- post.title %></h1>
+                <div class="art-meta">
+                    <div>
+                        <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg> 
+                        <%- post.author || config.author || 'Dr. Lorem' %>
+                    </div>
+                    <div>
+                        <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/><path d="M12.5 7H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg> 
+                        <time datetime="<%= date_xml(post.date) %>" itemprop="datePublished"><%- date(post.date, 'YYYY-MM-DD') %></time>
+                    </div>
+                    <div>
+                        <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg> 
+                        <%- post.categories && post.categories.length > 0 ? post.categories.data[0].name : '随笔' %>
+                    </div>
+                    <%if(theme.visit_counter && theme.visit_counter.on && theme.visit_counter.page_visit) {%>
+                    <div>
+                        <svg viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg> 
+                        <span id="busuanzi_value_page_pv"><i class="iconfont icon-loading"></i></span>
+                    </div>
+                    <%}%>
+                </div>
+            </header>
+            
+            <div class="art-content article-entry" itemprop="articleBody">
+                <%- post.content %>
+            </div>
+
+            <% if(theme.reward){%>
+            <p>
+                <a class="dashang" onclick="dashangToggle()">赏</a>
+            </p>
+            <%}%>
+            <%- partial('_partial/article_copyright')%>
+            <%- partial('_partial/comment', {post: post, index: index})%>
+
+        </article>
+
+        <aside class="art-sidebar animate-enter" style="animation-delay: 0.3s;">
+            <div>
+                <div class="art-widget-title">目录 <span>CONTENTS</span></div>
+                <div class="toc-list" id="art-toc">
+                    <%- toc(post.content, {list_number: false, class: 'toc'}) %>
+                </div>
+            </div>
+
+            <div>
+                <div class="art-widget-title">相关文章 <span>RELATED POSTS</span></div>
+                <div class="related-list" id="art-related">
+                    <% relatedPosts.forEach(function(rp){ %>
+                        <a class="rel-card site_url" href="<%- url_for(rp.path) %>">
+                            <img src="<%- getCover(rp) %>" class="rel-img" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22%23444%22><path d=%22M12 2L2 22h20L12 2z%22/></svg>'">
+                            <div class="rel-info">
+                                <span class="rel-tag"><%- rp.categories && rp.categories.length > 0 ? rp.categories.data[0].name : '记录' %></span>
+                                <div class="rel-title"><%- strip_html(rp.title).substring(0, 20) %></div>
+                                <div class="rel-meta">
+                                    <span><%- date(rp.date, 'MM-DD') %></span>
+                                </div>
+                            </div>
+                        </a>
+                    <% }); %>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <div class="post-nav animate-enter" style="animation-delay: 0.4s;">
+        <% if (post.prev) { %>
+            <a id="nav-prev" class="site_url" href="<%- url_for(post.prev.path) %>">< 上一篇：<%- strip_html(post.prev.title).substring(0, 15) %></a>
+        <% } else { %>
+            <a id="nav-prev" style="opacity: 0.3; pointer-events: none;">< 上一篇：没有了</a>
+        <% } %>
+        
+        <div class="post-nav-center">— R.I. —</div>
+        
+        <% if (post.next) { %>
+            <a id="nav-next" class="site_url" href="<%- url_for(post.next.path) %>">下一篇：<%- strip_html(post.next.title).substring(0, 15) %> ></a>
+        <% } else { %>
+            <a id="nav-next" style="opacity: 0.3; pointer-events: none;">下一篇：没有了 ></a>
+        <% } %>
+    </div>
+</div>
+
+<% if (theme.mathjax.on){ %>
+    <% if (theme.mathjax.per_page || page.mathjax){ %>
+        <%- partial('mathjax') %>
+    <% }%>
+<% } %>

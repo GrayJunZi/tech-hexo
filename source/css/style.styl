@@ -1,0 +1,261 @@
+@import "_partial/comment"
+@import "_partial/dashang"
+@import "_partial/fade"
+@import "_partial/font"
+@import "_partial/nprogress"
+@import "_partial/num-load"
+@import "_partial/arknights"
+
+html, body
+  width 100vw
+  height 100vh
+  margin 0
+  padding 0
+  color #283444
+  font 400 16px/1 "Share Tech Mono", "Open Sans","Hiragino Sans GB",sans-serif
+  -webkit-font-smoothing subpixel-antialiased
+  -webkit-text-size-adjust none
+  overflow hidden
+  background-color var(--bg-main)
+
+.layout-container
+  display flex
+  width 100vw
+  height 100vh
+  overflow hidden
+
+a
+  color inherit
+  text-decoration none
+  cursor pointer
+  transition color .35s
+
+h1, h2, h3, h4, h5, h6
+  color: #d0d0d0ff;
+  line-height: 1.5;
+  margin-top: 35px;
+  margin-bottom: 10px;
+  padding-bottom: 5px;
+h1
+  color: #fd6d6dff
+  font-size: 2em;
+  margin: .67em 0;
+h2
+  color: #ffba52ff;
+  padding-bottom: 12px;
+  font-size: 24px;
+  border-bottom: 1px solid #ececec;
+
+img 
+  max-width 100% // 限制图片最大宽度
+  height auto // 确保图片高度自适应，以保持原始比例
+
+/* 容器样式 */
+.image-left {
+  display: flex;
+  float: left; 
+  width: 49.5%; // 
+  flex-direction: column; // 设置为垂直方向
+  justify-content: flex-start; // 默认值，确保子元素靠左对齐
+  margin-bottom: 10px; /* 图片之间的垂直间距 */
+}
+.image-left img {
+  float: left; // 强制图片靠左对齐
+}
+.image-right {
+  display: flex;
+   float: right;
+   width: 49.5%; // 
+  flex-direction: column; // 设置为垂直方向
+  justify-content: flex-start; // 默认值，确保子元素靠左对齐
+  margin-bottom: 10px; /* 图片之间的垂直间距 */
+}
+.image-right img {
+  float: right; // 强制图片靠右对齐
+}
+
+div.img_max
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 50;
+  background: rgb(255, 255, 255);
+  transition opacity .5s
+img.img_max
+  cursor:zoom-out;
+  position:fixed;
+  z-index: 51;
+  transition: top .5s,left .5s, transform .5s,width .5s,height .5s;
+
+img.pswp__img
+  cursor:zoom-out;
+
+
+/* 模态框样式 */
+.modal {
+    display: none; /* 默认隐藏 */
+    position: fixed; /* 固定定位 */
+    z-index: 10; /* 坐标层级 */
+    left: 0;
+    top: 0;
+    width: 100%; /* 全屏 */
+    height: 100%; /* 全屏 */
+    overflow: auto; /* 如果需要，添加滚动 */
+    background-color: rgb(0,0,0); /* 背景色 */
+    background-color: rgba(0,0,0,0.4); /* 背景色 */
+}
+.modal-content {
+    background-color:rgb(255, 255, 255);
+    border-radius: 15px; /* 设置圆角边框 */
+    margin: 15% auto; /* 居中 */
+    padding: 20px;
+    width: 40%; /* 宽度 */
+    max-width: 400px; /* 最大宽度 */
+    height:20%; /* 高度自适应 */
+    text-align: center; /* 居中 */
+    position: relative; /* 相对定位 */
+    
+
+}
+.modal-options {
+    position: relative; /* 设为相对定位，以便子元素使用绝对定位 */
+    margin-bottom: 10%; /* 离底部20%的距离 */
+    &-left, &-right {
+        width: 35%; /* 设置宽度占父框的40% */
+        height: 20%; /* 高度为宽度的1/4，确保宽高比为4:1 */
+        border: 4px solid #000000;
+        border-radius: 15px; 
+        background-color: rgb(255, 255, 255);
+        display: inline-block; /* 使它们并排显示 */
+        text-align: center; /* 内容居中 */
+
+          /* 增加鼠标悬停时的效果 */
+        &:hover {
+            background-color: rgba(200, 200, 200, 0.8); /* 悬停时背景颜色变暗 */
+            cursor: pointer; /* 鼠标悬停时显示为指针 */
+        }
+    }
+    
+
+    &-left {
+        float: left;
+        margin-right: 20px; /* 右侧间距 */
+    }
+
+    &-right {
+        float: right;
+        margin-left: 20px; /* 左侧间距 */
+    }
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.mobile-menus-out
+  display none
+  opacity 0
+  transition opacity .4s
+  background: gray;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  z-index: 100;
+  top 0
+  &.show
+    display: block;
+    opacity: 0.3;
+.mobile-menus
+  display: block;
+  position: absolute;
+  background: white;
+  height: auto;
+  width: 0;
+  font-size: 0
+  padding 0
+  z-index: 200;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  text-align center
+  -webkit-border-radius: 30px
+  -moz-border-radius: 30px
+  border-radius: 30px
+  transition width .4s, font-size .4s, padding .4s
+  &.show
+    width: 100px;
+    font-size: 16px
+    padding 20px
+  .dynamic-menu
+    display: block
+    margin-top 20px
+    &:nth-child(1)
+      margin-top 0
+
+
+// 文章页面右上角圆形图标
+.article-bg-toggle
+  position: relative
+  top: 20px
+  right: -800px
+  width: 40px
+  height: 40px
+  border-radius: 50%
+  cursor: pointer
+  z-index: 999
+  transition: all 0.3s ease
+  
+  // 半阴影状态（对应半透明背景）
+  &.half-shadow
+    
+    &::after
+      content: "🌙"
+      font-size: 20px
+      line-height: 40px
+      text-align: center
+      display: block
+      color: rgba(255, 255, 255, 0.8)
+  
+  // 全阴影状态（对应全黑背景）
+  &.full-shadow
+    
+    &::after
+      content: "🔆"
+      font-size: 20px
+      line-height: 40px
+      text-align: center
+      display: block
+      color: rgba(255, 255, 255, 0.9)
+  
+  // 鼠标悬停效果
+  &:hover
+    transform: scale(1.1)
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5)
+
+// 移动端适配
+@media (max-width: 768px)
+  .article-bg-toggle
+    top: 15px
+    right: 15px
+    width: 36px
+    height: 36px
+    
+    &.half-shadow::after,
+    &.full-shadow::after
+      font-size: 18px
+      line-height: 36px
+
+@import "mobile.styl"

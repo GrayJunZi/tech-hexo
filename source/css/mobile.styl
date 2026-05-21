@@ -1,0 +1,144 @@
+/* ================= 移动端响应式 ================= */
+
+@media screen and (max-width: 1024px)
+  .sidebar
+    width: 220px
+  .main-wrapper
+    margin-left: 220px
+    width: calc(100% - 220px)
+  .brand-text h1
+    font-size: 14px
+    letter-spacing: 1px
+    max-width: 140px
+  .nav-item
+    padding: 10px 20px
+  .hero-title
+    font-size: 32px
+  .hero-content
+    padding: 0 30px
+  .hero-date
+    left: 30px
+    bottom: 20px
+  .home-content-section
+    padding: 30px
+    grid-template-columns: 1fr
+    gap: 30px
+  .post-grid
+    grid-template-columns: repeat(2, 1fr)
+  .cat-grid
+    grid-template-columns: repeat(2, 1fr)
+  .article-layout
+    grid-template-columns: 1fr
+    padding: 30px
+    gap: 30px
+  .top-bar
+    padding: 0 20px
+    gap: 20px
+  article
+    padding: 1em
+
+@media screen and (max-width: 768px)
+  .sidebar
+    width: 0
+    overflow: hidden
+    transition: width 0.3s ease
+    z-index: 200
+    &.mobile-open
+      width: 260px
+  .main-wrapper
+    margin-left: 0
+    width: 100%
+  .hero-title
+    font-size: 24px
+  .hero-section
+    height: 50vh
+    min-height: 350px
+  .post-grid
+    grid-template-columns: 1fr
+  .top-bar
+    padding: 0 15px
+    gap: 10px
+    height: 60px
+  .search-box
+    width: 150px
+  .top-links
+    gap: 15px
+    font-size: 12px
+  .sys-status
+    display: none
+  .post-card
+    height: 240px
+  .article-layout
+    padding: 20px
+  .art-title
+    font-size: 24px
+  .art-cover
+    height: 220px
+  .app-footer
+    padding: 15px 20px
+    font-size: 9px
+    flex-direction: column
+    gap: 10px
+    text-align: center
+  .hero-content
+    padding: 0 20px
+  .hero-date
+    left: 20px
+    bottom: 15px
+  .hero-date-num
+    font-size: 24px
+  .home-content-section
+    padding: 20px
+
+@media screen and (max-width: 426px)
+  .sidebar
+    width: 0
+    &.mobile-open
+      width: 100%
+  .main-wrapper
+    margin-left: 0
+    width: 100%
+  .hero-section
+    height: 45vh
+    min-height: 300px
+  .hero-title
+    font-size: 20px
+  .hero-subtitle
+    font-size: 10px
+    margin-bottom: 20px
+  .hero-btn
+    padding: 8px 20px
+    font-size: 10px
+  .hero-date-num
+    font-size: 20px
+  .post-card
+    height: 200px
+  .card-title
+    font-size: 14px
+  .top-bar
+    height: 50px
+    padding: 0 10px
+  .search-box
+    width: 120px
+  .top-links
+    gap: 10px
+    font-size: 11px
+  #local-search-result
+    width: 280px !important
+    right: 10px !important
+  .article-layout
+    padding: 15px
+  .art-title
+    font-size: 20px
+  .art-cover
+    height: 180px
+  .art-content
+    font-size: 13px
+  .breadcrumb
+    padding: 10px 20px
+  .post-nav
+    padding: 15px 20px
+    font-size: 11px
+  .app-footer
+    padding: 10px 15px
+    font-size: 8px

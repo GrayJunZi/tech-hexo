@@ -1,0 +1,41 @@
+<head>
+  <meta charset="utf-8">
+  <title><% if (page.title){ %><%= page.title %> | <% } %><%= config.title %></title>
+  
+  <%- fragment_cache('meta', function(){
+    return partial('_partial/meta');
+  }) %>
+
+  <%# 字体：国内可访问的镜像 CDN %>
+  <link rel="preconnect" href="https://fonts.loli.net" crossorigin>
+  <link href="https://fonts.loli.net/css2?family=Noto+Sans+SC:wght@400;700&family=Anton&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+</head>
+
+<%# hidden inputs — rendered inside <body> by index.ejs %>
+
+<%
+// 对文章进行排序
+site.posts.data.sort(function(a, b) {
+  if(a.top && b.top) {
+    if(a.top == b.top) return b.date - a.date;
+    else return b.top - a.top;
+  }
+  else if(a.top && !b.top) { return -1; }
+  else if(!a.top && b.top) { return 1; }
+  else return b.date - a.date;
+});
+
+// 数量排除隐藏的文章
+site.posts.length = site.posts.length - site.posts.data.filter(i=>i.hidden).length
+
+site['myCategories']= []
+site.categories.forEach(function (item) {
+  item.posts.length = item.posts.length - item.posts.data.filter(i=>i.hidden).length
+  site.myCategories.push({
+    _id: item._id,
+    name: item.name,
+    parent: item.parent,
+    posts: item.posts
+  })
+})
+%>

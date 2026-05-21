@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="<%= config.language || 'zh-CN' %>">
+<%- partial('_partial/header') %>
+<body>
+<div style="display: none">
+  <input class="theme_blog_path" value="<%=theme.blog_path?theme.blog_path.lastIndexOf("/") === theme.blog_path.length-1?theme.blog_path.slice(0, theme.blog_path.length-1):theme.blog_path:'' %>">
+  <input id="theme_shortcut" value="<%=theme.shortcutKey%>" />
+  <input id="page_shortcut" value="<%=page.disable_shortcut ? 'true' :'false'%>" />
+  <input id="theme_highlight_on" value="<%=theme.highlight.on%>" />
+  <input id="theme_code_copy" value="<%=theme.highlight.copy%>" />
+</div>
+<% if (theme.music_player && theme.music_player.enable) { %>
+  <!-- 磁带播放器样式由 arknights.styl 统一处理 -->
+<% } %>
+<div class="layout-container">
+    <%- partial('_partial/sidebar') %>
+    <main class="main-wrapper">
+        <%- partial('_partial/top-bar') %>
+        <div id="pjax-container" class="pjax">
+            <div id="view-home" class="view-section active animate-enter">
+                <%- partial('_partial/home') %>
+            </div>
+        </div>
+        <%- partial('_partial/app-footer') %>
+    </main>
+</div>
+<%- fragment_cache('footer', function(){
+    return partial('_partial/footer');
+}) %>
+</body>
+</html>
