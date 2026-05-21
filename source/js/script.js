@@ -37,6 +37,12 @@ $(document).pjax('.site_url,.nav-item a,.post-card,.hero-btn', '.pjax', {fragmen
         content.removeClass('fadeIns').addClass('fadeOuts');
         /*请求进度条*/
         NProgress.start();
+        updateTopProgress(0);
+
+        // 1/10 概率触发赛博故障效果
+        if (Math.random() < 0.1) {
+            triggerCyberGlitch($('.pjax'));
+        }
     },
 
     /*pjax开始请求页面时触发的事件*/
@@ -44,13 +50,46 @@ $(document).pjax('.site_url,.nav-item a,.post-card,.hero-btn', '.pjax', {fragmen
         content.css({'opacity': 0});
     },
 
+    /*进度更新*/
+    'pjax:send': function() {
+        // 模拟进度更新，因为 pjax 没有真实的百分比回调，我们配合 NProgress 的节奏
+        let prog = 0;
+        const interval = setInterval(() => {
+            prog += (Math.random() * 10);
+            if (prog >= 90) {
+                clearInterval(interval);
+                updateTopProgress(90);
+            } else {
+                updateTopProgress(prog);
+            }
+        }, 200);
+        $(document).one('pjax:end', () => clearInterval(interval));
+    },
+
     /*pjax请求回来页面后触发的事件*/
     'pjax:end': function () {
         NProgress.done();
+        updateTopProgress(100);
+        setTimeout(() => updateTopProgress(-1), 500); // 隐藏
         container.scrollTop(0);
         afterPjax();
     }
 });
+
+function updateTopProgress(percent) {
+    const $bar = $('#top-progress-bar');
+    const $num = $('#top-progress-num');
+    const $container = $('#top-progress-container');
+
+    if (percent < 0) {
+        $container.fadeOut(300);
+        return;
+    }
+
+    $container.show();
+    $bar.css('width', percent + '%');
+    $num.text(Math.round(percent) + '%');
+}
 function afterPjax() {
     // 文章默认背景
     var path = window.location.pathname;
@@ -428,10 +467,64 @@ function copy(text) {
 }
 
 /**
+ * 赛博故障核心逻辑：随机切片与位移 (Cyber Glitch)
+ * @param {jQuery} $target 目标容器，需包含 .layer-pink 和 .layer-cyan
+ */
+function triggerCyberGlitch($target, duration = 1000) {
+    const $pink = $target.find('.layer-pink');
+    const $cyan = $target.find('.layer-cyan');
+    const $main = $target.find('.avatar, .pjax-content'); // 适配头像或全屏
+    
+    let startTime = Date.now();
+
+    function glitchLoop() {
+        if (Date.now() - startTime > duration) {
+            $pink.hide();
+            $cyan.hide();
+            $main.css('transform', 'none');
+            return;
+        }
+
+        if (Math.random() > 0.3) {
+            const top1 = Math.floor(Math.random() * 80);
+            const bottom1 = Math.floor(Math.random() * (100 - top1));
+            const top2 = Math.floor(Math.random() * 80);
+            const bottom2 = Math.floor(Math.random() * (100 - top2));
+
+            const x1 = (Math.random() * 10 - 5) + 'px';
+            const y1 = (Math.random() * 6 - 3) + 'px';
+            const x2 = (Math.random() * 10 - 5) + 'px';
+            const y2 = (Math.random() * 6 - 3) + 'px';
+
+            $pink.show().css({
+                'clip-path': `inset(${top1}% 0 ${bottom1}% 0)`,
+                'transform': `translate(${x1}, ${y1})`
+            });
+
+            $cyan.show().css({
+                'clip-path': `inset(${top2}% 0 ${bottom2}% 0)`,
+                'transform': `translate(${x2}, ${y2})`
+            });
+
+            $main.css('transform', `translate(${(Math.random() * 4 - 2)}px, 0)`);
+        } else {
+            $pink.hide();
+            $cyan.hide();
+            $main.css('transform', 'none');
+        }
+
+        setTimeout(glitchLoop, Math.random() * 150 + 50);
+    }
+
+    glitchLoop();
+}
+
+/**
  * 初始化特效
  */
 function initEffects() {
     // 1. 博客名乱码闪烁
+    // ... (rest of methods)
     const $brandTitle = $('.brand-text h1');
     if ($brandTitle.length > 0) {
         const originalText = $brandTitle.text();
@@ -552,4 +645,9 @@ function initEffects() {
             isGlitching = false;
         }
     }
+
+    // 5. 头像故障效果
+    $('.user-info').on('mouseenter', function() {
+        triggerCyberGlitch($(this).find('.avatar-container'), 500);
+    });
 }

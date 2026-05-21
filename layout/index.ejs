@@ -2,6 +2,11 @@
 <html lang="<%= config.language || 'zh-CN' %>">
 <%- partial('_partial/header') %>
 <body>
+<div id="top-progress-container">
+    <div id="top-progress-bar">
+        <span id="top-progress-num">0%</span>
+    </div>
+</div>
 <div style="display: none">
   <input class="theme_blog_path" value="<%=theme.blog_path?theme.blog_path.lastIndexOf("/") === theme.blog_path.length-1?theme.blog_path.slice(0, theme.blog_path.length-1):theme.blog_path:'' %>">
   <input id="theme_shortcut" value="<%=theme.shortcutKey%>" />
@@ -17,7 +22,11 @@
     <main class="main-wrapper">
         <%- partial('_partial/top-bar') %>
         <div id="pjax-container" class="pjax">
-            <%- partial('_partial/home') %>
+            <div class="pjax-content">
+                <%- partial('_partial/home') %>
+            </div>
+            <div class="pjax-glitch-layer layer-pink"></div>
+            <div class="pjax-glitch-layer layer-cyan"></div>
         </div>
         <%- partial('_partial/app-footer') %>
     </main>

@@ -33,8 +33,12 @@
 
     <div class="nav-label">INFO</div>
     <div class="sidebar-bottom">
-        <div class="user-info" onclick="window.location.href='<%- url_for(theme.menu.about.url || '/about/') %>'">
-            <div class="avatar" style="background-image: url('<%- url_for(theme.avatar) %>')"></div>
+        <div class="user-info">
+            <div class="avatar-container">
+                <div class="avatar" style="background-image: url('<%- url_for(theme.avatar) %>')"></div>
+                <div class="avatar glitch-layer layer-pink" style="background-image: url('<%- url_for(theme.avatar) %>')"></div>
+                <div class="avatar glitch-layer layer-cyan" style="background-image: url('<%- url_for(theme.avatar) %>')"></div>
+            </div>
             <div>
                 <div class="user-name"><%- config.author || '这里在等待一个名字' %></div>
                 <div class="user-id">#<%- new Date().getFullYear() %></div>

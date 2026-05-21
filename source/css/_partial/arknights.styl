@@ -126,9 +126,31 @@
         }
 
         .sidebar-bottom { margin-top: auto; padding: 0 30px 30px 30px; display: flex; flex-direction: column; gap: 20px; }
-        .user-info { display: flex; align-items: center; gap: 15px; cursor: pointer; transition: 0.3s;}
-        .user-info:hover .avatar { animation: pulseGlow 1.5s infinite; }
+        .user-info { display: flex; align-items: center; gap: 15px; cursor: pointer; transition: 0.3s; position: relative;}
+        .avatar-container { position: relative; width: 40px; height: 40px; flex-shrink: 0; }
         .avatar { width: 40px; height: 40px; background-color: #2a2c2c; background-size: cover; background-position: center; border-radius: 2px;}
+        
+        /* 故障层通用样式 */
+        .glitch-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            display: none;
+            mix-blend-mode: screen;
+            z-index: 10;
+            pointer-events: none;
+        }
+        .layer-pink {
+            filter: drop-shadow(2px 0 0 #ff0055) saturate(200%);
+        }
+        .layer-cyan {
+            filter: drop-shadow(-2px 0 0 #00f0ff) saturate(200%);
+        }
+
         .user-name { font-size: 14px; font-weight: bold; font-family: var(--font-en); }
         .user-id { font-size: 10px; color: var(--text-sub); font-family: monospace; }
         .user-desc { font-size: 12px; color: var(--text-sub); line-height: 1.6; }
@@ -281,11 +303,53 @@
         @media screen and (max-width: 1200px) { .post-grid { grid-template-columns: 1fr; } }
         
         .post-card {
-            position: relative; height: 200px; overflow: hidden; display: block;
-            background: var(--bg-panel); border: 1px solid var(--border);
-            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative; height: 200px; display: block;
+            transition: transform 0.3s;
+            overflow: visible; /* 允许角框在外部显示 */
         }
-        .post-card:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0,0,0,0.4); }
+        .post-card-inner {
+            position: relative; width: 100%; height: 100%;
+            background: var(--bg-panel); border: 1px solid var(--border);
+            overflow: hidden; /* 裁剪内部背景和文字 */
+            transition: box-shadow 0.3s;
+        }
+        .post-card:hover .post-card-inner { box-shadow: 0 10px 30px rgba(0,0,0,0.4); transform: translateY(-3px); }
+
+        /* 全局 PJAX 故障层 */
+        .pjax { position: relative; }
+        .pjax-glitch-layer {
+            position: fixed; top: 0; left: var(--sidebar-width); 
+            width: calc(100% - var(--sidebar-width)); height: 100vh;
+            background: inherit; display: none; mix-blend-mode: screen; z-index: 999;
+            pointer-events: none;
+        }
+        .pjax-glitch-layer.layer-pink { background-color: rgba(255, 0, 85, 0.2); }
+        .pjax-glitch-layer.layer-cyan { background-color: rgba(0, 240, 255, 0.2); }
+
+        /* ================= 文章卡片四角框 (Post Card Corners) ================= */
+        .post-card-frame {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 5;
+        }
+        .post-card-frame span {
+            position: absolute; width: 18px; height: 18px;
+            border: 2px solid var(--color-orange);
+            opacity: 0; 
+            transform: scale(2);
+            transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+            pointer-events: none;
+        }
+        .post-card-frame .top-left { top: -10px; left: -10px; border-right: none; border-bottom: none; }
+        .post-card-frame .top-right { top: -10px; right: -10px; border-left: none; border-bottom: none; }
+        .post-card-frame .bottom-left { bottom: -10px; left: -10px; border-right: none; border-top: none; }
+        .post-card-frame .bottom-right { bottom: -10px; right: -10px; border-left: none; border-top: none; }
+
+        .post-card:hover .post-card-frame span { opacity: 1; transform: scale(1); }
+        .post-card:hover .top-left { top: -4px; left: -4px; }
+        .post-card:hover .top-right { top: -4px; right: -4px; }
+        .post-card:hover .bottom-left { bottom: -4px; left: -4px; }
+        .post-card:hover .bottom-right { bottom: -4px; right: -4px; }
+
         .post-card-bg {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background-size: cover; background-position: center;
@@ -559,3 +623,59 @@
             transition: 0.3s; cursor: pointer;
         }
         .dashang:hover { transform: scale(1.1); }
+
+        /* ================= 额外增强交互动效 ================= */
+
+        /* 1. 头像故障效果 (Glitch) */
+        @keyframes avatarGlitch {
+            0% { clip-path: inset(80% 0 0 0); transform: translate(-2px, 2px); }
+            10% { clip-path: inset(10% 0 85% 0); transform: translate(2px, -2px); }
+            20% { clip-path: inset(80% 0 0 0); transform: translate(-2px, 2px); }
+            30% { clip-path: inset(10% 0 85% 0); transform: translate(2px, -2px); }
+            40% { clip-path: inset(50% 0 30% 0); transform: translate(-2px, 2px); }
+            50% { clip-path: inset(0% 0 0% 0); transform: translate(0, 0); }
+            100% { clip-path: inset(0% 0 0% 0); transform: translate(0, 0); }
+        }
+        .avatar.glitching {
+            animation: avatarGlitch 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+            filter: hue-rotate(90deg) saturate(2);
+        }
+
+        /* 2. ID 微弱持续闪烁 */
+        @keyframes idFlicker {
+            0%, 100% { opacity: 0.7; text-shadow: 0 0 2px var(--color-orange); }
+            50% { opacity: 0.4; text-shadow: none; }
+            80% { opacity: 0.6; }
+        }
+        .user-id {
+            animation: idFlicker 3s infinite;
+        }
+
+        /* 3. 全局信号干扰效果 (Transition Glitch) */
+        @keyframes signalInterference {
+            0% { transform: translate(0); opacity: 1; }
+            10% { transform: translate(-5px, -2px); filter: hue-rotate(90deg); opacity: 0.8; }
+            20% { transform: translate(5px, 2px); filter: hue-rotate(-90deg); opacity: 0.9; }
+            30% { transform: translate(-5px, 2px); filter: sepia(1); }
+            40% { transform: translate(0); opacity: 1; }
+        }
+        .pjax-glitch {
+            animation: signalInterference 0.4s step-end;
+        }
+
+        /* 4. 顶部带百分比进度条 */
+        #top-progress-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 2px;
+            z-index: 9999; pointer-events: none; background: rgba(0,0,0,0.1);
+        }
+        #top-progress-bar {
+            height: 100%; background: var(--color-orange); width: 0;
+            transition: width 0.2s ease; position: relative;
+            box-shadow: 0 0 10px var(--color-orange);
+        }
+        #top-progress-num {
+            position: absolute; right: 0; top: 5px;
+            font-family: var(--font-en); font-size: 10px; color: var(--color-orange);
+            font-weight: bold; transform: translateX(50%);
+            text-shadow: 0 0 5px rgba(0,0,0,0.5);
+        }
