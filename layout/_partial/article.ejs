@@ -72,6 +72,14 @@ if (relatedPosts.length === 0) {
                         <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg> 
                         <%- post.categories && post.categories.length > 0 ? post.categories.data[0].name : '随笔' %>
                     </div>
+                    <% if (post.tags && post.tags.length > 0) { %>
+                    <div>
+                        <svg viewBox="0 0 24 24"><path d="M21.41 11.58l-9-9C12.05 2.22 11.55 2 11 2H4c-1.1 0-2 .9-2 2v7c0 .55.22 1.05.59 1.42l9 9c.36.36.86.58 1.41.58.55 0 1.05-.22 1.41-.59l7-7c.37-.36.59-.86.59-1.41 0-.55-.23-1.06-.59-1.42zM5.5 7C4.67 7 4 6.33 4 5.5S4.67 4 5.5 4 7 4.67 7 5.5 6.33 7 5.5 7z"/></svg>
+                        <% post.tags.forEach(function(tag, index) { %>
+                            <span><%= tag.name %><%= index < post.tags.length - 1 ? ', ' : '' %></span>
+                        <% }) %>
+                    </div>
+                    <% } %>
                     <%if(theme.visit_counter && theme.visit_counter.on && theme.visit_counter.page_visit) {%>
                     <div>
                         <svg viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg> 
@@ -109,10 +117,16 @@ if (relatedPosts.length === 0) {
                         <a class="rel-card site_url" href="<%- url_for(rp.path) %>">
                             <img src="<%- getCover(rp) %>" class="rel-img" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22%23444%22><path d=%22M12 2L2 22h20L12 2z%22/></svg>'">
                             <div class="rel-info">
-                                <span class="rel-tag"><%- rp.categories && rp.categories.length > 0 ? rp.categories.data[0].name : '记录' %></span>
-                                <div class="rel-title"><%- strip_html(rp.title).substring(0, 20) %></div>
+                                <div class="rel-title"><%- strip_html(rp.title) %></div>
                                 <div class="rel-meta">
                                     <span><%- date(rp.date, 'MM-DD') %></span>
+                                    <% if (rp.tags && rp.tags.length > 0) { %>
+                                        <span class="rel-tags">
+                                            <% rp.tags.forEach(function(tag){ %>
+                                                <span class="rel-tag-item">#<%= tag.name %></span>
+                                            <% }) %>
+                                        </span>
+                                    <% } %>
                                 </div>
                             </div>
                         </a>
