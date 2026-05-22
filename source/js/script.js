@@ -256,7 +256,11 @@ function bind() {
             }
             var codeClass = $(this).attr('class') || '';
             if (codeClass.indexOf('hljs') === -1) {
-                hljs.highlightElement(block);
+                if (hljs.highlightElement) {
+                    hljs.highlightElement(block);
+                } else if (hljs.highlightBlock) {
+                    hljs.highlightBlock(block);
+                }
             }
         });
     }

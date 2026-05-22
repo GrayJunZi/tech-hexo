@@ -21,7 +21,13 @@
 <script src="<%=theme.CDN.highlight %>"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        hljs.highlightAll();
+        if (typeof hljs !== 'undefined') {
+            if (hljs.highlightAll) {
+                hljs.highlightAll();
+            } else if (hljs.initHighlighting) {
+                hljs.initHighlighting();
+            }
+        }
     });
 </script>
 <% if (theme.CDN.nprogres_js){%>
