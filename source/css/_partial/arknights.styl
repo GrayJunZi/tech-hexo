@@ -457,12 +457,27 @@
         .copy-btn.success { background: #4caf50; color: #fff; border-color: #4caf50; }
 
         /* 文章侧栏 */
-        .art-sidebar { min-width: 0; display: flex; flex-direction: column; gap: 30px; position: sticky; top: calc(var(--top-bar-height) + 20px); align-self: flex-start; height: fit-content; }
+        .art-sidebar { 
+            min-width: 0; display: flex; flex-direction: column; gap: 30px; 
+            position: sticky; top: calc(var(--top-bar-height) + 20px); 
+            align-self: flex-start; height: fit-content; 
+            max-height: calc(100vh - var(--top-bar-height) - 40px); 
+            overflow-y: auto; padding-right: 5px;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE/Edge */
+        }
+        .art-sidebar::-webkit-scrollbar { display: none; } /* Chrome/Safari */
+
         .art-widget-title { font-size: 12px; font-weight: bold; font-family: var(--font-en); letter-spacing: 2px; color: var(--text-sub); margin-bottom: 15px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
         .art-widget-title span { color: var(--color-orange); margin-left: 8px; }
 
         /* 目录 TOC */
-        .toc-list { font-size: 13px; line-height: 1.6; max-height: 60vh; overflow-y: auto; }
+        .toc-list { 
+            font-size: 13px; line-height: 1.6; max-height: 50vh; overflow-y: auto;
+            scrollbar-width: none; -ms-overflow-style: none;
+        }
+        .toc-list::-webkit-scrollbar { display: none; }
+        
         .toc-list .toc { list-style: none; padding: 0; margin: 0; }
         .toc-list .toc-item { border-bottom: 1px solid var(--border); }
         .toc-list .toc-item a { display: block; padding: 8px 5px; color: var(--text-sub); transition: color 0.3s; }
@@ -470,7 +485,11 @@
         .toc-list .toc-child { list-style: none; padding-left: 15px; }
 
         /* 相关文章 */
-        .related-list { display: flex; flex-direction: column; gap: 12px; max-height: 400px; overflow-y: auto; padding-right: 5px; }
+        .related-list { 
+            display: flex; flex-direction: column; gap: 12px; max-height: 350px; overflow-y: auto; padding-right: 5px; 
+            scrollbar-width: none; -ms-overflow-style: none;
+        }
+        .related-list::-webkit-scrollbar { display: none; }
         .rel-card { display: flex; gap: 12px; align-items: flex-start; transition: 0.3s; padding: 8px 0; border-bottom: 1px solid var(--border); }
         .rel-card:hover .rel-title { color: var(--color-orange); transform: translateX(5px); }
         .rel-img { width: 60px; height: 60px; object-fit: cover; flex-shrink: 0; border: 1px solid var(--border); }
