@@ -1,8 +1,9 @@
 <%
 function getCover(post) {
+    if (!post) return '';
     if (post.cover) return url_for(post.cover);
     if (post.img) return url_for(post.img);
-    var imgMatch = post.content.match(/<img[^>]+src="?([^"\s]+)"?[^>]*>/);
+    var imgMatch = post.content ? post.content.match(/<img[^>]+src="?([^"\s]+)"?[^>]*>/) : null;
     if (imgMatch && imgMatch[1]) {
         return imgMatch[1];
     }
@@ -12,7 +13,7 @@ function getCover(post) {
         return url_for('/img/categories/' + catName + '.jpg');
     }
 
-    return 'https://images.unsplash.com/photo-1605806616949-1e87b487cb2a?q=80&w=400&auto=format&fit=crop';
+    return url_for('/img/categories/无分类.jpg');
 }
 
 // Improved tag-based related posts logic
