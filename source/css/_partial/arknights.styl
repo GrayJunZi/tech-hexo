@@ -99,7 +99,7 @@
 
         .brand { display: flex; align-items: center; gap: 15px; padding: 0 30px; margin-bottom: 50px; cursor: pointer; transition: 0.3s; }
         .brand:hover { transform: translateX(5px); }
-        .brand-icon { width: 24px; height: 32px; fill: #fff; }
+        .brand-icon { width: 24px; height: 32px; fill: var(--text-sub); }
         .brand-text { display: flex; flex-direction: column; }
         .brand-text h1 { font-size: 16px; font-weight: bold; font-family: var(--font-zh); letter-spacing: 2px; max-width: 170px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         .brand-text span { font-size: 10px; color: var(--text-sub); font-family: var(--font-en); letter-spacing: 2px; }
@@ -121,7 +121,7 @@
         .nav-item.active::before, .nav-item:hover::before { width: 100%; }
         .nav-item.active::after, .nav-item:hover::after { transform: scaleY(1); }
         .nav-item.active svg, .nav-item:hover svg { fill: var(--color-orange); transform: scale(1.1); }
-        .nav-item.active .zh, .nav-item:hover .zh { color: #fff; }
+        .nav-item.active .zh, .nav-item:hover .zh { color: var(--color-orange); }
         .nav-item.active .en, .nav-item:hover .en { color: var(--color-orange); opacity: 0.7; }
 
         /* Character Jump Animation */
@@ -184,7 +184,7 @@
         .social-label::before { content: '// '; }
         .social-links { display: flex; gap: 12px; }
         .social-btn { 
-            width: 32px; height: 32px; background: rgba(255,255,255,0.05); border: 1px solid var(--border);
+            width: 32px; height: 32px; background: rgba(128,128,128,0.1); border: 1px solid var(--border);
             display: flex; justify-content: center; align-items: center; cursor: pointer; transition: 0.3s;
         }
         .social-btn svg { width: 16px; height: 16px; fill: #666; transition: 0.3s; }
@@ -217,7 +217,7 @@
         .search-box { 
             display: flex; 
             align-items: center; 
-            background: rgba(255,255,255,0.1); 
+            background: rgba(128,128,128,0.1); 
             border-radius: 4px; 
             padding: 8px 15px; 
             width: 140px; /* 初始半宽 */
@@ -228,7 +228,7 @@
         /* 当搜素框展开、获得焦点或鼠标悬浮在过滤器面板上时，保持展开状态 */
         .search-box:hover, .search-box:focus-within, .search-box.expanded { 
             border-color: var(--color-orange); 
-            background: rgba(255,255,255,0.15); 
+            background: rgba(128,128,128,0.15); 
             width: 280px; /* 稍微加大一点空间 */
         }
         .search-filter-container {
@@ -280,7 +280,7 @@
         }
         .search-filter-panel label {
             font-size: 12px;
-            color: #fff;
+            color: var(--text-main);
             display: flex;
             align-items: center;
             gap: 8px;
@@ -297,12 +297,12 @@
             width: 14px;
             height: 14px;
         }
-        .search-box input { background: transparent; color: #fff; border: none; width: 100%; font-size: 12px; }
-        .search-box input::placeholder { color: rgba(255,255,255,0.4); }
+        .search-box input { background: transparent; color: var(--text-main); border: none; width: 100%; font-size: 12px; }
+        .search-box input::placeholder { color: var(--text-sub); }
         .search-box svg { width: 16px; height: 16px; fill: #888; cursor: pointer; transition: 0.3s; flex-shrink: 0;}
         .search-box svg:hover { fill: var(--color-orange); }
         
-        .top-links { display: flex; gap: 30px; font-size: 13px; font-weight: bold; color: #fff; }
+        .top-links { display: flex; gap: 30px; font-size: 13px; font-weight: bold; color: var(--text-main); }
         .top-links a { transition: 0.3s; position: relative; }
         .top-links a::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px; background: var(--color-orange); transition: 0.3s; }
         .top-links a:hover::after { width: 100%; }
@@ -312,14 +312,14 @@
             display: flex; 
             align-items: center; 
             gap: 20px; /* 整体放大间距 */
-            color: #fff; 
+            color: var(--text-main); 
             height: 100%; 
             position: relative;
         }
         #visualizer-svg { 
             width: 100px; /* 整体放大折线图 */
             height: 50px; 
-            stroke: #fff; 
+            stroke: var(--text-main); 
             fill: none; 
             flex-shrink: 0; 
             transition: all 0.5s ease;
@@ -464,7 +464,7 @@
         .announce-watermark {
             position: absolute; right: -5px; top: -5px;
             font-size: 48px; font-weight: bold; font-family: var(--font-en);
-            color: rgba(255,255,255,0.03); pointer-events: none; line-height: 1;
+            color: rgba(128,128,128,0.05); pointer-events: none; line-height: 1;
         }
         .announce-left { display: flex; flex-direction: column; align-items: center; gap: 5px; min-width: 40px; }
         .announce-left svg { width: 16px; height: 16px; fill: var(--color-orange); }
@@ -533,7 +533,7 @@
 
         .copy-btn {
             position: absolute; top: 10px; right: 10px; padding: 4px 8px; font-size: 10px; font-family: var(--font-en);
-            background: rgba(255,255,255,0.05); color: var(--text-sub); border: 1px solid var(--border);
+            background: rgba(128,128,128,0.1); color: var(--text-sub); border: 1px solid var(--border);
             cursor: pointer; transition: 0.3s; z-index: 10;
         }
         .copy-btn:hover { background: var(--color-orange); color: #fff; border-color: var(--color-orange); }
@@ -592,7 +592,7 @@
 
         /* 主题切换按钮 */
         .theme-toggle {
-            width: 32px; height: 32px; background: rgba(255,255,255,0.05); border: 1px solid var(--border);
+            width: 32px; height: 32px; background: rgba(128,128,128,0.1); border: 1px solid var(--border);
             display: flex; justify-content: center; align-items: center; cursor: pointer; transition: 0.3s;
             border-radius: 2px;
         }
@@ -600,9 +600,9 @@
         .theme-toggle svg { width: 16px; height: 16px; fill: var(--text-sub); transition: 0.3s; }
         .theme-toggle:hover svg { fill: #fff; }
 
-        .visualizer-line-bg { stroke: rgba(255,255,255,0.15); fill: none; }
+        .visualizer-line-bg { stroke: rgba(128,128,128,0.2); fill: none; }
         #visualizer-line { 
-            stroke: #fff; 
+            stroke: var(--text-main); 
             stroke-width: 2; 
             fill: none;
             stroke-dasharray: none; 
@@ -663,7 +663,7 @@
             transition: stroke 0.2s;
             opacity: 1;
             display: block;
-            stroke: #fff !important; /* 纯白 */
+            stroke: var(--text-main) !important; 
             fill: none;
         }
         .music-btn:hover {
@@ -691,12 +691,12 @@
         }
 
         /* ================= 搜索结果样式 ================= */
-        #local-search-result { background: var(--bg-panel); border: 1px solid var(--border); border-radius: 4px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); color: #fff; }
+        #local-search-result { background: var(--bg-panel); border: 1px solid var(--border); border-radius: 4px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); color: var(--text-main); }
         #local-search-result .search-result-list { list-style: none; padding: 0; margin: 0; }
         #local-search-result .search-result-list li { padding: 12px; border-bottom: 1px solid var(--border); }
-        #local-search-result .search-result-list a { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; color: #fff; text-decoration: none; transition: 0.2s; font-size: 14px; }
-        #local-search-result .search-result-list a:hover { color: var(--color-orange); background: rgba(255,255,255,0.05); }
-        #local-search-result .search-result { color: rgba(255,255,255,0.7); font-size: 13px; line-height: 1.5; margin-top: 5px; }
+        #local-search-result .search-result-list a { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; color: var(--text-main); text-decoration: none; transition: 0.2s; font-size: 14px; }
+        #local-search-result .search-result-list a:hover { color: var(--color-orange); background: rgba(128,128,128,0.05); }
+        #local-search-result .search-result { color: var(--text-sub); font-size: 13px; line-height: 1.5; margin-top: 5px; }
         #local-search-result .search-keyword { color: var(--color-orange); font-style: normal; font-weight: bold; }
         .search-result-meta { font-size: 11px; color: var(--text-sub); display: flex; align-items: center; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
         .search-result-cat { color: inherit; opacity: 0.8; }
