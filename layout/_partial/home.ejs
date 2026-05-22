@@ -22,13 +22,13 @@ site.posts.each(function(p) { if (p.top) topPosts.push(p); });
 topPosts.sort(function(a, b) { return (b.top || 0) - (a.top || 0); });
 
 // Post Selection
-var postsSource = is_category() ? page.posts : site.posts;
+var postsSource = (is_category() || is_tag()) ? page.posts : site.posts;
 var sortedPosts = postsSource.sort('-date').filter(function(p) { return !p.hidden; });
 
 var latestPost = null;
 var homePosts = [];
 
-if (!is_category()) {
+if (!is_category() && !is_tag()) {
     latestPost = sortedPosts.length > 0 ? sortedPosts.data[0] : null;
     homePosts = sortedPosts.data.slice(1);
 } else {
@@ -37,7 +37,7 @@ if (!is_category()) {
 %>
 
 <div id="view-home" class="view-section active">
-    <% if (!is_category() && latestPost) { %>
+    <% if (!is_category() && !is_tag() && latestPost) { %>
     <section class="hero-section animate-enter">
         <div class="hero-bg" style="background-image: url('<%- getCover(latestPost) %>');"></div>
         <div class="hero-overlay"></div>
@@ -68,6 +68,8 @@ if (!is_category()) {
                 <div class="section-title">
                     <% if (is_category()) { %>
                         分类：<%= page.category %> <span>POSTS</span>
+                    <% } else if (is_tag()) { %>
+                        标签：<%= page.tag %> <span>POSTS</span>
                     <% } else { %>
                         最新文章 <span>LATEST POSTS</span>
                     <% } %>

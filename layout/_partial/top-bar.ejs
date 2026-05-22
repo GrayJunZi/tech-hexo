@@ -1,5 +1,14 @@
 <header class="top-bar">
     <div class="search-box">
+        <div class="search-filter-container">
+            <svg class="search-filter-icon" viewBox="0 0 24 24"><path d="M3 18h6v-2H3v2zM3 6v2h18V6H3zm0 7h12v-2H3v2z"/></svg>
+            <div class="search-filter-panel">
+                <label><input type="checkbox" class="filter-chk" data-type="title" checked> 标题</label>
+                <label><input type="checkbox" class="filter-chk" data-type="content" checked> 内容</label>
+                <label><input type="checkbox" class="filter-chk" data-type="categories" checked> 分类</label>
+                <label><input type="checkbox" class="filter-chk" data-type="tags" checked> 标签</label>
+            </div>
+        </div>
         <input type="text" id="local-search-input" placeholder="搜索内容" autocomplete="off">
         <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
     </div>
@@ -229,6 +238,55 @@ document.addEventListener('DOMContentLoaded', function() {
                 searchResult.style.display = 'block';
             }
         }, 300);
+    });
+
+    // Trigger search on filter change
+    document.querySelectorAll('.filter-chk').forEach(function(chk) {
+        chk.addEventListener('change', function() {
+            var val = searchInput.value.trim();
+            if (val.length > 0 && typeof searchAll === 'function') {
+                searchAll(val);
+            }
+        });
+    });
+
+    // Handle search box expansion and filter panel interaction
+    var searchBox = document.querySelector('.search-box');
+    var filterContainer = document.querySelector('.search-filter-container');
+    var filterPanel = document.querySelector('.search-filter-panel');
+
+    filterContainer.addEventListener('mouseenter', function() {
+        searchBox.classList.add('expanded');
+    });
+
+    searchBox.addEventListener('mouseleave', function(e) {
+        // Only remove expanded class if we're not moving to the filter panel
+        if (!filterPanel.contains(e.relatedTarget)) {
+            if (!searchInput.matches(':focus')) {
+                searchBox.classList.remove('expanded');
+            }
+        }
+    });
+
+    filterPanel.addEventListener('mouseleave', function(e) {
+        if (!searchBox.contains(e.relatedTarget)) {
+            if (!searchInput.matches(':focus')) {
+                searchBox.classList.remove('expanded');
+            }
+        }
+    });
+
+    searchInput.addEventListener('focus', function() {
+        searchBox.classList.add('expanded');
+    });
+
+    searchInput.addEventListener('blur', function() {
+        // Delay removal to allow for clicks on filters
+        setTimeout(function() {
+            if (!filterPanel.matches(':hover') && !filterContainer.matches(':hover')) {
+                searchBox.classList.remove('expanded');
+            }
+        }, 200);
     });
 
     searchInput.addEventListener('keydown', function(e) {
