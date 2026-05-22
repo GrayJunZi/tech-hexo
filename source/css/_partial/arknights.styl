@@ -196,9 +196,19 @@
 
         /* 顶栏 (Top Bar) */
         .top-bar {
-            position: fixed; top: 0; right: 0; width: calc(100% - var(--sidebar-width)); z-index: 150; height: var(--top-bar-height); display: flex; align-items: center; justify-content: flex-end; padding: 0 40px; gap: 40px;
+            position: fixed; 
+            top: 0; 
+            left: var(--sidebar-width);
+            right: 0; 
+            z-index: 150; 
+            height: var(--top-bar-height); 
+            display: flex; 
+            align-items: center; 
+            justify-content: flex-end; 
+            padding: 0 40px; 
+            gap: 40px;
             background: linear-gradient(to bottom, var(--bg-main) 0%, rgba(10,10,12,0.6) 60%, transparent 100%);
-            transition: width 0.3s, background 0.3s;
+            transition: left 0.3s, transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
         [data-theme='light'] .top-bar {
             background: linear-gradient(to bottom, var(--bg-main) 0%, rgba(255,255,255,0.6) 60%, transparent 100%);
@@ -397,15 +407,18 @@
         .post-card {
             position: relative; height: 200px; display: block;
             transition: transform 0.3s;
-            overflow: visible; /* 允许角框在外部显示 */
+            overflow: hidden; 
         }
         .post-card-inner {
             position: relative; width: 100%; height: 100%;
             background: var(--bg-panel); border: 1px solid var(--border);
             overflow: hidden; /* 裁剪内部背景和文字 */
-            transition: box-shadow 0.3s;
+            transition: transform 0.3s, box-shadow 0.3s;
         }
-        .post-card:hover .post-card-inner { box-shadow: 0 10px 30px rgba(0,0,0,0.4); transform: translateY(-3px); }
+        .post-card:hover .post-card-inner { 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4); 
+            transform: translateY(-5px) scale(1.03); 
+        }
 
         /* 全局 PJAX 故障层 */
         .pjax { position: relative; }
@@ -417,30 +430,6 @@
         }
         .pjax-glitch-layer.layer-pink { background-color: rgba(255, 0, 85, 0.2); }
         .pjax-glitch-layer.layer-cyan { background-color: rgba(0, 240, 255, 0.2); }
-
-        /* ================= 文章卡片四角框 (Post Card Corners) ================= */
-        .post-card-frame {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; z-index: 5;
-        }
-        .post-card-frame span {
-            position: absolute; width: 18px; height: 18px;
-            border: 2px solid var(--color-orange);
-            opacity: 0; 
-            transform: scale(2);
-            transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
-            pointer-events: none;
-        }
-        .post-card-frame .top-left { top: -10px; left: -10px; border-right: none; border-bottom: none; }
-        .post-card-frame .top-right { top: -10px; right: -10px; border-left: none; border-bottom: none; }
-        .post-card-frame .bottom-left { bottom: -10px; left: -10px; border-right: none; border-top: none; }
-        .post-card-frame .bottom-right { bottom: -10px; right: -10px; border-left: none; border-top: none; }
-
-        .post-card:hover .post-card-frame span { opacity: 1; transform: scale(1); }
-        .post-card:hover .top-left { top: -4px; left: -4px; }
-        .post-card:hover .top-right { top: -4px; right: -4px; }
-        .post-card:hover .bottom-left { bottom: -4px; left: -4px; }
-        .post-card:hover .bottom-right { bottom: -4px; right: -4px; }
 
         .post-card-bg {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;

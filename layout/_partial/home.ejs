@@ -83,12 +83,6 @@ if (!is_category() && !is_tag()) {
             <div class="post-grid" id="home-post-grid">
                 <% homePosts.forEach(function(post){ %>
                     <a class="post-card site_url fade-up-wait" href="<%- url_for(post.path) %>" data-date="<%- post.date.valueOf() %>" data-title="<%- post.title %>">
-                        <div class="post-card-frame">
-                            <span class="top-left"></span>
-                            <span class="top-right"></span>
-                            <span class="bottom-left"></span>
-                            <span class="bottom-right"></span>
-                        </div>
                         <div class="post-card-inner">
                             <div class="post-card-bg" style="background-image: url('<%- getCover(post) %>')"></div>
                             <div class="post-card-overlay">

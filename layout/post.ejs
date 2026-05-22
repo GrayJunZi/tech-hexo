@@ -14,8 +14,8 @@
 <% } %>
 <div class="layout-container">
     <%- partial('_partial/sidebar') %>
+    <%- partial('_partial/top-bar') %>
     <main class="main-wrapper">
-        <%- partial('_partial/top-bar') %>
         <div id="pjax-container" class="pjax">
             <%- partial('_partial/article', {post: page, index: false}) %>
         </div>

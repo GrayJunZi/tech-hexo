@@ -85,6 +85,7 @@
         analyser.fftSize = 4096; 
         dataArray = new Uint8Array(analyser.frequencyBinCount);
         audio = new Audio();
+        window.siteAudio = audio; // 暴露给全局以便工具栏控制
         audio.crossOrigin = "anonymous";
         audio.src = musicList[currentTrack];
         audio.loop = isSingleLoop;
