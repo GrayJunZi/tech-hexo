@@ -791,8 +791,8 @@ function initScrollObserver() {
 
     const observerOptions = {
         root: null, // 默认浏览器视口
-        threshold: 0.1, // 10% 出现即触发
-        rootMargin: '0px 0px -50px 0px' // 底部留一点余地，防止太快出现
+        threshold: 0, // 只要出现一点就触发，防止超长元素（如长代码块）永远无法达到 10%
+        rootMargin: '0px 0px -20px 0px' 
     };
 
     let staggeredQueue = [];
@@ -807,14 +807,18 @@ function initScrollObserver() {
                 // 防抖编组，按垂直位置排序后依次播放
                 if (!staggeredTimer) {
                     staggeredTimer = setTimeout(() => {
-                        // 按在页面中的高度排序，确保从上到下入场
-                        staggeredQueue.sort((a, b) => {
-                            return a.getBoundingClientRect().top - b.getBoundingClientRect().top;
-                        });
+                        // 性能优化：先一次性获取所有位置，避免在 sort 中反复触发重绘 (Layout Thrashing)
+                        const elementsWithPos = staggeredQueue.map(el => ({
+                            el,
+                            top: el.getBoundingClientRect().top
+                        }));
 
-                        staggeredQueue.forEach((el, index) => {
+                        elementsWithPos.sort((a, b) => a.top - b.top);
+
+                        elementsWithPos.forEach((item, index) => {
+                            const el = item.el;
                             const isFast = el.classList.contains('fade-up-fast-wait');
-                            const delay = isFast ? index * 20 : index * 80; // 普通模块80ms，正文20ms
+                            const delay = isFast ? index * 50 : index * 100;
                             
                             setTimeout(() => {
                                 if (isFast) {
@@ -827,7 +831,7 @@ function initScrollObserver() {
 
                         staggeredQueue = [];
                         staggeredTimer = null;
-                    }, 50);
+                    }, 30);
                 }
             }
         });
@@ -844,8 +848,18 @@ function initScrollObserver() {
     const $artContent = $('.art-content');
     if ($artContent.length > 0) {
         // 选取正文中的块级元素：段落、标题、列表、图片、代码块、引用
-        $artContent.find('> p, > h1, > h2, > h3, > h4, > h5, > h6, > ul, > ol, > .div_img, > blockquote, > pre').addClass('fade-up-fast-wait').each(function() {
-            observer.observe(this);
-        });
+        const $blocks = $artContent.find('> p, > h1, > h2, > h3, > h4, > h5, > h6, > ul, > ol, > .div_img, > blockquote, > pre');
+        
+        // 性能保护：如果文章极其长（如超过 300 个区块），则只对前 100 个应用交错动效，其余直接显示或批量显示
+        if ($blocks.length > 300) {
+            $blocks.slice(0, 100).addClass('fade-up-fast-wait').each(function() {
+                observer.observe(this);
+            });
+            $blocks.slice(100).addClass('fade-up-fast-play'); // 其余直接显示，防止性能崩溃
+        } else {
+            $blocks.addClass('fade-up-fast-wait').each(function() {
+                observer.observe(this);
+            });
+        }
     }
 }
