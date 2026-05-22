@@ -38,7 +38,7 @@ if (!is_category() && !is_tag()) {
 
 <div id="view-home" class="view-section active">
     <% if (!is_category() && !is_tag() && latestPost) { %>
-    <section class="hero-section animate-enter">
+    <section class="hero-section fade-up-wait">
         <div class="hero-bg" style="background-image: url('<%- getCover(latestPost) %>');"></div>
         <div class="hero-overlay"></div>
         <div class="hero-content">
@@ -82,7 +82,7 @@ if (!is_category() && !is_tag()) {
             
             <div class="post-grid" id="home-post-grid">
                 <% homePosts.forEach(function(post){ %>
-                    <a class="post-card site_url animate-enter" href="<%- url_for(post.path) %>" data-date="<%- post.date.valueOf() %>" data-title="<%- post.title %>">
+                    <a class="post-card site_url fade-up-wait" href="<%- url_for(post.path) %>" data-date="<%- post.date.valueOf() %>" data-title="<%- post.title %>">
                         <div class="post-card-frame">
                             <span class="top-left"></span>
                             <span class="top-right"></span>
@@ -117,7 +117,7 @@ if (!is_category() && !is_tag()) {
 
         <div class="sidebar-right">
             <% if (topPosts.length > 0) { %>
-            <div class="widget">
+            <div class="widget fade-up-wait">
                 <div class="section-header"><div class="section-title">公告 <span>ANNOUNCEMENT</span></div></div>
                 <div class="announce-list">
                     <% topPosts.slice(0,3).forEach(function(tp){ %>
@@ -138,7 +138,7 @@ if (!is_category() && !is_tag()) {
             </div>
             <% } %>
 
-            <div class="widget">
+            <div class="widget fade-up-wait">
                 <div class="section-header"><div class="section-title">全部分类 <span>CATEGORIES</span></div></div>
                 <div class="cat-outline">
                     <%

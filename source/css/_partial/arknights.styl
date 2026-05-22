@@ -55,9 +55,34 @@
             70% { box-shadow: 0 0 0 10px rgba(217, 106, 41, 0); }
             100% { box-shadow: 0 0 0 0 rgba(217, 106, 41, 0); }
         }
-        .animate-enter { 
+        /* 新版滚动交错入场动画基础设施 */
+        .fade-up-wait {
             opacity: 0;
-            animation: fadeInUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) both; 
+            transform: translateY(30px);
+            transition: opacity 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), 
+                        transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+            pointer-events: none; /* 未入场前不可交互 */
+        }
+        .fade-up-play {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        /* 文章正文极速交错入场 */
+        .fade-up-fast-wait {
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), 
+                        transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        .fade-up-fast-play {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .animate-enter { 
+            opacity: 1;
         }
 
         /* ================= 整体布局 ================= */

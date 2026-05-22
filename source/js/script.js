@@ -128,10 +128,11 @@ function afterPjax() {
         });
     }
 
-    /*新内容淡入*/
+    /* 新内容淡入 */
     content.css({'opacity': 1}).removeClass('fadeOuts').addClass('fadeIns');
     bind();
     initEffects();
+    initScrollObserver();
 }
 
 
@@ -217,6 +218,7 @@ $(function () {
     bind();
     initEffects(); // 初始化特效
     initSoundEffects(); // 初始化音效
+    initScrollObserver(); // 初始化滚动观察
 
     // 监测滚动，同步大纲
     container.on('scroll', function () {
@@ -268,12 +270,14 @@ function bind() {
         });
     }
 
-    // 文章列表排序
+    // 文章列表排序 (FLIP 动效)
     $('.sort-btn').on('click', function() {
         var $btn = $(this);
         var sortType = $btn.data('sort');
         var $grid = $('#home-post-grid');
         var $items = $grid.children('.post-card');
+
+        if ($items.length === 0) return;
 
         if ($btn.hasClass('active')) {
             // 切换升降序
@@ -289,7 +293,19 @@ function bind() {
 
         var isDesc = $btn.hasClass('desc');
 
-        $items.sort(function(a, b) {
+        // 1. First: 记录初始位置
+        var firstStates = [];
+        $items.each(function() {
+            var rect = this.getBoundingClientRect();
+            firstStates.push({
+                el: this,
+                top: rect.top,
+                left: rect.left
+            });
+        });
+
+        // 2. Last: 执行排序并重新渲染 DOM
+        var sortedArr = $items.get().sort(function(a, b) {
             var valA, valB;
             if (sortType === 'date') {
                 valA = $(a).data('date');
@@ -303,7 +319,39 @@ function bind() {
             return 0;
         });
 
-        $grid.append($items);
+        $grid.append(sortedArr);
+
+        // 3. Invert & Play
+        requestAnimationFrame(() => {
+            firstStates.forEach(state => {
+                var el = state.el;
+                var lastRect = el.getBoundingClientRect();
+                
+                var deltaX = state.left - lastRect.left;
+                var deltaY = state.top - lastRect.top;
+
+                if (deltaX !== 0 || deltaY !== 0) {
+                    // Invert: 瞬间拉回原位
+                    el.style.transition = 'none';
+                    el.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
+                    
+                    // 强制重绘
+                    el.offsetHeight;
+
+                    // Play: 开启动画滑向新位
+                    el.style.transition = 'transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1)';
+                    el.style.transform = 'none';
+                }
+            });
+
+            // 动画结束后清理 inline style
+            setTimeout(() => {
+                $items.each(function() {
+                    this.style.transition = '';
+                    this.style.transform = '';
+                });
+            }, 600);
+        });
     });
 
     // 公告更多展示
@@ -724,4 +772,80 @@ function initSoundEffects() {
             sounds.click.play();
         }
     });
+}
+
+/**
+ * 初始化滚动交错入场观察者
+ */
+var globalScrollObserver = null;
+function initScrollObserver() {
+    if (globalScrollObserver) {
+        globalScrollObserver.disconnect();
+    }
+
+    if (!window.IntersectionObserver) {
+        // 降级处理：直接显示
+        $('.fade-up-wait, .fade-up-fast-wait').addClass('fade-up-play');
+        return;
+    }
+
+    const observerOptions = {
+        root: null, // 默认浏览器视口
+        threshold: 0.1, // 10% 出现即触发
+        rootMargin: '0px 0px -50px 0px' // 底部留一点余地，防止太快出现
+    };
+
+    let staggeredQueue = [];
+    let staggeredTimer = null;
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                staggeredQueue.push(entry.target);
+                observer.unobserve(entry.target); // 只观察一次
+
+                // 防抖编组，按垂直位置排序后依次播放
+                if (!staggeredTimer) {
+                    staggeredTimer = setTimeout(() => {
+                        // 按在页面中的高度排序，确保从上到下入场
+                        staggeredQueue.sort((a, b) => {
+                            return a.getBoundingClientRect().top - b.getBoundingClientRect().top;
+                        });
+
+                        staggeredQueue.forEach((el, index) => {
+                            const isFast = el.classList.contains('fade-up-fast-wait');
+                            const delay = isFast ? index * 20 : index * 80; // 普通模块80ms，正文20ms
+                            
+                            setTimeout(() => {
+                                if (isFast) {
+                                    el.classList.add('fade-up-fast-play');
+                                } else {
+                                    el.classList.add('fade-up-play');
+                                }
+                            }, delay);
+                        });
+
+                        staggeredQueue = [];
+                        staggeredTimer = null;
+                    }, 50);
+                }
+            }
+        });
+    }, observerOptions);
+
+    globalScrollObserver = observer;
+
+    // 扫描所有标记元素
+    $('.fade-up-wait, .fade-up-fast-wait').each(function() {
+        observer.observe(this);
+    });
+
+    // 针对文章详情页正文，动态添加观察标记
+    const $artContent = $('.art-content');
+    if ($artContent.length > 0) {
+        // 选取正文中的块级元素：段落、标题、列表、图片、代码块、引用
+        $artContent.find('> p, > h1, > h2, > h3, > h4, > h5, > h6, > ul, > ol, > .div_img, > blockquote, > pre').addClass('fade-up-fast-wait').each(function() {
+            observer.observe(this);
+        });
+    }
 }

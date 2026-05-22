@@ -48,7 +48,7 @@ if (relatedPosts.length === 0) {
 %>
 
 <div id="view-article" class="view-section active">
-    <div class="breadcrumb animate-enter" style="animation-delay: 0.1s;">
+    <div class="breadcrumb fade-up-wait">
         <svg viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2z"/></svg>
         <a class="site_url" href="<%- url_for('/') %>">/ BLOG</a>
         <a class="site_url" href="<%- post.categories && post.categories.length ? url_for(post.categories.data[0].path) : url_for('/archives/') %>">/ <%- post.categories && post.categories.length ? post.categories.data[0].name.toUpperCase() : 'ARTICLES' %></a>
@@ -56,7 +56,7 @@ if (relatedPosts.length === 0) {
     </div>
 
     <div class="article-layout">
-        <article id="<%= post.layout %>-<%= post.slug %>" class="article-main animate-enter" style="animation-delay: 0.2s;" itemscope itemprop="blogPost">
+        <article id="<%= post.layout %>-<%= post.slug %>" class="article-main fade-up-wait" itemscope itemprop="blogPost">
             <header class="art-header">
                 <h1 class="art-title" itemprop="name"><%- post.title %></h1>
                 <div class="art-meta">
@@ -108,15 +108,15 @@ if (relatedPosts.length === 0) {
 
         </article>
 
-        <aside class="art-sidebar animate-enter" style="animation-delay: 0.3s;">
-            <div>
+        <aside class="art-sidebar">
+            <div class="fade-up-wait">
                 <div class="art-widget-title">目录 <span>CONTENTS</span></div>
                 <div class="toc-list" id="art-toc">
                     <%- toc(post.content, {list_number: false, class: 'toc'}) %>
                 </div>
             </div>
 
-            <div>
+            <div class="fade-up-wait">
                 <div class="art-widget-title">相关文章 <span>RELATED POSTS</span></div>
                 <div class="related-list" id="art-related">
                     <% relatedPosts.forEach(function(rp){ %>
@@ -142,7 +142,7 @@ if (relatedPosts.length === 0) {
         </aside>
     </div>
 
-    <div class="post-nav animate-enter" style="animation-delay: 0.4s;">
+    <div class="post-nav fade-up-wait">
         <% if (post.prev) { %>
             <a id="nav-prev" class="site_url" href="<%- url_for(post.prev.path) %>">< 上一篇：<%- strip_html(post.prev.title).substring(0, 15) %></a>
         <% } else { %>
