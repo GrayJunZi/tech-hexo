@@ -3,10 +3,14 @@
 <script src="<%=theme.CDN.photoswipe_js%>"></script>
 <script src="<%=theme.CDN.photoswipe_ui_js%>"></script>
 <% } %>
+<% if (theme.sound_effect) { %>
+<script src="<%=theme.CDN.howler%>"></script>
+<% } %>
 <script src="<%=theme.blog_path?theme.blog_path.lastIndexOf("/") === theme.blog_path.length-1?theme.blog_path.slice(0, theme.blog_path.length-1):theme.blog_path:'' %>/js/script.js?v=<%=theme.version%>" ></script>
 
 <script>
     var img_resize = '<%=theme.img_resize %>';
+    var sound_effect = <%= !!theme.sound_effect %>;
     function initArticle() {
         /*渲染对应的表格样式*/
         <% if(theme.table){ %>

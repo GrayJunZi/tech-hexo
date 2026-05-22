@@ -39,6 +39,8 @@ $(document).pjax('.site_url,.nav-item a,.post-card,.hero-btn', '.pjax', {fragmen
         NProgress.start();
         updateTopProgress(0);
 
+        if (window.uiSounds) window.uiSounds.transition.play();
+
         // 1/10 概率触发赛博故障效果
         if (Math.random() < 0.1) {
             triggerCyberGlitch($('.pjax'));
@@ -214,6 +216,7 @@ function syncOutline(_this) {
 $(function () {
     bind();
     initEffects(); // 初始化特效
+    initSoundEffects(); // 初始化音效
 
     // 监测滚动，同步大纲
     container.on('scroll', function () {
@@ -363,6 +366,12 @@ function bind() {
             $('#outline-list .toc-link[href!="#"].active').removeClass('active')
             $this.addClass('active')
         }
+        
+        // 播放齿轮滚动音效
+        if (window.uiSounds && window.uiSounds.gear) {
+            window.uiSounds.gear.play();
+        }
+
         clickScrollTo = true
 		    var targetOffsetTop = $(decodeURI($this.attr("href")))[0].offsetTop
         container.animate({scrollTop: container.scrollTop > targetOffsetTop ? (targetOffsetTop + 20) : (targetOffsetTop - 20)}, 500, 'swing', function () {
@@ -537,6 +546,7 @@ function initEffects() {
 
         $brandTitle.on('mouseenter', function() {
             if (isGlitching) return;
+            if (window.uiSounds) window.uiSounds.glitch.play();
             isGlitching = true;
             $(this).addClass('glitching');
             
@@ -653,5 +663,65 @@ function initEffects() {
     // 5. 头像故障效果
     $('.user-info').on('mouseenter', function() {
         triggerCyberGlitch($(this).find('.avatar-container'), 500);
+    });
+}
+
+/**
+ * 初始化鼠标交互音效 (Arknights / Tech Style)
+ */
+function initSoundEffects() {
+    if (typeof Howl === 'undefined' || !window.sound_effect) return;
+
+    var audioPath = blog_path + '/audio/';
+    const sounds = {
+        hover: new Howl({
+            src: [audioPath + 'hover.mp3'],
+            volume: 0.3,
+            preload: true
+        }),
+        click: new Howl({
+            src: [audioPath + 'click.mp3'],
+            volume: 0.5,
+            preload: true
+        }),
+        glitch: new Howl({
+            src: [audioPath + 'glitch.mp3'],
+            volume: 0.05,
+            preload: true
+        }),
+        transition: new Howl({
+            src: [audioPath + 'select.mp3'], 
+            volume: 0.5,
+            preload: true
+        }),
+        toc_select: new Howl({
+            src: [audioPath + 'select.mp3'],
+            volume: 0.5,
+            preload: true
+        }),
+        gear: new Howl({
+            src: [audioPath + 'gear.mp3'],
+            volume: 0.3,
+            loop: false,
+            preload: true
+        })
+    };
+
+    window.uiSounds = sounds;
+
+    // 1. 批量绑定悬停音效 (采用事件委托)
+    // 覆盖范围：仅保留导航菜单项和顶部选项栏元素
+    $(document).on('mouseenter', '.nav-item a, .sidebar-menu a, .menu-item, .dynamic-menu, .top-bar-item, .top-links a', function() {
+        sounds.hover.play();
+    });
+
+    // 2. 批量绑定点击音效
+    $(document).on('click', 'a, button, #rocket, .search-btn, .copy-btn', function(e) {
+        // 如果是目录点击，使用 toc_select 音效，否则使用普通 click
+        if ($(this).hasClass('toc-link') || $(this).parents('#outline-list').length > 0) {
+            sounds.toc_select.play();
+        } else {
+            sounds.click.play();
+        }
     });
 }

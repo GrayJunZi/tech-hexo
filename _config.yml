@@ -238,6 +238,9 @@ mermaid:
 
 ##############################
 
+# 音效设置
+sound_effect: true
+
 # 友情链接
 friends:
   #叶落阁: http://yelog.org/
@@ -321,6 +324,7 @@ giscus:
 CDN:
   jquery: //testingcf.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js
   jquery_cookie: //testingcf.jsdelivr.net/npm/jquery.cookie@1.4.1/jquery.cookie.min.js
+  howler: //testingcf.jsdelivr.net/npm/howler@2.2.3/dist/howler.min.js
   highlight: //testingcf.jsdelivr.net/npm/highlightjs@9.16.2/highlight.pack.min.js
   pjax: //testingcf.jsdelivr.net/npm/jquery-pjax@2.0.1/jquery.pjax.min.js
   animate: //testingcf.jsdelivr.net/npm/animate.css@4.1.0/animate.min.css
