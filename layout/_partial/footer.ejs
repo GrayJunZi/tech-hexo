@@ -19,17 +19,6 @@
             $("#post .pjax table").addClass("<%=theme.table%>");
         <% } %>
 
-        /*渲染打赏样式*/
-        <% if(theme.reward){%>
-        $("input[name=pay]").on("click", function () {
-            if($("input[name=pay]:checked").val()=="weixin"){
-                $(".shang_box .shang_payimg .pay_img").addClass("weixin_img");
-            } else {
-                $(".shang_box .shang_payimg .pay_img").removeClass("weixin_img");
-            }
-        })
-        <%}%>
-
         /*高亮代码块行号*/
         <%if(theme.highlight && theme.highlight.on && theme.highlight.lineNum){%>
         $('pre code').each(function(){
@@ -325,14 +314,6 @@
         })
         <% } %>
     }
-
-    /*打赏页面隐藏与展示*/
-    <% if(theme.reward){%>
-    function dashangToggle() {
-        $(".shang_box").fadeToggle();
-        $(".hide_box").fadeToggle();
-    }
-    <%}%>
 
 </script>
 
