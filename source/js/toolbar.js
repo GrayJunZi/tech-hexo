@@ -3,8 +3,9 @@
         var $toolbar = $('#right-toolbar');
         var $container = $('.main-wrapper');
         
-        // 1. 鼠标位置检测 (边缘呼出)
+        // 1. 鼠标位置检测 (边缘呼出) - 仅限桌面端
         $(document).on('mousemove', function(e) {
+            if ($(window).width() <= 768) return;
             var screenWidth = $(window).width();
             var mouseX = e.pageX;
             
@@ -13,6 +14,21 @@
                 $toolbar.addClass('active');
             } else {
                 $toolbar.removeClass('active');
+            }
+        });
+
+        // 移动端悬浮球点击
+        $('.toolbar-trigger').on('click', function(e) {
+            e.stopPropagation();
+            $toolbar.toggleClass('active');
+        });
+
+        // 点击其他地方收起工具栏 (移动端)
+        $(document).on('click', function(e) {
+            if ($(window).width() <= 768) {
+                if (!$toolbar.is(e.target) && $toolbar.has(e.target).length === 0) {
+                    $toolbar.removeClass('active');
+                }
             }
         });
 

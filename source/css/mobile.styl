@@ -1,5 +1,27 @@
 /* ================= 移动端响应式 ================= */
 
+/* 基础移动端组件样式 */
+.menu-toggle
+  display: none
+  cursor: pointer
+  padding: 5px
+  svg
+    width: 24px
+    height: 24px
+    fill: var(--text-main)
+
+.sidebar-close
+  display: none
+  cursor: pointer
+  padding: 5px
+  svg
+    width: 24px
+    height: 24px
+    fill: var(--text-main)
+
+.right-toolbar .toolbar-trigger
+  display: none
+
 @media screen and (max-width: 1024px)
   .sidebar
     width: 220px
@@ -31,17 +53,31 @@
   .top-bar
     padding: 0 20px
     gap: 20px
+    left: 220px !important
   article
     padding: 1em
 
 @media screen and (max-width: 768px)
+  .menu-toggle
+    display: block
+    margin-right: 15px
+  
   .sidebar
     width: 0
     overflow: hidden
     transition: width 0.3s ease
-    z-index: 200
+    z-index: 2000
+    left: 0 !important
     &.mobile-open
       width: 260px
+  
+  .sidebar-close
+    display: block
+    position: absolute
+    right: 15px
+    top: 15px
+    z-index: 10
+
   .main-wrapper
     margin-left: 0
     width: 100%
@@ -56,13 +92,24 @@
     padding: 0 15px
     gap: 10px
     height: 60px
+    left: 0 !important
+    width: 100% !important
+    justify-content: flex-start
+    #visualizer-svg
+      width: 60px // 较窄的折线图
+      margin-left: auto // 靠右
+    .music-controls
+      display: none // 默认隐藏三角和圆
   .search-box
-    width: 150px
+    width: 120px
   .top-links
     gap: 15px
     font-size: 12px
+    display: none // 默认隐藏
   .sys-status
-    display: none
+    display: flex // 重新开启容器以显示折线图
+    .sys-text
+      display: none // 隐藏文字部分
   .post-card
     height: 240px
   .article-layout
@@ -81,6 +128,64 @@
     padding: 0 20px
   .home-content-section
     padding: 20px
+
+  /* 悬浮球工具栏 */
+  .right-toolbar
+    display: flex !important
+    position: fixed !important
+    right: 20px !important
+    bottom: 20px !important
+    top: auto !important
+    left: auto !important
+    transform: none !important
+    width: 50px !important
+    height: 50px !important
+    z-index: 2100 !important
+    
+    .toolbar-items
+      position: absolute
+      bottom: 70px
+      right: 0
+      opacity: 0
+      pointer-events: none
+      transform: translateY(20px)
+      transition: all 0.3s ease
+      background: var(--bg-panel)
+      border-radius: 20px
+      padding: 10px
+      box-shadow: 0 5px 20px rgba(0,0,0,0.3)
+    
+    &.active
+      right: 20px !important
+      .toolbar-items
+        opacity: 1
+        pointer-events: auto
+        transform: translateY(0)
+    
+    .toolbar-trigger
+      display: flex !important
+      width: 50px
+      height: 50px
+      background: var(--color-orange)
+      border-radius: 50%
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3)
+      justify-content: center
+      align-items: center
+      cursor: pointer
+      svg
+        width: 24px
+        height: 24px
+        fill: rgba(255,255,255,0.8) // 浅灰色图标
+
+@media screen and (min-width: 480px) and (max-width: 768px)
+  .top-bar .music-controls
+    display: flex !important // 宽度足够时显示三角和圆
+  .top-bar .search-box
+    width: 150px
+
+@media screen and (min-width: 640px) and (max-width: 768px)
+  .top-bar .top-links
+    display: flex !important // 宽度足够时显示链接
 
 @media screen and (max-width: 426px)
   .sidebar
@@ -111,7 +216,7 @@
     height: 50px
     padding: 0 10px
   .search-box
-    width: 120px
+    width: 100px
   .top-links
     gap: 10px
     font-size: 11px

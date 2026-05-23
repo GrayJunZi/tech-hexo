@@ -245,6 +245,31 @@ $(function () {
         container.animate({scrollTop: 0}, 500);
     });
 
+    // 移动端侧边栏切换
+    $('#menu-toggle').on('click', function(e) {
+        e.stopPropagation();
+        $('.sidebar').addClass('mobile-open');
+    });
+
+    $('#sidebar-close').on('click', function(e) {
+        e.stopPropagation();
+        $('.sidebar').removeClass('mobile-open');
+    });
+
+    // 移动端导航跳转后自动收起
+    $('.sidebar .site_url, .sidebar .nav-item a').on('click', function() {
+        if ($(window).width() <= 768) {
+            $('.sidebar').removeClass('mobile-open');
+        }
+    });
+
+    // 点击主体区域收起侧边栏
+    $('.main-wrapper').on('click', function() {
+        if ($(window).width() <= 768 && $('.sidebar').hasClass('mobile-open')) {
+            $('.sidebar').removeClass('mobile-open');
+        }
+    });
+
 });
 
 /*绑定新加载内容的点击事件*/
