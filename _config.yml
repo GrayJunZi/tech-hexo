@@ -2,31 +2,8 @@ version: 1.1.0
 # 你的头像url
 avatar: https://testingcf.jsdelivr.net/gh/sanqi-normal/sanqi-normal.github.io/img/avatar.jpg
 favicon: https://testingcf.jsdelivr.net/gh/sanqi-normal/sanqi-normal.github.io/img/top.png
-#如果博客放置位置不是根目录，则可以通过配置此路径解决静态文件路径错误问题
-# 比如访问地址为 yelog.org/blog 那就需要配置为 blog_path: /blog 才能正常访问
-blog_path: /
 
-#链接图标 显示顺序和下面顺序一致
-link:
-  theme: color # 链接样式，color: 彩色图标  white: 黑白图标
-  items:
-    rss: 
-    github: 
-    facebook:
-    twitter:
-    linkedin:
-    instagram: 
-    reddit: 
-    weibo: 
-    jianshu: 
-    zhihu: 
-    csdn:
-    oschina: 
-    juejin:
-    email: 
-    qq:
-    kugou: 
-    neteasemusic: 
+blog_path: /
 
 ##########多作者模式############
 author:
@@ -71,9 +48,6 @@ category:
 #   - 工具
 #   - hexo
 
-# 快捷键
-shortcutKey: true
-
 # 左下角自定义菜单
 menu:
   about:  # '关于' 按钮
@@ -100,23 +74,6 @@ menu:
       url: https://github.com/Sanqi-normal
       type: 3  # 跳转类型 3：打开新的tab页
 
-# 文末声明
-article_txt: 此方悬停
-
-bottom_text:  #©2016-2020 Yelog
-# 自定义页面最下方的站点版权信息
-# 如果不填，则自定义为 ©2017 author (这个author为hexo根目录_config.yml中配置的)
-
-# 底部备案号
-miit:
-  on: false
-  info: 京ICP证030173号
-  url: http://beian.miit.gov.cn/ # 默认链接为 http://beian.miit.gov.cn/
-
-
-reward: false
-# true 开启打赏功能
-
 searchAll: true
 # true 启用全文搜索
 # 开启此功能需要下面操作：
@@ -125,10 +82,6 @@ searchAll: true
 # search:
 #   path: search.xml
 #   field: post
-
-
-copyright: false
-# Copyright info. of post | 文末版权信息
 
 word_count: true
 # true 开启字数统计
@@ -147,19 +100,6 @@ visit_counter:
 toc:
   max_depth: 3  # 1 - 6 (h1-h6) 目录最大级数
 
-#文章列表 鼠标移上去的样式, 为空时使用默认效果
-article_list:
-  title: rgba(198, 228, 0, 1) # 文章列表标题颜色
-  datetime: "#40dcffff" # 文章发布日期颜色
-  hover:
-    background: rgba(131, 0, 160, 1)  # 背景色:提供几种：'#c1bfc1'  '#fbf4a8'
-    color: '#ffffff'    # 文字颜色 提供几种：'#ffffff'
-# 注意：由于颜色如果包含#，使用单引号 ' 引起来
-
-# 文章列表背景图
-article_bg_img:
-  on: true # 是否开启
-  src: https://testingcf.jsdelivr.net/gh/sanqi-normal/sanqi-normal.github.io/img/vaporwave_advanced.jpg
 
 # 列表样式
 list: thread
@@ -177,10 +117,6 @@ table: green_title
 # green 绿色样式
 # green_title 头部为青色的table样式
 
-# 首页背景图
-index_bg_img: 
-# 其他页面背景图
-other_bg_img:
 
 # 点击图片放大样式
 img_resize: photoSwipe

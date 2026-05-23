@@ -391,8 +391,8 @@ function bind() {
     });
 
     initArticle();
-    $(".article_number").text($("#yelog_site_posts_number").val());
-    $(".site_word_count").text($("#yelog_site_word_count").val());
+    $(".article_number").text($("#tech_site_posts_number").val());
+    $(".site_word_count").text($("#tech_site_word_count").val());
     $(".site_uv").text($("#busuanzi_value_site_uv").text());
     $(".site_pv").text($("#busuanzi_value_site_pv").text());
 
@@ -745,7 +745,7 @@ function initEffects() {
 }
 
 /**
- * 初始化鼠标交互音效 (Arknights / Tech Style)
+ * 初始化鼠标交互音效 (Tech Style)
  */
 function initSoundEffects() {
     if (typeof Howl === 'undefined' || !window.sound_effect) return;
