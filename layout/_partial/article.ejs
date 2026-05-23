@@ -106,7 +106,7 @@ if (relatedPosts.length === 0) {
             <div class="fade-up-wait">
                 <div class="art-widget-title"><%= __('titles.outline') %> <span>CONTENTS</span></div>
                 <div class="toc-list" id="art-toc">
-                    <%- toc(post.content, {list_number: false, class: 'toc'}) %>
+                    <%- toc(post.content, {list_number: false, class: 'toc', max_depth: theme.toc.max_depth}) %>
                 </div>
             </div>
 

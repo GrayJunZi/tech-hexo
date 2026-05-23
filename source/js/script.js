@@ -29,14 +29,11 @@ var $searchInput = $("#local-search-input");
 var $outlineList = $('#outline-list');
 var $localSearchResult = $("#local-search-result")
 var isFullScreen = $(window).width() <= 1024
-var shortcutKey = THEME_CONFIG.shortcutKey !== false;
-var pageshortcut = THEME_CONFIG.page_disable_shortcut !== true;
 $(document).pjax('.site_url,.nav-item a,.post-card,.hero-btn', '.pjax', {fragment: '.pjax', timeout: 8000});$(document).on({
     /*点击链接后触发的事件*/
     'pjax:click': function () {
         // 清理全局特效定时器避免泄漏
         if (window.brandGlitchInterval) clearInterval(window.brandGlitchInterval);
-        if (window.sysStatusGlitchInterval) clearInterval(window.sysStatusGlitchInterval);
 
         /*原有内容淡出*/
         content.removeClass('fadeIns').addClass('fadeOuts');
@@ -138,42 +135,6 @@ function afterPjax() {
     bind();
     initEffects();
     initScrollObserver();
-}
-
-
-/*快捷键/组合键*/
-var publickey = {"shift": false, "ctrl": false, "alt": false, "last": 0};
-if (shortcutKey && pageshortcut) {
-    $(document).keydown(function (e) {
-        var tobottom = container.prop("scrollHeight") - container.scrollTop() - container.height();
-        var totop = container.scrollTop();
-        if (!$searchInput.is(":focus")) {
-            if (e.keyCode === 74) { /* J */
-                container.animate({scrollTop: container.prop("scrollHeight") - container.height()}, tobottom, "linear");
-            } else if (e.keyCode === 75) { /* K */
-                container.animate({scrollTop: 0}, totop, "linear");
-            } else if (e.keyCode === 71) { /* G */
-                if (publickey.shift) {
-                    container.animate({scrollTop: container.prop("scrollHeight")}, 800);
-                } else if (publickey.last === 71) { /* G */
-                    container.animate({scrollTop: 0}, 800);
-                }
-            } else if (e.keyCode === 16) { /* shift */
-                publickey.shift = true;
-            }
-        }
-    })
-
-    $(document).keyup(function (e) {
-        if (!$searchInput.is(":focus")) {
-            if (e.which === 74 || e.which === 75) { /* J K - 上滑/下滑*/
-                container.stop(true);
-            } else if (e.which === 16) {
-                publickey.shift = false;
-            }
-        }
-        publickey.last = e.keyCode;
-    })
 }
 
 
@@ -672,71 +633,6 @@ function initEffects() {
             $this.html(html);
         }
     });
-
-    // 4. 顶部系统状态数字乱跳
-    const $sysStatus = $('#sys-status');
-    if ($sysStatus.length > 0) {
-        const $bigDate = $sysStatus.find('.big');
-        const $month = $sysStatus.find('.sys-month');
-        const $year = $sysStatus.find('.sys-year');
-        const $blogCountSpan = $sysStatus.find('.sys-text > span:last-child'); // 使用 > 确保只选中外层的第二个 span
-
-        // 暂存原始值
-        const originalDate = $bigDate.text();
-        const originalMonth = $month.text();
-        const originalYear = $year.text();
-        const originalBlogHtml = $blogCountSpan.html();
-        
-        // 预提取数字：匹配并提取 HTML 中的第一个数字位
-        const matchBlog = originalBlogHtml.match(/\d+/);
-        const originalBlogNum = matchBlog ? parseInt(matchBlog[0]) : 0;
-
-        let glitchInterval;
-        let isGlitching = false;
-
-        $sysStatus.on('mouseenter', function() {
-            if (isGlitching) return;
-            isGlitching = true;
-
-            let count = 0;
-            const maxGlitches = 8; // 跳动次数
-
-            glitchInterval = setInterval(() => {
-                // 1. 日期随机 (1-28)
-                $bigDate.text(Math.floor(Math.random() * 28) + 1);
-                // 2. 月份随机 (01-12)
-                $month.text('/' + (Math.floor(Math.random() * 12) + 1).toString().padStart(2, '0'));
-                // 3. 年份随机 (2000-2050)
-                $year.text('/' + (Math.floor(Math.random() * 51) + 2000));
-                
-                // 4. 博客数随机 (基于原始数字浮动)
-                const randomBlogNum = Math.max(0, originalBlogNum + Math.floor(Math.random() * 20) - 10);
-                // 仅替换数字部分，保留 " BLOG" 后缀
-                $blogCountSpan.html(originalBlogHtml.replace(/\d+/, randomBlogNum));
-
-                count++;
-                if (count >= maxGlitches) {
-                    clearInterval(window.sysStatusGlitchInterval);
-                    restore();
-                }
-            }, 60);
-        });
-
-        $sysStatus.on('mouseleave', function() {
-            if (isGlitching) {
-                clearInterval(window.sysStatusGlitchInterval);
-                restore();
-            }
-        });
-
-        function restore() {
-            $bigDate.text(originalDate);
-            $month.text(originalMonth);
-            $year.text(originalYear);
-            $blogCountSpan.html(originalBlogHtml);
-            isGlitching = false;
-        }
-    }
 
     // 5. 头像故障效果
     $('.user-info').on('mouseenter', function() {

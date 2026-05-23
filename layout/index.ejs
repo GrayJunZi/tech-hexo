@@ -10,8 +10,6 @@
 <script>
   window.THEME_CONFIG = {
     blog_path: "<%= theme.blog_path || '' %>",
-    shortcutKey: <%= !!theme.shortcutKey %>,
-    page_disable_shortcut: <%= !!page.disable_shortcut %>,
     highlight_on: <%= !!(theme.highlight && theme.highlight.on) %>,
     highlight_copy: <%= !!(theme.highlight && theme.highlight.copy) %>,
     i18n_search_empty: "<%= __('titles.search_empty') !== 'titles.search_empty' ? __('titles.search_empty') : '没有找到内容，更换下搜索词试试吧~' %>"

@@ -183,13 +183,13 @@
         .social-label { font-size: 11px; color: var(--text-sub); font-family: var(--font-en); margin-bottom: -10px; }
         .social-label::before { content: '// '; }
         .social-links { display: flex; gap: 12px; }
-        .social-btn { 
-            width: 32px; height: 32px; background: rgba(128,128,128,0.1); border: 1px solid var(--border);
+        .social-btn {
+            width: 24px; height: 24px; background: #292929; border: 1px solid #555;
             display: flex; justify-content: center; align-items: center; cursor: pointer; transition: 0.3s;
         }
-        .social-btn svg { width: 16px; height: 16px; fill: #666; transition: 0.3s; }
+        .social-btn img { width: 16px; height: 16px; transition: 0.3s; filter: brightness(0) invert(0.8); }
         .social-btn:hover { background: var(--color-orange); border-color: var(--color-orange); transform: translateY(-3px);}
-        .social-btn:hover svg { fill: #fff; }
+        .social-btn:hover img { filter: brightness(0) invert(1); }
 
         /* ================= 右侧主体内容 (Main Content) ================= */
         .main-wrapper { margin-left: var(--sidebar-width); width: calc(100% - var(--sidebar-width)); display: flex; flex-direction: column; min-height: 100vh; position: relative; overflow-y: auto; height: 100vh; transition: margin-left 0.3s, width 0.3s;}

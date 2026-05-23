@@ -58,8 +58,10 @@
         </div>
         <div class="sys-text">
             <span><span class="big"><%- new Date().getDate() %></span><span class="sys-month">/<%- (new Date().getMonth() + 1).toString().padStart(2, '0') %></span><span class="sys-year">/<%- new Date().getFullYear() %></span></span>
-            
             <span><%- site.posts.length %> BLOG</span>
+            <% if (theme.visit_counter && theme.visit_counter.on && theme.visit_counter.site_visit) { %>
+            <span id="busuanzi_container_site_uv" style="display:none"><span id="busuanzi_value_site_uv"></span> VISITORS</span>
+            <% } %>
         </div>
     </div>
 </header>
