@@ -4,16 +4,23 @@
         var $container = $('.main-wrapper');
         
         // 1. 鼠标位置检测 (边缘呼出) - 仅限桌面端
+        var toolbarTicking = false;
         $(document).on('mousemove', function(e) {
             if ($(window).width() <= 768) return;
-            var screenWidth = $(window).width();
-            var mouseX = e.pageX;
-            
-            // 进入右侧极窄区域 (例如 40px) 或悬停在工具栏上时展开
-            if (mouseX > screenWidth - 40 || $toolbar.is(':hover')) {
-                $toolbar.addClass('active');
-            } else {
-                $toolbar.removeClass('active');
+            if (!toolbarTicking) {
+                window.requestAnimationFrame(function() {
+                    var screenWidth = $(window).width();
+                    var mouseX = e.pageX;
+                    
+                    // 进入右侧极窄区域 (例如 40px) 或悬停在工具栏上时展开
+                    if (mouseX > screenWidth - 40 || $toolbar.is(':hover')) {
+                        $toolbar.addClass('active');
+                    } else {
+                        $toolbar.removeClass('active');
+                    }
+                    toolbarTicking = false;
+                });
+                toolbarTicking = true;
             }
         });
 

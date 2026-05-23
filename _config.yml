@@ -34,7 +34,6 @@ author:
   authors:
     author1: 
 ##############################
-
 # 音乐播放器设置
 music_player:
   enable: true
@@ -240,85 +239,6 @@ mermaid:
 
 # 音效设置
 sound_effect: true
-
-# 友情链接
-friends:
-  #叶落阁: http://yelog.org/
-
-##########评论设置#############
-comment:
-  on: false
-  type: myComment  # 评论系统：gitalk、disqus、gitment、utteranc、livere、giscus,注意：使用时，在下方对应位置进行配置
-  # myComment: # 自己写的评论模块，免登录 -37
-  comment_count: true  # 文章标题下方显示评论数 目前仅支持 gitalk 和 disqus
-  ## 使用说明 https://yelog.org//2020/05/23/3-hexo-comment/
-# 各评论系统配置 ↓↓
-
-disqus:
-  shortname:
-  # disqus评论系统， 2016年9月被GFW认证，大陆不能使用。
-  # 获取shortname：https://help.disqus.com/customer/en/portal/articles/466208-what-s-a-shortname-
-
-
-gitalk:
-  githubID: 
-  repo: 
-  ClientID:
-  ClientSecret:
-  adminUser:
-  distractionFreeMode: true
-  language: zh-CN
-  perPage: 10
-# gitalk：利用github issue制作的第三方聊天插件
-# https://github.com/gitalk/gitalk
-# 参数介绍：
-# githubID: github用户名
-# repo: 使用哪个仓库的issue
-# ClientID 和 ClientSecret 创建 OAuth application 就会生成：https://github.com/settings/applications/new
-# adminUser: 必须为上面仓库的合作者（有写入权限），使用自己的 github 用户名即可
-# distractionFreeMode: 全屏遮罩效果
-# language: 语言：支持：en / zh-CN / zh-TW 三种
-# perPage: 每次加载的数据大小，默认10，最大100
-
-
-gitment:
-  owner:
-  repo: 
-  client_id:
-  client_secret:
-  # gitment : 通过github issue实现的评论系统
-  # 开源地址 : https://github.com/imsun/gitment
-  # 使用说明 :
-
-livere:
-  data_uid: MTAyMC82MDI5Ni8zNjc2NA==
-  # 来必力: http://livere.com/
-  # 使用说明 : https://yelog.org//2020/05/23/3-hexo-comment/
-
-utteranc:
-  repo: Sanqi-normal/Sanqi-normal.github.io # 承载评论的仓库，填上自己新建的仓库
-  issue_term: pathname    # Issue 与 博客文章 之间映射关系
-  label: utteranc         # 创建的 Issue 添加的标签
-  theme: github-light     # 主题，可选主题请查看官方文档 https://utteranc.es/#heading-theme
-# 官方文档 https://utteranc.es/
-# 使用说明 https://yelog.org//2020/05/23/3-hexo-comment/
-
-giscus:
-  repo: Sanqi-normal/Sanqi-normal.github.io   # 用于承载评论的仓库
-  repoId: xxx               # 仓库ID,从giscus网站获取
-  category: General         # Discussion主题分类
-  categoryId: x             # 分类ID,从giscus网站获取
-  mapping: pathname         # Github讨论与博客文章之间的映射关系, pathname url title og:title
-  strict: 0                 # 是否使用严格的标题匹配, 0 1
-  reactionsEnabled: 1       # 是否使用Github讨论的Reactions, 0 1
-  emitMetadata: 1           # 是否输出Github讨论的元数据, 0 1
-  inputPosition: top        # 输入框位置, top bottom
-  theme: light              # 主题, 支持的主题请查看giscus网站
-  lang: zh-CN               # 主题语言,支持的语言请查看giscus网站
-  loading: lazy             # 是否启用懒加载
-  # 官方文档: https://giscus.app/
-
-##############################
 
 ##########CND设置#############
 CDN:

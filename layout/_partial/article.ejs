@@ -13,7 +13,7 @@ function getCover(post) {
         return url_for('/img/categories/' + catName + '.jpg');
     }
 
-    return url_for('/img/categories/无分类.jpg');
+    return theme.default_cover ? url_for(theme.default_cover) : url_for('/img/categories/无分类.jpg');
 }
 
 // Improved tag-based related posts logic
@@ -75,7 +75,7 @@ if (relatedPosts.length === 0) {
                                 <a class="site_url art-meta-link" href="<%- url_for(cat.path) %>"><%= cat.name %></a><%= index < post.categories.length - 1 ? ', ' : '' %>
                             <% }) %>
                         <% } else { %>
-                            <span>随笔</span>
+                            <span><%= __('titles.uncategorized') %></span>
                         <% } %>
                     </div>
                     <% if (post.tags && post.tags.length > 0) { %>
@@ -110,14 +110,14 @@ if (relatedPosts.length === 0) {
 
         <aside class="art-sidebar">
             <div class="fade-up-wait">
-                <div class="art-widget-title">目录 <span>CONTENTS</span></div>
+                <div class="art-widget-title"><%= __('titles.outline') %> <span>CONTENTS</span></div>
                 <div class="toc-list" id="art-toc">
                     <%- toc(post.content, {list_number: false, class: 'toc'}) %>
                 </div>
             </div>
 
             <div class="fade-up-wait">
-                <div class="art-widget-title">相关文章 <span>RELATED POSTS</span></div>
+                <div class="art-widget-title"><%= __('titles.related_posts') %> <span>RELATED POSTS</span></div>
                 <div class="related-list" id="art-related">
                     <% relatedPosts.forEach(function(rp){ %>
                         <a class="rel-card site_url" href="<%- url_for(rp.path) %>">
@@ -144,17 +144,17 @@ if (relatedPosts.length === 0) {
 
     <div class="post-nav fade-up-wait">
         <% if (post.prev) { %>
-            <a id="nav-prev" class="site_url" href="<%- url_for(post.prev.path) %>">< 上一篇：<%- strip_html(post.prev.title).substring(0, 15) %></a>
+            <a id="nav-prev" class="site_url" href="<%- url_for(post.prev.path) %>">< <%= __('titles.prev_post') %>：<%- strip_html(post.prev.title).substring(0, 15) %></a>
         <% } else { %>
-            <a id="nav-prev" style="opacity: 0.3; pointer-events: none;">< 上一篇：没有了</a>
+            <a id="nav-prev" style="opacity: 0.3; pointer-events: none;">< <%= __('titles.prev_post') %>：<%= __('titles.none') %></a>
         <% } %>
         
         <div class="post-nav-center">— R.I. —</div>
         
         <% if (post.next) { %>
-            <a id="nav-next" class="site_url" href="<%- url_for(post.next.path) %>">下一篇：<%- strip_html(post.next.title).substring(0, 15) %> ></a>
+            <a id="nav-next" class="site_url" href="<%- url_for(post.next.path) %>"><%= __('titles.next_post') %>：<%- strip_html(post.next.title).substring(0, 15) %> ></a>
         <% } else { %>
-            <a id="nav-next" style="opacity: 0.3; pointer-events: none;">下一篇：没有了 ></a>
+            <a id="nav-next" style="opacity: 0.3; pointer-events: none;"><%= __('titles.next_post') %>：<%= __('titles.none') %> ></a>
         <% } %>
     </div>
 </div>

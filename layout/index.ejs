@@ -7,13 +7,16 @@
         <span id="top-progress-num">0%</span>
     </div>
 </div>
-<div style="display: none">
-  <input class="theme_blog_path" value="<%=theme.blog_path?theme.blog_path.lastIndexOf("/") === theme.blog_path.length-1?theme.blog_path.slice(0, theme.blog_path.length-1):theme.blog_path:'' %>">
-  <input id="theme_shortcut" value="<%=theme.shortcutKey%>" />
-  <input id="page_shortcut" value="<%=page.disable_shortcut ? 'true' :'false'%>" />
-  <input id="theme_highlight_on" value="<%=theme.highlight.on%>" />
-  <input id="theme_code_copy" value="<%=theme.highlight.copy%>" />
-</div>
+<script>
+  window.THEME_CONFIG = {
+    blog_path: "<%= theme.blog_path || '' %>",
+    shortcutKey: <%= !!theme.shortcutKey %>,
+    page_disable_shortcut: <%= !!page.disable_shortcut %>,
+    highlight_on: <%= !!(theme.highlight && theme.highlight.on) %>,
+    highlight_copy: <%= !!(theme.highlight && theme.highlight.copy) %>,
+    i18n_search_empty: "<%= __('titles.search_empty') !== 'titles.search_empty' ? __('titles.search_empty') : '没有找到内容，更换下搜索词试试吧~' %>"
+  };
+</script>
 <% if (theme.music_player && theme.music_player.enable) { %>
   <!-- 磁带播放器样式由 arknights.styl 统一处理 -->
 <% } %>

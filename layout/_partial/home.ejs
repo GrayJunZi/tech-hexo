@@ -13,7 +13,7 @@ function getCover(post) {
         return url_for('/img/categories/' + catName + '.jpg');
     }
 
-    return url_for('/img/categories/无分类.jpg');
+    return theme.default_cover ? url_for(theme.default_cover) : url_for('/img/categories/无分类.jpg');
 }
 
 // Announcements (Top posts)
@@ -42,7 +42,7 @@ if (!is_category() && !is_tag()) {
         <div class="hero-bg" style="background-image: url('<%- getCover(latestPost) %>');"></div>
         <div class="hero-overlay"></div>
         <div class="hero-content">
-            <div class="hero-tag">· BLOG / LATEST -</div>
+            <div class="hero-tag">· BLOG / <%= __('titles.latest_post') %> -</div>
             <h1 class="hero-title"><%- latestPost.title %></h1>
             <p class="hero-subtitle">
                 <% if (latestPost.excerpt) { %>
@@ -51,7 +51,7 @@ if (!is_category() && !is_tag()) {
                     <%- strip_html(latestPost.content).substring(0, 100) + '...' %>
                 <% } %>
             </p>
-            <a class="hero-btn site_url" href="<%- url_for(latestPost.path) %>">VIEW MORE <span>></span></a>
+            <a class="hero-btn site_url" href="<%- url_for(latestPost.path) %>"><%= __('titles.view_more') %> <span>></span></a>
             
             <div class="hero-date">
                 <div class="hero-date-tag">LATEST UPDATE</div>
@@ -67,11 +67,11 @@ if (!is_category() && !is_tag()) {
             <div class="section-header">
                 <div class="section-title">
                     <% if (is_category()) { %>
-                        分类：<%= page.category %> <span>POSTS</span>
+                        <%= __('titles.category') %>：<%= page.category %> <span>POSTS</span>
                     <% } else if (is_tag()) { %>
-                        标签：<%= page.tag %> <span>POSTS</span>
+                        <%= __('titles.tag') %>：<%= page.tag %> <span>POSTS</span>
                     <% } else { %>
-                        最新文章 <span>LATEST POSTS</span>
+                        <%= __('titles.latest_post') %> <span>LATEST POSTS</span>
                     <% } %>
                 </div>
                 <div class="sort-options">
@@ -86,7 +86,7 @@ if (!is_category() && !is_tag()) {
                         <div class="post-card-inner">
                             <div class="post-card-bg" style="background-image: url('<%- getCover(post) %>')"></div>
                             <div class="post-card-overlay">
-                                <span class="card-tag"><%- post.categories && post.categories.length > 0 ? post.categories.data[0].name : '无分类' %></span>
+                                <span class="card-tag"><%- post.categories && post.categories.length > 0 ? post.categories.data[0].name : __('titles.uncategorized') %></span>
                                 <h3 class="card-title"><%- post.title %></h3>
                                 <p class="card-desc">
                                     <%- strip_html(post.excerpt || post.content).substring(0, 60) + '...' %>
@@ -112,7 +112,7 @@ if (!is_category() && !is_tag()) {
         <div class="sidebar-right">
             <% if (topPosts.length > 0) { %>
             <div class="widget fade-up-wait">
-                <div class="section-header"><div class="section-title">公告 <span>ANNOUNCEMENT</span></div></div>
+                <div class="section-header"><div class="section-title"><%= __('titles.announcement') %> <span>ANNOUNCEMENT</span></div></div>
                 <div class="announce-list">
                     <% topPosts.slice(0,3).forEach(function(tp){ %>
                         <a class="announce-box site_url" href="<%- url_for(tp.path) %>">
@@ -122,7 +122,7 @@ if (!is_category() && !is_tag()) {
                                 <div class="announce-date-sub">/ <%- date(tp.date, 'MM') %></div>
                             </div>
                             <div class="announce-right">
-                                <span class="announce-tag">置顶</span>
+                                <span class="announce-tag"><%= __('titles.pin_to_top') %></span>
                                 <h3 class="announce-title"><%- tp.title %></h3>
                                 <p class="announce-desc"><%- strip_html(tp.excerpt || tp.content).substring(0, 40) %>...</p>
                             </div>
@@ -133,7 +133,7 @@ if (!is_category() && !is_tag()) {
             <% } %>
 
             <div class="widget fade-up-wait">
-                <div class="section-header"><div class="section-title">全部分类 <span>CATEGORIES</span></div></div>
+                <div class="section-header"><div class="section-title"><%= __('titles.categories') %> <span>CATEGORIES</span></div></div>
                 <div class="cat-outline">
                     <%
                     var childCategoryMap = {};

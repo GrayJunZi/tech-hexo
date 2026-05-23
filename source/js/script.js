@@ -18,7 +18,8 @@ jQuery.expr[':'].contains_author = function (a, i, m) {
     var tags = String(jQuery(a).data("author")).split(",");
     return $.inArray(m[3], tags) !== -1;
 };
-var blog_path = $('.theme_blog_path').val();
+var THEME_CONFIG = window.THEME_CONFIG || {};
+var blog_path = THEME_CONFIG.blog_path || '';
 blog_path= blog_path.lastIndexOf("/") === blog_path.length-1?blog_path.slice(0, blog_path.length-1):blog_path;
 
 /*使用pjax加载页面，速度更快，交互更友好*/
@@ -28,11 +29,15 @@ var $searchInput = $("#local-search-input");
 var $outlineList = $('#outline-list');
 var $localSearchResult = $("#local-search-result")
 var isFullScreen = $(window).width() <= 1024
-var shortcutKey = $('#theme_shortcut').val() !== 'false'
-var pageshortcut = $('#page_shortcut').val() !== 'true'
+var shortcutKey = THEME_CONFIG.shortcutKey !== false;
+var pageshortcut = THEME_CONFIG.page_disable_shortcut !== true;
 $(document).pjax('.site_url,.nav-item a,.post-card,.hero-btn', '.pjax', {fragment: '.pjax', timeout: 8000});$(document).on({
     /*点击链接后触发的事件*/
     'pjax:click': function () {
+        // 清理全局特效定时器避免泄漏
+        if (window.brandGlitchInterval) clearInterval(window.brandGlitchInterval);
+        if (window.sysStatusGlitchInterval) clearInterval(window.sysStatusGlitchInterval);
+
         /*原有内容淡出*/
         content.removeClass('fadeIns').addClass('fadeOuts');
         /*请求进度条*/
@@ -275,11 +280,11 @@ $(function () {
 /*绑定新加载内容的点击事件*/
 function bind() {
     /*渲染高亮代码块结构与样式*/
-    if ($('#theme_highlight_on').val() === 'true') {
+    if (THEME_CONFIG.highlight_on !== false) {
         $('pre code').each(function (i, block) {
             var $pre = $(this).parent('pre');
             if ($pre.find('.copy-btn').length === 0) {
-                var hasCopy = $('#theme_code_copy').val() !== 'false';
+                var hasCopy = THEME_CONFIG.highlight_copy !== false;
                 if (hasCopy) {
                     $pre.append('<div class="copy-btn" onclick="copyCode(this)">COPY</div>');
                 }
@@ -711,7 +716,7 @@ function initEffects() {
 
                 count++;
                 if (count >= maxGlitches) {
-                    clearInterval(glitchInterval);
+                    clearInterval(window.sysStatusGlitchInterval);
                     restore();
                 }
             }, 60);
@@ -719,7 +724,7 @@ function initEffects() {
 
         $sysStatus.on('mouseleave', function() {
             if (isGlitching) {
-                clearInterval(glitchInterval);
+                clearInterval(window.sysStatusGlitchInterval);
                 restore();
             }
         });
