@@ -2,7 +2,7 @@
 
 Tech 是一个风格简明、动效丰富的 Hexo 主题，在[3-hexo](https://github.com/yelog/hexo-theme-3-hexo)的基础上完全重构了布局和样式，移除了评论打赏等功能。
 
-[视觉效果预览](source/img/review.jpg)
+![视觉效果预览](source/img/review.jpg)
 
 **在线体验**：https://sanqi-normal.github.io/
 
