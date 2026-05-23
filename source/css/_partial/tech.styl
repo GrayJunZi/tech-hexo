@@ -110,18 +110,22 @@
         .nav-menu { display: flex; flex-direction: column; gap: 5px; margin-bottom: 40px; }
         .nav-item { cursor: pointer; transition: 0.3s; position: relative; overflow: hidden; height: 50px; }
         .nav-item a { display: flex; align-items: center; padding: 0 30px; gap: 15px; width: 100%; height: 100%; position: relative; z-index: 10; }
-        .nav-item svg { width: 18px; height: 18px; fill: #666; transition: 0.3s; position: relative; z-index: 2;}
+        .nav-item svg, .nav-item .nav-icon { width: 18px; height: 18px; fill: #666; transition: 0.3s; position: relative; z-index: 2;}
+        .nav-item .nav-icon { filter: brightness(0) invert(0.4); }
         .nav-item-text { display: flex; align-items: baseline; gap: 10px; position: relative; z-index: 2;}
         .nav-item-text .zh { font-size: 14px; font-weight: bold; color: var(--text-sub); transition: 0.3s; white-space: nowrap; }
         .nav-item-text .en { font-size: 10px; font-family: var(--font-en); color: #444; letter-spacing: 1px; transition: 0.3s; white-space: nowrap; }
-        
+
         .nav-item::before { content: ''; position: absolute; left: 0; top: 0; width: 0; height: 100%; background: linear-gradient(90deg, rgba(217, 106, 41, 0.1) 0%, transparent 100%); transition: 0.4s ease; z-index: 1;}
         .nav-item::after { content: ''; position: absolute; left: 0; top: 0; width: 4px; height: 100%; background: var(--color-orange); transform: scaleY(0); transition: 0.3s; transform-origin: top; z-index: 2;}
-        
+
         .nav-item.active::before, .nav-item:hover::before { width: 100%; }
         .nav-item.active::after, .nav-item:hover::after { transform: scaleY(1); }
         .nav-item.active svg, .nav-item:hover svg { fill: var(--color-orange); transform: scale(1.1); }
-        .nav-item.active .zh, .nav-item:hover .zh { color: var(--color-orange); }
+        .nav-item.active .nav-icon, .nav-item:hover .nav-icon { 
+           filter: invert(56%) sepia(87%) saturate(1212%) hue-rotate(345deg) brightness(91%) contrast(92%); 
+           transform: scale(1.1); 
+        }        .nav-item.active .zh, .nav-item:hover .zh { color: var(--color-orange); }
         .nav-item.active .en, .nav-item:hover .en { color: var(--color-orange); opacity: 0.7; }
 
         /* Character Jump Animation */

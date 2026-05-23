@@ -13,25 +13,28 @@
     <div class="nav-label">NAVIGATION</div>
     <ul class="nav-menu">
         <%
-        var navItems = [
-            { name: '首页', en: 'HOME', url: '/', icon: '<path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>' },
-            { name: '相册', en: 'PHOTO', url: theme.menu.menus.相册 ? theme.menu.menus.相册.url : '/photo', icon: '<path d="M22 16V4c0-1.1-.9-2-2-2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2zm-11-4l2.03 2.71L16 11l4 5H8l3-4zM2 6v14c0 1.1.9 2 2 2h14v-2H4V6H2z"/>' },
-            { name: '小说', en: 'NOVEL', url: theme.menu.menus.小说 ? theme.menu.menus.小说.url : '/novel', icon: '<path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/>' },
-            { name: 'AI', en: 'AI', url: theme.menu.menus.Ai ? theme.menu.menus.Ai.url : '/AI', icon: '<path d="M19 8h-1.07A4.48 4.48 0 0 0 13 4.07V3h2V1h-2v1.07A4.49 4.49 0 0 0 9 2.07V1H7v2h2v1.07A4.48 4.48 0 0 0 6.07 8H5a3 3 0 0 0-3 3v6a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-6a3 3 0 0 0-3-3zM8 14a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z m8 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>' }
-            ];
-        navItems.forEach(function(item) {
-            var isActive = (item.url === '/' && (path === 'index.html' || path === '')) || (item.url !== '/' && ('/' + path).indexOf(item.url) === 0);
+        if (theme.menu && theme.menu.menus) {
+            for (var key in theme.menu.menus) {
+                var menu = theme.menu.menus[key];
+                if (menu.on) {
+                    var isActive = (menu.url === '/' && (path === 'index.html' || path === '')) || (menu.url !== '/' && ('/' + path).indexOf(menu.url) === 0);
+                    // English fallback
+                    var enName = menu.en || key.toUpperCase();
         %>
         <li class="nav-item <%- isActive ? 'active' : '' %>">
-            <a class="site_url" href="<%- url_for(item.url) %>">
-                <svg viewBox="0 0 24 24"><%- item.icon %></svg>
+            <a class="site_url" href="<%- url_for(menu.url) %>">
+                <img class="nav-icon" src="<%- url_for('/img/navigation/' + key + '.svg') %>" alt="<%= key %>">
                 <div class="nav-item-text">
-                    <span class="zh"><%- item.name %></span>
-                    <span class="en"><%- item.en %></span>
+                    <span class="zh"><%- key %></span>
+                    <span class="en"><%- enName %></span>
                 </div>
             </a>
         </li>
-        <% }); %>
+        <% 
+                }
+            }
+        } 
+        %>
     </ul>
 
     <div class="nav-label">INFO</div>

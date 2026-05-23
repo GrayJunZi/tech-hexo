@@ -12,6 +12,7 @@ rss:
 default_cover:
 
 # 音乐播放器设置
+# 别删，会布局错乱
 music_player:
   enable: true
 # 文章分类设置
@@ -41,27 +42,34 @@ category:
 #   - 工具
 #   - hexo
 
-# 左下角自定义菜单
+# 导航栏
+# 为导航栏添加图标需在img/navigation/目录下添加同名svg图标文件
 menu:
-  about:  # '关于' 按钮
-    url: /about  # 跳转链接
-  menus: # 添加的其他菜单写在 menus 下，如下三个菜单：动态菜单1、动态菜单2、动态菜单3
+  menus: 
+    首页:
+      on: true
+      url: /
+      en: HOME
     相册:
       on: true
       url: /photo
-      type: 1  # 跳转类型 1：站内异步跳转
+      type: 1
+      en: PHOTO
     小说:
       on: true
       url: /novel
-      type: 1  # 跳转类型 1：站内异步跳转
-    Ai:
+      type: 1
+      en: NOVEL
+    AI:
       on: true
       url: /AI
-      type: 2  # 跳转类型 1：站内异步跳转
+      type: 2
+      en: AI
     github:
       on: false
       url: https://github.com/Sanqi-normal
-      type: 3  # 跳转类型 3：打开新的tab页
+      type: 3
+      en: GITHUB
 
 searchAll: true
 # true 启用全文搜索
@@ -176,7 +184,7 @@ sound_effect: true
 footer_text:
 
 # 文章版权声明
-copyright: true
+copyright: false
 
 ##########CND设置#############
 CDN:

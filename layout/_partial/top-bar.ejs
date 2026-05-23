@@ -38,7 +38,7 @@
             });
         } 
         %>
-        <a class="site_url" href="<%- url_for(theme.menu.about.url || '/about/') %>">关于</a>
+        <a class="site_url" href="<%- url_for(theme.menu.menus.关于 ? theme.menu.menus.关于.url : '/about/') %>">关于</a>
     </div>
     <div class="sys-status fade-up-wait" id="sys-status">
         <svg viewBox="0 0 100 30" id="visualizer-svg" style="cursor: pointer;" data-title="播放音乐">
