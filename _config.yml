@@ -43,7 +43,7 @@ category:
 #   - hexo
 
 # 导航栏
-# 为导航栏添加图标需在img/navigation/目录下添加同名svg图标文件
+# 为导航栏添加图标需在source/img/navigation/目录下添加同名svg图标文件
 menu:
   menus: 
     首页:
@@ -92,7 +92,7 @@ visit_counter:
   site_visit: true
   page_visit: false
 
-# 社交链接（可扩展，新增字段只需在 source/img/ 下放置同名字段.svg 文件）
+# 社交链接（可扩展，新增字段只需在 source/img/social 下放置同名字段.svg 文件）
 social:
   github:
     url: https://github.com/Sanqi-normal
