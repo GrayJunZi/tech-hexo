@@ -1,0 +1,486 @@
+/* ================= 漫画风变量定义 (Manga Theme Variables) ================= */
+[data-theme='manga'] {
+    --bg-sidebar: #c4f0d5; /* 莫比斯薄荷绿 */
+    --bg-main: #fff8e7; /* 暖色复古纸张 */
+    --bg-content: transparent;
+    --bg-panel: #ffffff;
+    --text-main: #000000;
+    --text-sub: #222222;
+    --border: #000000;
+    
+    --color-orange: #ff5757; /* 漫画高亮红 */
+    --color-yellow: #ffde59; /* 漫画黄 */
+    --color-cyan: #38b6ff; /* 漫画青 */
+    --color-purple: #cb6ce6; /* 漫画紫 */
+    
+    --font-zh: 'Comic Sans MS', 'Zcool KuaiLe', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    --font-en: 'Comic Sans MS', 'Bangers', sans-serif;
+    
+    --manga-border: 3px solid #000;
+    --manga-shadow: 5px 5px 0px #000;
+    --manga-shadow-hover: 8px 8px 0px #000;
+}
+
+/* ================= 漫画风特定装饰 (Manga Theme Decorations) ================= */
+
+/* 1. 半色调网点渐变背景 (Halftone Dots) */
+/* 使用伪元素配合 mask-image 实现从左到右逐渐深化的网点，左半边完全留白 */
+[data-theme='manga'] body {
+    background-color: var(--bg-main);
+    position: relative;
+}
+
+[data-theme='manga'] body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+    background-image: 
+        radial-gradient(rgba(0,0,0,0.2) 15%, transparent 16%),
+        radial-gradient(rgba(0,0,0,0.2) 15%, transparent 16%);
+    background-size: 16px 16px;
+    background-position: 0 0, 8px 8px;
+    /* 核心逻辑：从 50% 位置开始，从透明过渡到黑色（不透明），从而让网点逐渐显现并加深 */
+    -webkit-mask-image: linear-gradient(to right, transparent 50%, black 100%);
+    mask-image: linear-gradient(to right, transparent 50%, black 100%);
+}
+
+[data-theme='manga'] {
+    /* 保证主容器透明，让底层网点背景透出来 */
+    .main-wrapper, .home-content-section, #view-article {
+        background: transparent;
+    }
+
+    /* 2. 基础块状元素与鲜艳色彩 */
+    .sidebar {
+        background-color: var(--bg-sidebar);
+        border-right: 4px solid #000;
+        box-shadow: 4px 0 0 rgba(0,0,0,0.1);
+        padding: 40px 0;
+    }
+    
+    .brand-icon { fill: var(--color-orange); }
+    .brand-text h1 {
+        font-weight: 900;
+        text-transform: uppercase;
+        color: #000;
+        text-shadow: 2px 2px 0 #fff;
+        border: 3px solid #000;
+        padding: 4px 10px;
+        background: var(--color-cyan);
+        box-shadow: 3px 3px 0 #000;
+        transform: rotate(-3deg);
+        transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        &:hover { transform: rotate(2deg) scale(1.1); }
+    }
+    .brand-text span {
+        font-weight: bold;
+        color: #000;
+        background: #fff;
+        padding: 0 4px;
+        border: 2px solid #000;
+        margin-top: 5px;
+    }
+    
+    .nav-item {
+        &::before, &::after { display: none; }
+        .zh { font-weight: 900; color: #000; font-size: 16px; }
+        .en { font-weight: bold; color: #000; font-size: 12px; }
+        margin: 8px 15px;
+        width: calc(100% - 30px);
+        border: var(--manga-border);
+        background: #fff;
+        border-radius: 2px;
+        box-shadow: 3px 3px 0 #000;
+        transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        
+        &.active, &:hover { 
+            background: var(--color-yellow); 
+            box-shadow: 5px 5px 0 #000;
+            transform: translateX(5px) rotate(-1deg);
+        }
+        &.active .zh, &:hover .zh { color: #000; }
+        &.active .en, &:hover .en { color: #000; }
+        .nav-icon { filter: brightness(0) !important; transition: transform 0.2s; }
+        &.active .nav-icon, &:hover .nav-icon { transform: scale(1.2) rotate(10deg); }
+    }
+
+    .user-info {
+        border: var(--manga-border);
+        background: #fff;
+        padding: 10px;
+        box-shadow: var(--manga-shadow);
+        transition: transform 0.2s;
+        &:hover { transform: translateY(-3px); box-shadow: var(--manga-shadow-hover); }
+    }
+    .avatar { border: 3px solid #000; border-radius: 0; }
+    .user-name { color: var(--color-orange); font-weight: 900; text-shadow: 1px 1px 0 #000; }
+    
+    .social-btn {
+        background: var(--color-cyan);
+        border: 2px solid #000;
+        box-shadow: 2px 2px 0 #000;
+        img { filter: brightness(0); }
+        &:hover {
+            background: var(--color-yellow);
+            transform: translate(-2px, -2px) rotate(5deg);
+            box-shadow: 4px 4px 0 #000;
+        }
+    }
+
+    .top-bar { background: transparent; border-bottom: none; }
+    .search-box {
+        background: #fff;
+        border: var(--manga-border);
+        box-shadow: 3px 3px 0 #000;
+        border-radius: 0;
+        transition: 0.2s;
+        &:hover, &:focus-within { 
+            border-color: #000; 
+            background: #fff; 
+            box-shadow: 5px 5px 0 #000;
+            transform: scale(1.05) rotate(-1deg);
+        }
+        svg { fill: #000; }
+        input { font-weight: bold; color: #000; }
+    }
+    .top-links a {
+        color: #000;
+        font-weight: 900;
+        background: #fff;
+        border: 2px solid #000;
+        padding: 4px 10px;
+        box-shadow: 2px 2px 0 #000;
+        &::after { display: none; }
+        &:hover {
+            background: var(--color-purple);
+            color: #fff;
+            transform: translate(-2px, -2px) rotate(2deg);
+            box-shadow: 4px 4px 0 #000;
+        }
+    }
+
+    /* Hero区大面板 */
+    .hero-section {
+        background: var(--color-cyan);
+        border: 4px solid #000;
+        box-shadow: var(--manga-shadow-hover);
+        margin: 0;
+        border-bottom: 5px solid #000;
+    }
+    .hero-overlay { background: linear-gradient(90deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.4) 100%); }
+    .hero-title {
+        color: #000;
+        text-shadow: -2px -2px 0 #fff, 2px -2px 0 #fff, -2px 2px 0 #fff, 2px 2px 0 #fff, 5px 5px 0 var(--color-purple);
+        font-weight: 900;
+        font-size: 54px;
+        letter-spacing: 2px;
+        line-height: 1.1;
+        animation: comicFloat 3s ease-in-out infinite;
+    }
+    @keyframes comicFloat {
+        0%, 100% { transform: translateY(0) rotate(0); }
+        50% { transform: translateY(-5px) rotate(-1deg); }
+    }
+    .hero-subtitle {
+        color: #000;
+        font-weight: 900;
+        background: var(--color-yellow);
+        border: 3px solid #000;
+        padding: 8px 15px;
+        box-shadow: 4px 4px 0 #000;
+        display: inline-block;
+        transform: rotate(1deg);
+    }
+    .hero-btn {
+        background: var(--color-orange);
+        color: #fff !important;
+        border: 4px solid #000;
+        border-radius: 0;
+        padding: 12px 30px;
+        box-shadow: 5px 5px 0 #000;
+        font-weight: 900;
+        font-size: 16px;
+        position: relative;
+        &:hover {
+            background: var(--color-yellow);
+            color: #000 !important;
+            transform: translate(-3px, -3px) scale(1.05);
+            box-shadow: 8px 8px 0 #000;
+            &::before {
+                content: "BAM!";
+                position: absolute;
+                top: -25px;
+                right: -20px;
+                background: #fff;
+                color: var(--color-orange);
+                border: 2px solid #000;
+                padding: 2px 6px;
+                font-size: 12px;
+                transform: rotate(15deg);
+                box-shadow: 2px 2px 0 #000;
+            }
+        }
+    }
+    .hero-date {
+        background: #fff;
+        border: 3px solid #000;
+        box-shadow: 4px 4px 0 #000;
+        padding: 10px 20px;
+        border-left: none;
+        transform: rotate(-2deg);
+    }
+    .hero-date-num { color: var(--color-orange); font-weight: 900; text-shadow: 2px 2px 0 #000; }
+    .hero-date-sub, .hero-date-tag { color: #000; font-weight: 900; }
+
+    /* 3. 卡牌布局修复 (调整比例防止截断) */
+    .post-card { height: 280px; } /* 增加整体高度 */
+    .post-card-inner {
+        border: var(--manga-border);
+        border-radius: 0;
+        background: #fff;
+        box-shadow: var(--manga-shadow);
+        transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+        display: flex;
+        flex-direction: column;
+    }
+    .post-card:hover .post-card-inner {
+        transform: translate(-4px, -4px) rotate(-1deg);
+        box-shadow: 8px 8px 0 #000;
+    }
+    .post-card-bg { 
+        filter: grayscale(0%) contrast(120%) saturate(120%);
+        border-bottom: 3px solid #000;
+        height: 50%; /* 限定图片高度 */
+        position: relative;
+    }
+    .post-card-overlay {
+        position: relative;
+        background: #fff;
+        height: 50%; /* 限定文本区域高度 */
+        top: 0;
+        bottom: auto;
+        padding: 12px 15px;
+        color: #000;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    .card-title { 
+        color: #000; font-weight: 900; font-size: 18px; 
+        white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .card-desc { 
+        color: #222; font-weight: bold; font-size: 13px;
+        -webkit-line-clamp: 2; /* 确保最多两行 */
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        margin-bottom: auto;
+    }
+    
+    /* 修正标签宽度占据全行的问题 */
+    .card-tag { 
+        background: var(--color-cyan); 
+        color: #fff;
+        display: inline-block; 
+        padding: 3px 8px; 
+        border: 2px solid #000;
+        box-shadow: 2px 2px 0 #000;
+        text-shadow: 1px 1px 0 #000;
+        font-size: 11px;
+        transform: rotate(-2deg);
+        margin-bottom: 5px;
+        width: max-content; /* <-- 修正宽度拉伸 */
+        align-self: flex-start; /* <-- 防止 flex container 撑扯 */
+    }
+
+    /* 拆分卡片底部的日期/分类小属性 */
+    .card-meta { 
+        display: flex; gap: 8px; flex-wrap: wrap; margin-top: 5px;
+        color: #000; font-weight: bold; font-size: 12px;
+        div {
+            background: #fff; border: 2px solid #000; padding: 2px 6px;
+            box-shadow: 2px 2px 0 #000; font-weight: 900; font-size: 10px;
+            transform: rotate(1deg); display: inline-flex; align-items: center; gap: 4px;
+        }
+        div:nth-child(even) { background: var(--color-yellow); }
+        div:nth-child(odd) { background: var(--color-purple); color: #fff; }
+    }
+    
+    .section-title {
+        font-size: 24px; font-weight: 900; color: #000; text-transform: uppercase;
+        span { background: #000; color: #fff; padding: 2px 6px; font-size: 12px; margin-left: 10px; box-shadow: 2px 2px 0 var(--color-orange); }
+    }
+
+    /* 公告块 */
+    .announce-box {
+        background: #fff;
+        border: var(--manga-border);
+        box-shadow: var(--manga-shadow);
+        border-radius: 0;
+        margin-bottom: 15px;
+        transition: 0.2s;
+        &:hover {
+            transform: translate(-3px, -3px) rotate(1deg);
+            box-shadow: var(--manga-shadow-hover);
+            background: var(--color-yellow);
+        }
+    }
+    .announce-tag {
+        background: var(--color-orange);
+        border: 2px solid #000;
+        color: #fff;
+        box-shadow: 2px 2px 0 #000;
+        font-weight: 900;
+        text-shadow: 1px 1px 0 #000;
+        padding: 4px 8px;
+    }
+    .announce-date-big { color: #000; text-shadow: 2px 2px 0 var(--color-cyan); font-size: 28px; }
+    .announce-title { font-size: 15px; font-weight: 900; text-transform: uppercase; }
+
+    /* 4. 文章详情内页强化 */
+    .art-header {
+        background: #fff; border: 4px solid #000; padding: 30px;
+        box-shadow: var(--manga-shadow); margin-bottom: 40px;
+    }
+    .art-title {
+        font-size: 38px; font-weight: 900; color: #000;
+        text-shadow: 2px 2px 0 var(--color-yellow), 4px 4px 0 #000;
+    }
+    
+    /* 彻底拆分文章详情页的属性栏（独立上色与边框） */
+    .art-meta {
+        display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px;
+        background: transparent; border: none; box-shadow: none; padding: 0;
+    }
+    .art-meta > div, .art-meta > a, .art-meta-link {
+        font-weight: 900; color: #000; background: #fff;
+        padding: 4px 10px; border: 2px solid #000; box-shadow: 2px 2px 0 #000;
+        display: inline-flex; align-items: center; gap: 5px;
+        transform: rotate(-1deg); transition: 0.2s;
+    }
+    /* 给不同的 meta 元素分配漫画色彩 */
+    .art-meta > div:nth-child(1) { background: var(--color-cyan); color: #fff; }
+    .art-meta > div:nth-child(2) { background: var(--color-yellow); }
+    .art-meta > div:nth-child(3) { background: var(--color-purple); color: #fff; }
+    .art-meta > div:nth-child(4) { background: var(--color-orange); color: #fff; }
+    .art-meta > div:nth-child(5) { background: var(--color-cyan); color: #fff; }
+    .art-meta > a:hover, .art-meta-link:hover, .art-meta > div:hover {
+        transform: translate(-2px, -2px) rotate(2deg) scale(1.05); box-shadow: 4px 4px 0 #000;
+    }
+
+    .art-content {
+        background: #fff; border: 4px solid #000; padding: 30px; box-shadow: var(--manga-shadow);
+        h1, h2, h3 { font-weight: 900; color: #000; text-transform: uppercase; }
+        h1 { border-bottom: 5px solid #000; padding-bottom: 5px; }
+        h2 { 
+            background: var(--color-yellow); border: 3px solid #000; 
+            padding: 8px 15px; box-shadow: 4px 4px 0 #000; 
+            display: inline-block; margin-top: 40px; transform: rotate(-1deg);
+        }
+        blockquote {
+            background: var(--color-purple); color: #fff; border: 3px solid #000;
+            box-shadow: 5px 5px 0 #000; font-weight: 900; font-size: 16px;
+            p { text-shadow: 1px 1px 0 #000; }
+        }
+        pre {
+            background: #111; border: 3px solid #000; box-shadow: 6px 6px 0 var(--color-cyan);
+            code { color: #fff; font-weight: bold; }
+        }
+        a {
+            color: #000; font-weight: 900; background: var(--color-yellow);
+            padding: 0 4px; border: 2px solid #000; border-bottom-width: 4px;
+            transition: 0.2s;
+            &:hover { background: var(--color-orange); color: #fff; transform: translateY(-2px); box-shadow: 2px 2px 0 #000; }
+        }
+        img { border: 4px solid #000; box-shadow: 8px 8px 0 #000; border-radius: 0; transition: 0.2s; &:hover { transform: scale(1.02) rotate(1deg); } }
+    }
+
+    /* 侧边栏与小部件 */
+    .art-widget-title {
+        background: #000; color: #fff; padding: 5px 10px; border: 2px solid #000;
+        box-shadow: 3px 3px 0 var(--color-orange); display: inline-block; margin-bottom: 20px;
+        font-size: 16px; text-transform: uppercase;
+        span { color: var(--color-yellow); }
+    }
+    
+    .rel-card {
+        border: 3px solid #000; background: #fff; padding: 10px; margin-bottom: 15px;
+        box-shadow: 4px 4px 0 #000; transition: 0.2s;
+        &:hover { transform: translate(-3px, -3px) rotate(1deg); box-shadow: 7px 7px 0 #000; background: var(--bg-sidebar); }
+    }
+    .rel-img { border: 2px solid #000; border-radius: 0; }
+    .rel-title { font-weight: 900; font-size: 15px; }
+
+    /* 拆分相关文章的 tags */
+    .rel-meta { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 5px; }
+    .rel-meta div, .rel-tag-item {
+        background: #fff; border: 2px solid #000; padding: 2px 6px;
+        box-shadow: 2px 2px 0 #000; color: #000; font-weight: 900; font-size: 10px;
+        display: inline-block;
+    }
+    .rel-tag-item:nth-child(odd) { background: var(--color-yellow); }
+    .rel-tag-item:nth-child(even) { background: var(--color-cyan); color: #fff; }
+
+    /* 拆分搜索结果页的 meta tags */
+    .search-result-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+    .search-result-meta span, .search-result-meta div {
+        background: #fff; border: 2px solid #000; padding: 2px 6px;
+        box-shadow: 2px 2px 0 #000; color: #000; font-weight: 900; font-size: 10px;
+        display: inline-flex; align-items: center;
+    }
+    .search-result-meta span:nth-child(1) { background: var(--color-yellow); }
+    .search-result-meta span:nth-child(2) { background: var(--color-orange); color: #fff; }
+
+    /* 5. 标签与分类大纲增强 */
+    .cat-outline .cat-list-item { border-bottom: none; margin-bottom: 8px; }
+    .cat-outline .cat-list-link {
+        background: #fff; border: 2px solid #000; padding: 4px 10px;
+        display: inline-block; box-shadow: 2px 2px 0 #000; font-weight: 900; transition: 0.2s;
+        &:hover { background: var(--color-orange); color: #fff; transform: translate(-2px, -2px); box-shadow: 4px 4px 0 #000; }
+    }
+    .cat-outline .cat-list-count {
+        background: #000; color: #fff; padding: 2px 6px; font-weight: 900;
+        border: 2px solid #000; border-radius: 50%; margin-left: 5px; box-shadow: 1px 1px 0 var(--color-cyan);
+    }
+    
+    .tag-list .tag-list-item a {
+        background: var(--color-cyan); border: 2px solid #000; padding: 4px 10px;
+        display: inline-block; box-shadow: 2px 2px 0 #000; font-weight: 900; color: #fff;
+        margin: 5px; transition: 0.2s;
+        &:hover { background: var(--color-yellow); color: #000; transform: translate(-2px, -2px) rotate(-3deg); box-shadow: 4px 4px 0 #000; }
+    }
+
+    /* 工具栏增强 */
+    .toolbar-item {
+        background: #fff; border: 3px solid #000; box-shadow: 3px 3px 0 #000; margin-bottom: 10px; transition: 0.2s;
+        svg { fill: #000; stroke: #000; }
+        &:hover { background: var(--color-yellow); transform: translate(-2px, -2px); box-shadow: 5px 5px 0 #000; }
+    }
+    
+    /* 调色板选项高亮修复 */
+    .palette-item {
+        border: 2px solid #000; background: #fff; box-shadow: 2px 2px 0 #000; margin: 5px 0;
+        &:hover { background: var(--color-cyan); }
+        &.active { border: 2px solid #000; background: var(--color-yellow); box-shadow: 4px 4px 0 #000; transform: translate(-2px, -2px); }
+    }
+
+    /* 面包屑导航 */
+    .breadcrumb {
+        background: #fff; border: 3px solid #000; padding: 10px 15px; box-shadow: 3px 3px 0 #000;
+        font-weight: 900; font-size: 14px; margin-bottom: 20px;
+        span:hover { color: var(--color-orange); }
+    }
+    
+    /* 底部区 */
+    .app-footer { background: #fff; border-top: 4px solid #000; color: #000; font-weight: 900; box-shadow: 0 -4px 0 rgba(0,0,0,0.1); }
+
+    /* 动效移除及覆写 */
+    .glitch-layer, .pjax-glitch-layer { display: none !important; }
+    .jump-char, .wave-char { animation: none !important; }
+}

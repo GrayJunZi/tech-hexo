@@ -105,8 +105,11 @@
 
         function applyTheme(theme) {
             // 注意：原有逻辑中 light 对应 simple，dark 对应 tech
-            // 为了保持数据属性的一致性，我们将 data-theme 设置为 light/dark
-            var dataTheme = (theme === 'simple') ? 'light' : 'dark';
+            // 为了保持数据属性的一致性，我们将 data-theme 设置为对应的名称
+            var dataTheme = 'dark';
+            if (theme === 'simple') dataTheme = 'light';
+            if (theme === 'manga') dataTheme = 'manga';
+
             $('html').attr('data-theme', dataTheme);
             localStorage.setItem('theme', theme);
             
