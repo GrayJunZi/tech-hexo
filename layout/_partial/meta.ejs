@@ -20,7 +20,10 @@
     // 立即初始化主题，防止闪烁
     (function() {
         var savedTheme = localStorage.getItem('theme') || 'tech';
-        var dataTheme = (savedTheme === 'simple') ? 'light' : 'dark';
+        var dataTheme = 'dark';
+        if (savedTheme === 'simple') dataTheme = 'light';
+        else if (savedTheme === 'manga') dataTheme = 'manga';
+        else if (savedTheme === 'street') dataTheme = 'street';
         document.documentElement.setAttribute('data-theme', dataTheme);
     })();
 </script>

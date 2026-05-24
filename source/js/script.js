@@ -636,7 +636,8 @@ function initEffects() {
 
     // 5. 头像故障效果
     $('.user-info').on('mouseenter', function() {
-        if ($('html').attr('data-theme') === 'light') return;
+        const theme = $('html').attr('data-theme');
+        if (theme === 'light' || theme === 'street') return;
         triggerCyberGlitch($(this).find('.avatar-container'), 500);
     });
 }
