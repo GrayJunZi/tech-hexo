@@ -1,0 +1,149 @@
+
+/* ================= 简约风变量定义 (Simple Theme Variables) ================= */
+[data-theme='light'] {
+    --bg-sidebar: #ffffff;
+    --bg-main: #f8f9fa;
+    --bg-content: #ffffff;
+    --bg-panel: #ffffff;
+    --text-main: #2c3e50;
+    --text-sub: #7f8c8d;
+    --border: #e0e0e0;
+    
+    --color-orange: #3498db; /* 简约风改用蓝色作为主色调 */
+    --font-zh: 'Inter', 'Source Sans Pro', 'PingFang SC', sans-serif;
+    --font-en: 'Montserrat', sans-serif;
+}
+
+/* ================= 简约风特定装饰 (Simple Theme Decorations) ================= */
+[data-theme='light'] {
+    /* 移除科技感阴影和边框 */
+    .sidebar {
+        background-color: var(--bg-sidebar);
+        border-right: 1px solid var(--border);
+        box-shadow: none;
+        padding: 60px 0;
+    }
+
+    .brand-icon {
+        fill: var(--color-orange);
+    }
+
+    .nav-item {
+        &::before, &::after { display: none; }
+        .zh { font-weight: 500; }
+        &.active .zh, &:hover .zh { color: var(--color-orange); }
+        &.active, &:hover { background: rgba(52, 152, 219, 0.05); }
+    }
+
+    .post-card-inner {
+        border-radius: 8px;
+        border: 1px solid var(--border);
+        box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+        background: #fff;
+    }
+    .post-card:hover .post-card-inner {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    }
+    .post-card-bg { filter: brightness(1); }
+    .post-card-overlay { background: linear-gradient(to top, rgba(255,255,255,0.9) 0%, transparent 100%); }
+    .card-title, .card-desc, .card-meta { color: var(--text-main); }
+    .card-title { color: #2c3e50; }
+    .card-desc { color: #7f8c8d; }
+
+    .top-bar {
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--border);
+    }
+
+    .search-box {
+        background: #f1f3f5;
+        border-radius: 20px;
+        &:hover, &:focus-within { border-color: var(--color-orange); background: #fff; }
+    }
+
+    .hero-section {
+        background: #fff;
+    }
+    .hero-overlay {
+        background: linear-gradient(90deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.6) 50%, transparent 100%);
+    }
+    .hero-title { 
+        color: #2c3e50; 
+        text-shadow: 0 0 30px rgba(255,255,255,1); 
+    }
+    .hero-date {
+        border-left-color: var(--color-orange);
+        background: rgba(255,255,255,0.7);
+        backdrop-filter: blur(8px);
+        padding: 10px 20px;
+        border-radius: 0 10px 10px 0;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
+    .hero-date-num { color: #2c3e50; }
+    
+    .hero-btn {
+        background: var(--color-orange);
+        color: #fff !important;
+        border-radius: 30px;
+        padding: 12px 30px;
+        border: none;
+        box-shadow: 0 6px 20px rgba(52, 152, 219, 0.3);
+        &:hover {
+            background: #2980b9;
+            color: #fff !important;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.4);
+        }
+    }
+
+    .art-content {
+        h1 { border-bottom: 2px solid var(--color-orange); color: #2c3e50; }
+        h2 { border-bottom: none; color: #34495e; background: #f8f9fa; padding: 10px 15px; border-left: 4px solid var(--color-orange); }
+        blockquote { background: #f8f9fa; border-left-color: #bdc3c7; }
+        pre { background: #fdfdfd; border: 1px solid #eee; code { color: #444; } }
+    }
+
+    .app-footer {
+        background: #fff;
+        border-top: 1px solid var(--border);
+    }
+
+    .glitch-layer, .pjax-glitch-layer { display: none !important; }
+    .jump-char, .wave-char { animation: none !important; }
+
+    /* 简约风特有动效：柔和缩放与外发光 */
+    .brand:hover {
+        transform: scale(1.02);
+        filter: drop-shadow(0 0 8px rgba(52, 152, 219, 0.3));
+    }
+    .user-info:hover .avatar {
+        transform: scale(1.05);
+        box-shadow: 0 0 15px rgba(52, 152, 219, 0.4);
+        transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    /* 导航栏图标选中颜色修正 */
+    .nav-item.active .nav-icon, .nav-item:hover .nav-icon {
+        filter: invert(53%) sepia(82%) saturate(3015%) hue-rotate(180deg) brightness(95%) contrast(92%) !important;
+    }
+
+    /* Hero区域内容预览优化 */
+    .hero-subtitle { 
+        color: #2c3e50; /* 加深颜色 */
+        background: none; /* 去掉突兀背景 */
+        backdrop-filter: none;
+        padding: 0;
+        margin-left: 0;
+        line-height: 1.8;
+        font-weight: 400;
+        max-width: 600px;
+    }
+
+    /* 文章卡片描述颜色加深 */
+    .card-desc {
+        color: #34495e !important;
+        font-weight: 400;
+    }
+}

@@ -21,17 +21,6 @@
     --font-en: 'Oswald', 'DIN', 'Helvetica Neue', Arial, sans-serif;
 }
 
-/* 亮色主题覆盖 */
-[data-theme='light'] {
-    --bg-sidebar: hexo-config('themes.light.bg_sidebar') || #f0f0f2;
-    --bg-main: hexo-config('themes.light.bg_main') || #ffffff;
-    --bg-content: hexo-config('themes.light.bg_content') || #f5f5f7;
-    --bg-panel: hexo-config('themes.light.bg_panel') || #e8e8ea;
-    --text-main: hexo-config('themes.light.text_main') || #111111;
-    --text-sub: hexo-config('themes.light.text_sub') || #666666;
-    --border: hexo-config('themes.light.border') || rgba(0, 0, 0, 0.1);
-}
-
 /* ================= 科技风特定装饰 (Theme Decorations) ================= */
 
 /* 自定义滚动条视觉 */
@@ -198,9 +187,6 @@
 .top-bar {
     background: linear-gradient(to bottom, var(--bg-main) 0%, rgba(10,10,12,0.6) 60%, transparent 100%);
     transition: left 0.3s, transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-}
-[data-theme='light'] .top-bar {
-    background: linear-gradient(to bottom, var(--bg-main) 0%, rgba(255,255,255,0.6) 60%, transparent 100%);
 }
 
 .search-box { 
