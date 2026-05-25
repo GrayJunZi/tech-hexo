@@ -53,19 +53,6 @@
     line-height: 1.8;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
-    overflow-x: visible; /* 修复 sticky 在 window 滚动下的失效问题 */
-}
-
-[data-theme='fantasy'] .article-layout {
-    overflow: visible !important; /* 确保 sticky 生效 */
-    position: relative;
-}
-
-[data-theme='fantasy'] .art-sidebar {
-    position: sticky !important;
-    top: calc(var(--top-bar-height) + 20px) !important;
-    align-self: flex-start;
-    z-index: 100;
 }
 
 [data-theme='fantasy'] .main-wrapper {
