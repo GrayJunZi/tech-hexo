@@ -48,9 +48,12 @@
     line-height: 1.8;
 }
 
-/* 真正的滚动容器，背景色兜底防止露白 */
+/* 真正的滚动容器，背景色兜底防止露白。
+   overflow-y 覆盖为 visible，使得滚动由 window 接管，
+   toolbar.js 的 getScrollContainer() 才能正确回退到 html/body */
 [data-theme='fantasy'] .main-wrapper {
     background-color: var(--bg-main);
+    overflow-y: visible;
 }
 
 /* 沉浸式暗角：fixed 伪元素保留视口四角烧焦感，不承担背景延伸职责 */

@@ -1,7 +1,16 @@
 (function($) {
     $(function() {
         var $toolbar = $('#right-toolbar');
-        var $container = $('.main-wrapper');
+        // .main-wrapper 在部分主题下是滚动容器（height:100vh + overflow-y:auto），
+        // 在 fantasy 主题下已改为自然撑高，实际滚动容器退回到 window/documentElement。
+        // 用一个函数动态取当前真实的滚动容器，兼容两种情况。
+        function getScrollContainer() {
+            var $mw = $('.main-wrapper');
+            if ($mw[0] && $mw[0].scrollHeight > $mw[0].clientHeight && $mw.css('overflow-y') !== 'visible') {
+                return $mw;
+            }
+            return $('html, body');
+        }
         
         // 1. 鼠标位置检测 (边缘呼出) - 仅限桌面端
         var toolbarTicking = false;
@@ -63,7 +72,7 @@
 
         // [1] 回到顶部
         $('#tool-totop').on('click', function() {
-            $container.animate({scrollTop: 0}, 500);
+            getScrollContainer().animate({scrollTop: 0}, 500);
         });
 
         // [2] 刷新页面 (站内 PJAX 刷新)
@@ -150,7 +159,8 @@
 
         // [6] 滚动到底部
         $('#tool-tobottom').on('click', function() {
-            $container.animate({scrollTop: $container.prop("scrollHeight")}, 500);
+            var $c = getScrollContainer();
+            $c.animate({scrollTop: $c.prop("scrollHeight")}, 500);
         });
 
         // 针对 PJAX 的兼容
