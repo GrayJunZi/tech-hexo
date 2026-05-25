@@ -21,6 +21,36 @@ body {
     animation: none !important;
 }
 
+/* ================= 视图过渡 API (View Transitions) 模块化标识 ================= */
+/* 给页面的核心独立区块赋予唯一的 view-transition-name，
+   让它们在主题切换时实现独立的“神奇移动(Tweening)”，比如平滑缩放、形状形变，
+   而不是仅仅被当成一张整图溶解。不支持该 API 的浏览器会自动忽略。*/
+
+.sidebar { view-transition-name: theme-vt-sidebar; }
+.brand { view-transition-name: theme-vt-brand; }
+.nav-menu { view-transition-name: theme-vt-nav-menu; }
+.user-info { view-transition-name: theme-vt-user-info; }
+
+.top-bar { view-transition-name: theme-vt-top-bar; }
+.search-box { view-transition-name: theme-vt-search-box; }
+.sys-status { view-transition-name: theme-vt-sys-status; }
+
+.hero-section { view-transition-name: theme-vt-hero; }
+.home-content-section { view-transition-name: theme-vt-home-content; }
+.post-grid { view-transition-name: theme-vt-post-grid; }
+.sidebar-right { view-transition-name: theme-vt-sidebar-right; }
+
+.breadcrumb { view-transition-name: theme-vt-breadcrumb; }
+.art-header { view-transition-name: theme-vt-art-header; }
+.art-content { view-transition-name: theme-vt-art-content; }
+.article_copyright { view-transition-name: theme-vt-copyright; }
+.post-nav { view-transition-name: theme-vt-post-nav; }
+.toc-wrapper { view-transition-name: theme-vt-toc; }
+.related-list { view-transition-name: theme-vt-related-list; }
+
+.app-footer { view-transition-name: theme-vt-footer; }
+#right-toolbar { view-transition-name: theme-vt-toolbar; }
+
 a { 
     text-decoration: none; 
     color: inherit; 
