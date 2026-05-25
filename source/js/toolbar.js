@@ -6,7 +6,7 @@
         // 用一个函数动态取当前真实的滚动容器，兼容两种情况。
         function getScrollContainer() {
             var $mw = $('.main-wrapper');
-            if ($mw[0] && $mw[0].scrollHeight > $mw[0].clientHeight && $mw.css('overflow-y') !== 'visible') {
+            if ($mw.length > 0 && $mw[0].scrollHeight > $mw[0].clientHeight && $mw.css('overflow-y') !== 'visible') {
                 return $mw;
             }
             return $('html, body');

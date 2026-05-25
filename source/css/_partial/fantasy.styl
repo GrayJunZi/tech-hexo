@@ -49,13 +49,15 @@
     font-family: var(--font-zh), var(--font-en);
     background-image: var(--parchment-grain);
     background-size: 120px 120px, 100% 100%, 100% 100%;
+    background-attachment: fixed;
     line-height: 1.8;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
 }
 
 [data-theme='fantasy'] .main-wrapper {
-    background-color: var(--bg-main);
+    background-color: transparent;
+    height: auto;
     overflow-y: visible;
 }
 
@@ -378,7 +380,7 @@
 }
 
 /* ================= 首页主内容网格与手绘卡片 ================= */
-[data-theme='fantasy'] .home-content-section {
+[data-theme='fantasy'] .home-content-section, [data-theme='fantasy'] #view-article {
     background-color: transparent;
     padding: 20px 30px;
 }
