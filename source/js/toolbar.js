@@ -122,12 +122,20 @@
         });
 
         function applyTheme(theme, dataTheme) {
+            // 添加 theme-switching 类以禁用过渡动画，防止 DOM 卡顿
+            $('html').addClass('theme-switching');
+
             $('html').attr('data-theme', dataTheme);
             localStorage.setItem('theme', theme);
 
             // 高亮当前选中的图标
             $('.palette-item').removeClass('active');
             $('.palette-item[data-theme-style="' + theme + '"]').addClass('active');
+
+            // 强制重绘并在一帧后移除 theme-switching
+            setTimeout(function() {
+                $('html').removeClass('theme-switching');
+            }, 50);
         }
 
         // [4] 沉浸模式

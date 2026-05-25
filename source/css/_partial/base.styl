@@ -15,6 +15,12 @@ body {
     transition: background-color 0.3s, color 0.3s;
 }
 
+/* 主题切换时禁用所有过渡动画，防止掉帧卡顿 */
+.theme-switching * {
+    transition: none !important;
+    animation: none !important;
+}
+
 a { 
     text-decoration: none; 
     color: inherit; 
