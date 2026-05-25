@@ -673,17 +673,44 @@
 }
 
 /* 浮动工具栏按钮素描圆盘交互 */
+/* 容器本身不旋转，只做背景色与边框切换，避免带动 tooltip/palette 子元素一起变形 */
 [data-theme='fantasy'] .toolbar-item {
     background: var(--bg-panel);
-    border: var(--hand-drawn-border);
-    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.25), background 0.2s;
+    border: 1px solid var(--charcoal-grey);
+    border-radius: 0;                          /* 方形印章感，而非现代圆形 */
+    box-shadow: 2px 2px 0 var(--ink-black);    /* 木刻版画阴影偏移 */
+    transition: background 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 }
+
+/* 悬停：印章下压感 — 阴影收缩模拟向下按压 */
 [data-theme='fantasy'] .toolbar-item:hover {
-    transform: rotate(180deg) scale(1.15);
-    background: var(--ink-black);
+    background: var(--bg-paper, #f4ecd8);
+    border-color: var(--blood-red);
+    box-shadow: 1px 1px 0 var(--blood-red);    /* 阴影缩小 = 按压感 */
 }
-[data-theme='fantasy'] .toolbar-item:hover svg {
-    fill: var(--bg-main);
+
+/* 只让 svg 图标本身做羽化旋转，不影响容器及其子元素 */
+[data-theme='fantasy'] .toolbar-item:hover > svg {
+    fill: var(--blood-red);
+    transform: rotate(15deg) scale(1.1);       /* 微转，如翻阅古籍时羽毛笔的侧倾 */
+    transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.25), fill 0.25s;
+}
+
+/* 静止状态 svg 的过渡归位 */
+[data-theme='fantasy'] .toolbar-item > svg {
+    transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.25), fill 0.25s;
+}
+
+/* 刷新按钮特例：仅 svg 全旋，容器不动 */
+[data-theme='fantasy'] #tool-refresh:hover > svg {
+    animation: fantasyQuillSpin 0.6s ease-in-out;
+    transform-origin: center;
+}
+
+@keyframes fantasyQuillSpin {
+    0%   { transform: rotate(0deg) scale(1.1); }
+    60%  { transform: rotate(200deg) scale(1.15); }
+    100% { transform: rotate(360deg) scale(1.1); }
 }
 
 /* --- 固定线稿图层：注入巨龙与星盘的古老史诗感纹理 --- */
