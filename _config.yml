@@ -182,6 +182,9 @@ sound_effect: true
 # 页脚自定义文本
 footer_text:
 
+# 水印文本（如 R.I. 或 S.Q.）
+watermark: S.Q.
+
 # 文章版权声明
 copyright: false
 

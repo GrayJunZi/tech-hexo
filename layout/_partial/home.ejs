@@ -116,7 +116,7 @@ if (!is_category() && !is_tag()) {
                 <div class="announce-list">
                     <% topPosts.slice(0,3).forEach(function(tp){ %>
                         <a class="announce-box site_url" href="<%- url_for(tp.path) %>">
-                            <div class="announce-watermark">R.I.</div>
+                            <div class="announce-watermark"><%= theme.watermark %></div>
                             <div class="announce-left">
                                 <div class="announce-date-big"><%- date(tp.date, 'DD') %></div>
                                 <div class="announce-date-sub">/ <%- date(tp.date, 'MM') %></div>

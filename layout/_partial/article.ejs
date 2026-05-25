@@ -143,7 +143,7 @@ if (relatedPosts.length === 0) {
             <a id="nav-prev" style="opacity: 0.3; pointer-events: none;">< <%= __('titles.prev_post') %>：<%= __('titles.none') %></a>
         <% } %>
         
-        <div class="post-nav-center">— R.I. —</div>
+        <div class="post-nav-center">— <%= theme.watermark %> —</div>
         
         <% if (post.next) { %>
             <a id="nav-next" class="site_url" href="<%- url_for(post.next.path) %>"><%= __('titles.next_post') %>：<%- strip_html(post.next.title).substring(0, 15) %> ></a>
