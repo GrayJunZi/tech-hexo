@@ -48,7 +48,12 @@
     line-height: 1.8;
 }
 
-/* 沉浸式暗角：全屏四角羊皮纸烧焦浸润感边缘 */
+/* 真正的滚动容器，背景色兜底防止露白 */
+[data-theme='fantasy'] .main-wrapper {
+    background-color: var(--bg-main);
+}
+
+/* 沉浸式暗角：fixed 伪元素保留视口四角烧焦感，不承担背景延伸职责 */
 [data-theme='fantasy'] .main-wrapper::before {
     content: "";
     position: fixed;
@@ -496,21 +501,19 @@
     text-align: justify;
 }
 
-/* 首字下沉 (Drop Cap) 经典华丽修饰 */
-[data-theme='fantasy'] .art-content p:first-of-type::first-letter {
+/* 首字下沉 (Drop Cap)
+   仅作用于文章正文直属的第一段首字，不影响 blockquote/aside 等嵌套段落。
+   字号收敛、去掉边框与背景，保留血红色与字体切换即可体现古典感，避免过度夸张。 */
+[data-theme='fantasy'] .art-content > p:first-of-type::first-letter {
     float: left;
-    font-size: 52px;
-    line-height: 48px;
-    padding-top: 4px;
-    padding-right: 8px;
-    padding-left: 4px;
-    margin-right: 10px;
+    font-size: 2.8em;          /* 相对单位，约 45px，随正文字号自然缩放 */
+    line-height: 0.85;
+    padding-right: 6px;
+    padding-top: 3px;
     color: var(--blood-red);
     font-family: var(--font-en);
     font-weight: 700;
-    background: rgba(114, 28, 28, 0.06);
-    border: 1px solid var(--blood-red);
-    border-radius: var(--sketch-radius-sm);
+    /* 去除边框与背景色块，仅保留颜色与字体切换，不喧宾夺主 */
 }
 
 /* 文章各级标题的手绘素描线修饰 */
