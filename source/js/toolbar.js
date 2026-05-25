@@ -91,8 +91,16 @@
         });
 
         // [3] 切换风格 (Palette 模式)
-        var currentTheme = localStorage.getItem('theme') || 'tech'; // 修正默认值为 tech
-        applyTheme(currentTheme);
+        var currentTheme = localStorage.getItem('theme');
+        var $paletteItem = currentTheme
+            ? $('.palette-item[data-theme-style="' + currentTheme + '"]')
+            : $();
+        if (!$paletteItem.length) {
+            $paletteItem = $('.palette-item').first();
+            currentTheme = $paletteItem.data('theme-style');
+        }
+        var currentDataTheme = $paletteItem.data('theme-value') || 'dark';
+        applyTheme(currentTheme, currentDataTheme);
 
         // 点击主按钮展开/收起调色板
         $('#tool-theme').on('click', function(e) {
@@ -104,7 +112,8 @@
         $('.palette-item').on('click', function(e) {
             e.stopPropagation();
             var theme = $(this).data('theme-style');
-            applyTheme(theme);
+            var dataTheme = $(this).data('theme-value');
+            applyTheme(theme, dataTheme);
         });
 
         // 点击外部关闭调色板
@@ -112,18 +121,10 @@
             $('.theme-palette').removeClass('active');
         });
 
-        function applyTheme(theme) {
-            // 注意：原有逻辑中 light 对应 simple，dark 对应 tech
-            // 为了保持数据属性的一致性，我们将 data-theme 设置为对应的名称
-            var dataTheme = 'dark';
-            if (theme === 'simple') dataTheme = 'light';
-            if (theme === 'manga') dataTheme = 'manga';
-            if (theme === 'street') dataTheme = 'street';
-            if (theme === 'fantasy') dataTheme = 'fantasy';
-
+        function applyTheme(theme, dataTheme) {
             $('html').attr('data-theme', dataTheme);
             localStorage.setItem('theme', theme);
-            
+
             // 高亮当前选中的图标
             $('.palette-item').removeClass('active');
             $('.palette-item[data-theme-style="' + theme + '"]').addClass('active');
