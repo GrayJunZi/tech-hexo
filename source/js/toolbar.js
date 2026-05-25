@@ -110,6 +110,7 @@
             if (theme === 'simple') dataTheme = 'light';
             if (theme === 'manga') dataTheme = 'manga';
             if (theme === 'street') dataTheme = 'street';
+            if (theme === 'fantasy') dataTheme = 'fantasy';
 
             $('html').attr('data-theme', dataTheme);
             localStorage.setItem('theme', theme);
