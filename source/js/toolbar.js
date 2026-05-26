@@ -141,6 +141,7 @@
                 
                 // 渐变动画彻底结束后，恢复 CSS 动画能力
                 transition.finished.finally(function() {
+                    document.body.offsetHeight;
                     $('html').removeClass('theme-switching');
                 });
             } else {
