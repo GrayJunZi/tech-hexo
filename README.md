@@ -1,6 +1,8 @@
 # hexo-theme-Tech
 
-Tech 是一个风格简明、动效丰富的 Hexo 主题，在[3-hexo](https://github.com/yelog/hexo-theme-3-hexo)的基础上完全重构了布局和样式，移除了评论打赏等功能。
+Tech 是一个风格简明、动效丰富的 Hexo 主题，在[3-hexo](https://github.com/yelog/hexo-theme-3-hexo)的基础上完全重构了布局和样式。
+
+最初它的目的在于构造一个简单的战术风博客主题，当前随着改进它已成为包容多种风格可以任意新增和切换风格的主题。
 
 ![视觉效果预览](source/img/review.jpg)
 
@@ -89,9 +91,9 @@ theme: tech-hexo
 
 2. 在 `source/img/feature/` 下放入同名的 `.svg` 图标文件作为调色板入口。
 
-3. 重新构建或重启 `hexo server`，新风格自动出现在切换面板中。
+3. 刷新即可在调色板看到新风格入口
 
-移除风格同样简单：删除对应的 `.styl` 文件和 `.svg` 图标，重建即可。
+移除风格同样简单：删除对应的 `.styl` 文件和 `.svg` 图标即可。
 
 
 ## 致谢
