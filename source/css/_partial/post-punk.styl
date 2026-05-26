@@ -1,0 +1,488 @@
+/* @theme 后朋克风 post-punk */
+/* ================= 俄罗斯后朋克 / 伤感末日浪潮 (Russian Post-Punk / Doomer Wave UI) ================= */
+[data-theme='post-punk'] {
+    --sidebar-width: 270px;
+    --bg-main: #1a1c1e; /* 苏联晚期工业小镇的冬夜灰黑 */
+    --bg-content: transparent;
+    --bg-panel: #222528; /* 冰冷混凝土（Concrete）的质感暗色 */
+    --bg-sidebar: #131416; /* 巨型工厂阴影下的脏沥青黑 */
+    --text-main: #d1d5db; /* 漫天大雪下的苍白灰 */
+    --text-sub: #718096; /* 工业废气与浓雾的烟熏灰 */
+    --border: #4a5568; /* 锈蚀铁丝网与钢筋的冷铁灰 */
+    
+    --doomer-green: #22c55e; /* 夜视仪/老旧示波器的电流荧光绿 */
+    --doomer-rust: #9a3412; /* 废弃工厂管道的铁锈红 */
+    --doomer-amber: #d97706; /* 坏掉的深夜街灯那种孤独的昏黄 */
+    --doomer-concrete: #374151;
+    
+    --font-zh: 'SimSun', 'STSong', 'Noto Sans SC', sans-serif; /* 采用带有复古、粗糙印刷感的宋体，模拟90年代地下独立刊物印刷质感 */
+    --font-en: 'Courier New', 'Courier', monospace; /* 纯粹的打字机终端单色等宽字体，拒绝现代感 */
+}
+
+/* --- 全局重置与背景 --- */
+[data-theme='post-punk'] body {
+    background: var(--bg-main);
+    /* 模拟老旧胶片粗糙颗粒、粗糙的水泥墙面以及粗线扫描线纹理 */
+    background-image: 
+        radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 0),
+        linear-gradient(to bottom, rgba(0,0,0,0.1) 50%, rgba(255,255,255,0.02) 50%);
+    background-size: 8px 8px, 100% 4px;
+    font-family: var(--font-zh);
+}
+
+[data-theme='post-punk'] {
+    /* 彻底移除所有圆角，保留完美的冷酷直角与粗野主义工业几何感 */
+    * { 
+        border-radius: 0 !important; 
+    }
+
+    /* --- 1. 侧边栏重构 (Sidebar - 赫鲁晓夫楼的阴暗走廊) --- */
+    .sidebar {
+        background: var(--bg-sidebar);
+        border-right: 3px solid var(--border);
+        box-shadow: 5px 0 15px rgba(0, 0, 0, 0.6);
+        padding: 0;
+    }
+    
+    /* 侧边栏右侧边缘附加一条极细的、代表禁锢的工业铁丝网纹理 */
+    .sidebar::after {
+        content: "";
+        position: absolute;
+        top: 0; right: 0; width: 4px; height: 100%;
+        background: repeating-linear-gradient(
+            to bottom,
+            var(--border),
+            var(--border) 5px,
+            transparent 5px,
+            transparent 10px
+        );
+        opacity: 0.4;
+        pointer-events: none;
+    }
+
+    .brand { 
+        display: block; 
+        padding: 40px 20px 25px;
+        border-bottom: 1px solid var(--border);
+        background: rgba(0,0,0,0.2);
+    }
+    .brand-text h1 {
+        font-family: var(--font-zh);
+        font-size: 28px;
+        font-weight: 900;
+        color: #e5e7eb;
+        line-height: 1.1;
+        letter-spacing: -1px;
+        margin-bottom: 15px;
+        position: relative;
+        z-index: 2;
+        word-wrap: normal;
+        white-space: nowrap;
+        max-width: none;
+        overflow: visible;
+        /* 增加苏联晚期工业钢印感，隐约的脏灰色重影投影 */
+        text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.9), -1px -1px 0px rgba(255, 255, 255, 0.1);
+    }
+    /* 引入带有后朋克乐队意象与西里尔文时代的副标题：ТИПИЧНЫЙ ДООМЕР (典型末日浪潮儿) / МЫ ВМЕСТЕ (我们在一起-Kino乐队名曲) */
+    .brand-text h1::after {
+        content: "ТИПИЧНЫЙ ДООМЕР // МЫ ВМЕСТЕ (1991)";
+        display: block;
+        font-size: 10px;
+        letter-spacing: 0px;
+        color: var(--doomer-rust); /* 铁锈红点缀，强化废弃斑驳的历史痕迹 */
+        font-family: var(--font-en);
+        margin-top: 8px;
+        opacity: 0.73;
+        text-shadow: none;
+    }
+    
+    /* 导航项标签化 - 沉闷冷酷的档案分类 */
+    .nav-label { 
+        color: var(--text-sub);
+        border-bottom: 1px solid var(--border); 
+        margin: 30px 20px 10px; 
+        padding-bottom: 4px; 
+        font-weight: normal; 
+        font-family: var(--font-en);
+        font-size: 11px;
+        text-transform: uppercase;
+    }
+    .nav-label::before { content: "[SECTION_"; }
+    .nav-label::after { content: "]"; }
+    
+    .nav-item {
+        background: transparent;
+        border: 1px solid transparent;
+        margin: 4px 15px;
+        padding: 10px 15px;
+        transition: all 0.2s ease;
+        position: relative;
+        
+        .zh { color: var(--text-main); font-size: 14px; font-weight: normal; }
+        .en { color: var(--text-sub); font-family: var(--font-en); font-size: 11px; margin-left: 5px; }
+        &::before, &::after { display: none; }
+        
+        &:hover, &.active {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border);
+            transform: translateX(3px);
+            
+            /* 激活或悬停时亮起唯一的、老旧微型计算机示波器的故障荧光绿 */
+            .zh { color: var(--doomer-green); text-shadow: 0 0 4px rgba(34, 197, 94, 0.5); }
+            .en { color: var(--doomer-green); opacity: 0.8; }
+            .nav-icon { filter: invert(58%) sepia(58%) saturate(489%) hue-rotate(93deg) brightness(97%) contrast(93%); }
+        }
+    }
+
+    /* 头像与信息 - 废弃卡带与冬日黑白肖像 */
+    .user-info { 
+        margin-top: auto;
+        padding: 25px 20px; 
+        background: rgba(0, 0, 0, 0.3); 
+        border-top: 1px solid var(--border); 
+        gap: 15px;
+    }
+    .avatar-container {
+        width: 50px;
+        height: 50px;
+        flex-shrink: 0;
+    }
+    .avatar { 
+        border: 1px solid var(--border);
+        width: 50px; 
+        height: 50px; 
+        /* 强制高对比度黑白调，营造剥离现实的迷茫与压抑感 */
+        filter: grayscale(100%) contrast(1.4) brightness(0.9);
+        transition: filter 0.3s ease;
+    }
+    .user-info:hover .avatar {
+        filter: grayscale(100%) contrast(1.1) brightness(0.7);
+        border-color: var(--doomer-rust);
+    }
+    
+    .user-name { 
+        color: var(--text-main); 
+        font-size: 15px; 
+        font-weight: bold; 
+        font-family: var(--font-zh);
+    }
+    .user-id { 
+        color: var(--text-sub); 
+        font-family: var(--font-en); 
+        font-size: 11px; 
+    }
+    
+    .social-btn {
+        background: transparent;
+        border: 1px solid var(--border);
+        &:hover { 
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--doomer-amber);
+            transform: translateY(-1px);
+            img { filter: invert(72%) sepia(87%) saturate(432%) hue-rotate(357deg) brightness(93%) contrast(91%); } 
+        }
+    }
+
+    /* --- 2. 顶栏 (Top Bar - 坏掉设备的微弱信号) --- */
+    .top-bar {
+        background: rgba(26, 28, 30, 0.9);
+        border-bottom: 1px solid var(--border);
+        padding-top: 0;
+        backdrop-filter: blur(5px);
+    }
+    .top-bar::before {
+        content: "● ПАНК-РОК // СТАТУС: ОК";
+        position: absolute;
+        left: 30px; top: 50%;
+        transform: translateY(-50%);
+        color: var(--text-sub); font-size: 12px;
+        font-family: var(--font-en);
+        letter-spacing: 1px;
+    }
+    .search-box {
+        background: rgba(0, 0, 0, 0.4); 
+        border: 1px solid var(--border);
+        padding: 6px 12px; color: var(--text-main);
+        width: 180px;
+        &:hover, &:focus-within, &.expanded { 
+            width: 230px;
+            border-color: var(--doomer-amber); 
+            background: rgba(0, 0, 0, 0.6); 
+            box-shadow: none;
+            transform: none;
+        }
+        input { font-size: 12px; color: var(--text-main); font-family: var(--font-en); }
+        input::placeholder { color: rgba(255,255,255,0.2); }
+        svg { fill: var(--text-sub); }
+    }
+    .top-links a { 
+        color: var(--text-main); font-family: var(--font-zh); font-size: 13px;
+        padding: 4px 0; border-bottom: 1px solid transparent;
+    }
+    .top-links a:hover { 
+        color: var(--doomer-green); 
+        border-bottom: 1px solid var(--doomer-green);
+    }
+    .sys-text { color: var(--text-sub); font-family: var(--font-en); font-size: 13px; }
+
+    /* 心电图重构：使其伪装成卡式录音带的失真电波或废弃雷达的扫描信号 */
+    #visualizer-line {
+        stroke: var(--doomer-green) !important;
+        filter: drop-shadow(0 0 4px rgba(34, 197, 94, 0.6));
+        stroke-width: 1.5px;
+    }
+    @keyframes doomerSignal {
+        0%, 100% { opacity: 0.4; filter: brightness(0.8) drop-shadow(0 0 2px var(--doomer-green)); }
+        50% { opacity: 0.95; filter: brightness(1.2) drop-shadow(0 0 6px var(--doomer-green)); }
+    }
+    .sys-status svg {
+        animation: doomerSignal 3s ease-in-out infinite;
+    }
+
+    /* --- 3. 巨幕区 (Hero Section - 粗野主义混凝土巨构) --- */
+    .hero-section {
+        background: #151618;
+        padding: calc(var(--top-bar-height) + 50px) 40px 50px;
+        margin-top: calc(-1 * var(--top-bar-height));
+        min-height: 420px;
+        border-bottom: 1px solid var(--border);
+        /* 增加网格横纵拼缝线，模拟粗野主义建筑（Brutalist architecture）预制混凝土板墙面 */
+        background-image: 
+            linear-gradient(to right, rgba(255,255,255,0.015) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(255,255,255,0.015) 1px, transparent 1px);
+        background-size: 100px 100px;
+    }
+    .hero-bg { 
+        display: block;
+        /* 将背景大图彻底黑白、高对比度低亮度化，使其褪化为一副带有粗糙微粒的压抑水泥墙 */
+        filter: grayscale(100%) contrast(1.6) brightness(0.25);
+        opacity: 0.7;
+    } 
+    
+    .hero-overlay { 
+        display: block;
+        background: linear-gradient(to right, rgba(26,28,30,1) 0%, rgba(26,28,30,0.7) 50%, rgba(0,0,0,0.5) 100%);
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 2;
+        background: transparent; border: none; padding: 0;
+        box-shadow: none;
+        max-width: 720px; width: 100%;
+        clip-path: none;
+        /* 左侧融入一条代表旧时代体制遗留的沉重铁锈红粗边（卡带唱片套感） */
+        border-left: 5px solid var(--doomer-rust);
+        padding-left: 25px;
+        &::after { display: none; }
+    }
+    /* 融入冷战色彩标签：“苏联制造（СДЕЛАНО В СССР）”独立地下独立音乐厂牌式盖章 */
+    .hero-content::before {
+        content: "СДЕЛАНО В СССР";
+        position: absolute;
+        right: 40px;
+        top: -10px;
+        font-family: var(--font-en);
+        font-size: 11px;
+        color: rgba(154, 52, 18, 0.35); 
+        border: 2px solid rgba(154, 52, 18, 0.35);
+        padding: 2px 8px;
+        transform: rotate(12deg);
+        pointer-events: none;
+        letter-spacing: 1px;
+    }
+
+    .hero-tag {
+        background: var(--doomer-concrete); color: var(--text-main); display: inline-block;
+        padding: 2px 10px; border: 1px solid var(--border);
+        font-family: var(--font-en); font-size: 11px; margin-bottom: 20px;
+        text-transform: uppercase;
+    }
+    
+    .hero-title {
+        font-family: var(--font-zh);
+        font-size: 40px; color: #f3f4f6;
+        font-weight: 900;
+        line-height: 1.3; margin-bottom: 20px;
+        letter-spacing: 0px;
+        /* 增加极其克制的黑白磁带错位故障重影 */
+        text-shadow: -1px 1px 0px var(--border), 1px -1px 0px rgba(0,0,0,0.8);
+    }
+    
+    .hero-subtitle { 
+        color: var(--text-sub); font-weight: normal; font-size: 14px; 
+        border-left: 3px solid var(--border);
+        background: transparent;
+        padding: 5px 0 5px 15px; max-width: 650px; line-height: 1.7; 
+    }
+    
+    .hero-btn {
+        background: transparent;
+        color: var(--text-main) !important;
+        font-family: var(--font-zh); font-size: 13px; font-weight: normal;
+        padding: 8px 25px; border: 1px solid var(--border); margin-top: 30px;
+        box-shadow: none; transform: none;
+        &:hover {
+            background: rgba(255, 255, 255, 0.03);
+            color: var(--doomer-amber) !important;
+            border-color: var(--doomer-amber);
+            transform: none;
+            box-shadow: none;
+        }
+    }
+
+    /* 时间块：伪装成旧式工业仪表盘或者出勤签到卡 */
+    .hero-date {
+        position: absolute;
+        right: 40px; bottom: 40px; top: auto;
+        background: transparent; border: 1px solid var(--border);
+        padding: 12px 20px; text-align: left;
+        box-shadow: none;
+        z-index: 5;
+        transform: none;
+    }
+    .hero-date-tag { color: var(--text-sub); font-size: 10px; font-family: var(--font-en); }
+    .hero-date-num { font-size: 28px; color: var(--text-main); font-family: var(--font-en); font-weight: bold; line-height: 1; margin: 4px 0; }
+    .hero-date-sub { display: none; }
+    .hero-date::after { display: none; }
+
+    /* --- 4. 文章列表 (Post Cards - 水泥预制板方块) --- */
+    .home-content-section { 
+        background: transparent;
+        padding-top: 40px; 
+    }
+    .section-title {
+        font-family: var(--font-zh);
+        font-weight: bold; font-size: 20px; color: #f3f4f6;
+        border-bottom: 1px solid var(--border); padding-bottom: 8px; margin-bottom: 35px;
+    }
+    .section-title span { 
+        font-family: var(--font-en); font-size: 11px; 
+        background: transparent; color: var(--text-sub); padding: 0 0 0 8px;
+        border: none; font-weight: normal; transform: none;
+    }
+
+    .post-card { height: auto; margin-bottom: 40px; overflow: visible !important; }
+    .post-card-inner {
+        background: #1d1f22; /* 调深色调，与整体环境融合并拉开微弱视差 */
+        border: 1px solid var(--border);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+        clip-path: none;
+        &::before { display: none; }
+    }
+    /* 卡片悬停：移除浮夸的现代位移，亮起一盏在大雾冬夜孤独晃荡的琥珀色昏黄路灯 */
+    .post-card:hover .post-card-inner {
+        transform: translateY(-1px);
+        box-shadow: 0 0 18px rgba(217, 119, 6, 0.18);
+        border-color: var(--doomer-amber);
+        
+        .card-title {
+            color: var(--doomer-amber);
+        }
+    }
+    .post-card-bg { 
+        height: 160px; border-bottom: 1px solid var(--border);
+        filter: grayscale(100%) brightness(0.5) contrast(1.2); transition: filter 0.3s ease; 
+    }
+    .post-card:hover .post-card-bg { filter: grayscale(100%) brightness(0.4) contrast(1.3); }
+    
+    .post-card-overlay { position: relative; background: transparent; padding: 20px; display: block; color: var(--text-main); }
+    .card-tag {
+        background: transparent; color: var(--text-sub); font-family: var(--font-en);
+        font-weight: normal; border: 1px solid var(--border); 
+        padding: 1px 8px; display: inline-block; margin-bottom: 12px;
+        font-size: 11px;
+    }
+    .card-title { color: #f3f4f6; font-size: 17px; font-weight: bold; margin-bottom: 12px; line-height: 1.4; font-family: var(--font-zh); transition: color 0.2s; }
+    .card-desc { color: var(--text-sub); font-size: 13px; margin-bottom: 18px; line-height: 1.5; font-family: var(--font-zh); }
+    .card-meta { border-top: 1px solid var(--border); padding-top: 12px; color: var(--text-sub); font-family: var(--font-en); font-size: 11px; }
+
+    /* --- 5. 公告板 (Announce - 旧铁皮告示栏) --- */
+    .announce-box {
+        background: rgba(0, 0, 0, 0.15);
+        border: 1px solid var(--border); color: var(--text-main);
+        padding: 22px; box-shadow: none; position: relative; overflow: hidden;
+        transition: all 0.2s ease;
+        &::before { display: none; }
+        &:hover { 
+            background: rgba(0, 0, 0, 0.3); border-color: var(--doomer-rust); 
+            box-shadow: none;
+            .announce-tag { color: var(--doomer-rust); border-color: var(--doomer-rust); }
+            .announce-date-big { color: var(--doomer-rust); }
+            .announce-desc { color: var(--text-main); }
+        }
+    }
+    
+    .announce-tag { background: transparent; color: var(--text-sub); font-weight: normal; padding: 1px 6px; border: 1px solid var(--border); font-family: var(--font-en); font-size: 11px; }
+    .announce-date-big { color: var(--text-sub); font-family: var(--font-en); font-size: 32px; font-weight: bold; line-height: 1; margin-top: 8px; }
+    .announce-title { font-size: 15px; font-weight: bold; margin: 12px 0 8px; line-height: 1.4; color: #e5e7eb; }
+    .announce-desc { font-weight: normal; color: var(--text-sub); font-size: 12px; line-height: 1.5; }
+
+    /* --- 6. 文章内页 (Article Layout) --- */
+    #view-article { background: var(--bg-main); }
+    .art-header {
+        background: var(--bg-panel); border: 1px solid var(--border);
+        padding: 40px; box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+        margin-bottom: 40px;
+        clip-path: none;
+        &::before, &::after { display: none; }
+    }
+
+    .art-title { font-family: var(--font-zh); font-size: 32px; font-weight: bold; color: #f3f4f6; line-height: 1.3; margin-bottom: 25px; }
+    .art-title span { background: transparent; padding: 0; color: var(--doomer-rust); transform: none; display: inline; }
+    
+    .art-meta { background: transparent; color: var(--text-sub); padding: 0; display: inline-flex; flex-wrap: wrap; gap: 15px; font-family: var(--font-en); font-weight: normal; font-size: 12px; border: none; }
+    .art-meta-link { color: var(--text-main); border-bottom: 1px solid var(--border); }
+    
+    .art-content {
+        background: var(--bg-panel);
+        border: 1px solid var(--border); padding: 40px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); color: var(--text-main);
+        font-size: 14.5px; line-height: 1.85;
+        h1, h2 { font-family: var(--font-zh); font-weight: bold; color: #f3f4f6; margin-top: 35px; }
+        h1 { font-size: 1.8em; border-bottom: 1px solid var(--border); padding-bottom: 10px; color: #fff; }
+        h2 { background: transparent; color: var(--doomer-amber); display: block; padding: 0; border: none; border-left: 4px solid var(--doomer-amber); padding-left: 12px; box-shadow: none; transform: none; margin-top: 35px; font-size: 1.4em; }
+        blockquote { background: rgba(0, 0, 0, 0.2); color: var(--text-sub); border: none; border-left: 3px solid var(--border); padding: 15px 20px; font-weight: normal; font-size: 14px; margin: 25px 0; box-shadow: none; }
+        pre { background: #131416; border: 1px solid var(--border); box-shadow: none; padding-top: 35px; }
+        pre::before { content: "[DEVICE_OUTPUT]"; position: absolute; top: 0; left: 0; background: transparent; color: var(--text-sub); font-family: var(--font-en); font-weight: normal; font-size: 11px; padding: 2px 10px; border-bottom: 1px solid var(--border); border-right: 1px solid var(--border); }
+        img { border: 1px solid var(--border); box-shadow: none; margin: 20px 0; }
+        a { color: var(--doomer-green); background: transparent; font-weight: normal; padding: 0; border: none; border-bottom: 1px solid var(--doomer-green); display: inline; transform: none; box-shadow: none; }
+        a:hover { color: #fff; border-bottom-color: #fff; background: transparent; }
+    }
+
+    /* --- 7. 侧边小部件 (Widgets) --- */
+    .art-widget-title { background: transparent; color: var(--text-main); padding: 0 0 5px 0; font-family: var(--font-zh); font-weight: bold; font-size: 14px; display: block; margin-bottom: 20px; border: none; border-bottom: 1px solid var(--border); box-shadow: none; transform: none; }
+    .rel-card { border: none; border-bottom: 1px solid var(--border); background: transparent; box-shadow: none; margin-bottom: 0; padding: 10px 0; }
+    .rel-card:hover { background: rgba(255, 255, 255, 0.02); transform: none; box-shadow: none; .rel-title { color: var(--doomer-green); } }
+    .rel-title { font-weight: normal; color: var(--text-main); font-size: 14px; }
+    .rel-img { border: 1px solid var(--border); }
+    
+    .cat-list-item { border-bottom: 1px solid var(--border); padding: 10px 0; }
+    .cat-list-link { font-weight: normal; color: var(--text-main); font-size: 14px; }
+    .cat-list-count { background: transparent; border: 1px solid var(--border); color: var(--text-sub); padding: 1px 6px; font-family: var(--font-en); font-size: 11px; box-shadow: none; }
+
+    /* --- 8. 页脚 (寂静冬夜) --- */
+    .app-footer { position: relative; padding-top: 40px; padding-bottom: 40px; background: var(--bg-sidebar); color: var(--text-sub); border: none; font-family: var(--font-en); font-weight: normal; font-size: 12px; text-align: center; overflow: hidden; border-top: 1px solid var(--border); }
+    .app-footer::before { display: none; } /* 彻底移除狂躁的滚动条纹 */
+    
+    /* 工具栏与调色板 */
+    .toolbar-item { background: var(--bg-panel); border: 1px solid var(--border); box-shadow: none; margin-bottom: 8px; }
+    .toolbar-item:hover { background: rgba(255,255,255,0.05); border-color: var(--text-main); transform: none; box-shadow: none; svg { fill: #fff; stroke: none; } }
+    .palette-item { border-radius: 0; border: 1px solid var(--border); }
+    .palette-item[data-theme-style='post-punk'].active, .palette-item[data-theme-style='post-punk']:hover { background: transparent; border: 1px solid #fff; box-shadow: none; transform: none; }
+
+    /* 全局滚动条：极简无感 */
+    ::-webkit-scrollbar { width: 10px; }
+    ::-webkit-scrollbar-track { background: var(--bg-main); border-left: 1px solid var(--border); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border: none; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--text-sub); }
+}
+
+/* --- 特有动效：阴极射线管老旧显示器（CRT）的呼吸式微弱失真闪烁 --- */
+@keyframes crtBreathe {
+    0%, 100% { opacity: 0.98; filter: brightness(1) drop-shadow(0 0 0px transparent); }
+    50% { opacity: 1; filter: brightness(1.04) drop-shadow(0 0 1px rgba(255,255,255,0.1)); }
+}
+[data-theme='post-punk'] .brand-text h1 { 
+    animation: crtBreathe 4s ease-in-out infinite;
+}

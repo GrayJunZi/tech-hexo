@@ -1,0 +1,522 @@
+/* @theme 朋克风 punk */
+/* ================= 叛逆朋克风 (Cyberpunk Rebel UI / Vinyl & Spike Style) ================= */
+[data-theme='punk'] {
+    --sidebar-width: 290px;
+    --bg-main: #14001a; /* 极暗霓虹紫底色，营造深夜地下的LIVE现场感 */
+    --bg-content: transparent;
+    --bg-panel: #22002a;
+    --bg-sidebar: #050505; /* 脏漆黑 */
+    --text-main: #ffffff;
+    --text-sub: #00ffcc; /* 荧光青绿 */
+    --border: #ff0055; /* 核心高亮：暴走荧光粉红 */
+    
+    --punk-pink: #ff0055;
+    --punk-cyan: #00ffcc;
+    --punk-yellow: #fffb00; /* 撕裂警告黄 */
+    --punk-dark: #110018;
+    
+    --font-zh: 'Impact', 'Noto Sans SC', 'PingFang SC', sans-serif;
+    --font-en: 'Arial Black', 'Oswald', 'Impact', sans-serif;
+}
+
+/* --- 全局重置与背景 --- */
+[data-theme='punk'] body {
+    background: var(--bg-main);
+    /* 朋克拼贴粗糙半调网点 + 复古横向扫描线双重背景 */
+    background-image: 
+        radial-gradient(rgba(255, 0, 85, 0.15) 15%, transparent 16%),
+        linear-gradient(rgba(0, 0, 0, 0.3) 50%, rgba(255, 255, 255, 0.05) 50%);
+    background-size: 16px 16px, 100% 4px;
+    font-family: var(--font-zh);
+}
+
+[data-theme='punk'] {
+    /* 彻底移除圆角，全面拥抱尖锐的硬切边角 */
+    * { 
+        border-radius: 0 !important; 
+    }
+
+    /* --- 1. 侧边栏重构 (Sidebar) --- */
+    .sidebar {
+        background: var(--bg-sidebar);
+        border-right: 4px ridge var(--punk-pink);
+        box-shadow: -10px 0 30px rgba(255, 0, 85, 0.3) inset;
+        padding: 0;
+    }
+    
+    /* 侧边栏底部刺角锯齿装饰 */
+    .sidebar::after {
+        content: "";
+        position: absolute;
+        bottom: 0; left: 0; width: 100%; height: 20px;
+        background: repeating-linear-gradient(
+            45deg,
+            var(--punk-pink),
+            var(--punk-pink) 10px,
+            var(--punk-yellow) 10px,
+            var(--punk-yellow) 20px
+        );
+        z-index: 10;
+        pointer-events: none;
+        clip-path: polygon(0% 0%, 5% 100%, 10% 0%, 15% 100%, 20% 0%, 25% 100%, 30% 0%, 35% 100%, 40% 0%, 45% 100%, 50% 0%, 55% 100%, 60% 0%, 65% 100%, 70% 0%, 75% 100%, 80% 0%, 85% 100%, 90% 0%, 95% 100%, 100% 0%);
+    }
+
+    .brand { 
+        display: block; 
+        padding: 40px 20px 20px;
+        background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'><path d='M0 0 L100 100 M100 0 L0 100' stroke='rgba(255,0,85,0.05)' stroke-width='5'/></svg>");
+    }
+    .brand-text h1 {
+        font-family: var(--font-en);
+        font-size: 38px;
+        color: #fff;
+        line-height: 0.9;
+        text-transform: uppercase;
+        margin-bottom: 20px;
+        position: relative;
+        z-index: 2;
+        letter-spacing: -1px;
+        transform: rotate(-3deg) skewX(-10deg);
+        background: var(--punk-pink);
+        padding: 10px;
+        display: inline-block;
+        word-wrap: normal;
+        white-space: nowrap;
+        max-width: none;
+        overflow: visible;
+        box-shadow: 5px 5px 0 var(--punk-cyan);
+    }
+    .brand-text h1::after {
+        content: "REBEL SYSTEM_";
+        display: block;
+        font-size: 11px;
+        letter-spacing: 2px;
+        color: var(--punk-yellow);
+        background: #000;
+        padding: 2px 5px;
+        margin-top: 5px;
+        transform: rotate(3deg);
+        font-family: var(--font-en);
+    }
+    
+    /* 导航项标签化 - 喷漆漆痕感 */
+    .nav-label { 
+        color: var(--punk-cyan);
+        border-bottom: 3px double var(--punk-pink); 
+        margin: 35px 20px 15px; 
+        padding-bottom: 5px; 
+        font-weight: 900; 
+        font-family: var(--font-en);
+        text-shadow: 0 0 8px var(--punk-cyan);
+    }
+    .nav-label::before { content: "⚡ NO_LAW_"; }
+    
+    .nav-item {
+        background: #111;
+        border: 2px solid #333;
+        margin: 8px 20px;
+        padding: 12px 15px;
+        transition: 0s;
+        position: relative;
+        clip-path: polygon(0 0, 100% 0, 92% 100%, 0 100%);
+        
+        .zh { color: #aaa; font-size: 16px; font-weight: 900; }
+        .en { color: #555; font-family: var(--font-en); font-size: 11px; text-transform: uppercase; }
+        &::before, &::after { display: none; }
+        
+        &:hover, &.active {
+            background: var(--punk-cyan);
+            border-color: var(--punk-pink);
+            transform: scale(1.05) rotate(2deg) translateX(5px);
+            z-index: 10;
+            box-shadow: -8px 8px 0 var(--punk-pink);
+            clip-path: none;
+            
+            .zh { color: #000; font-weight: 900; text-shadow: none; }
+            .en { color: #000; font-weight: 900; }
+            .nav-icon { filter: brightness(0); }
+        }
+    }
+
+    /* 头像与信息 - 唱片摇滚质感 */
+    .user-info { 
+        margin-top: 40px;
+        padding: 20px; 
+        background: #0a000f; 
+        border-top: 4px dashed var(--punk-pink); 
+        gap: 15px;
+        position: relative;
+    }
+    .avatar-container {
+        width: 65px;
+        height: 65px;
+        flex-shrink: 0;
+    }
+    .avatar { 
+        border: 3px dashed var(--punk-cyan);
+        width: 65px; 
+        height: 65px; 
+        border-radius: 50% !important; /* 特例：头像作为黑胶唱片，强制圆形 */
+        transform: rotate(0deg);
+        transition: transform 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+        box-shadow: 0 0 15px rgba(0, 255, 204, 0.4);
+    }
+    .user-info:hover .avatar {
+        transform: rotate(360deg);
+        border-color: var(--punk-pink);
+        box-shadow: 0 0 20px var(--punk-pink);
+    }
+    
+    .user-name { 
+        color: #fff; 
+        font-size: 22px; 
+        font-weight: 900; 
+        font-family: var(--font-en); 
+        text-transform: uppercase;
+        text-shadow: 2px 2px 0 var(--punk-pink);
+    }
+    .user-id { color: var(--punk-yellow); font-family: monospace; font-size: 11px; font-weight: bold; background: #222; padding: 2px 5px; width: fit-content; }
+    
+    .social-btn {
+        background: #000;
+        border: 2px solid var(--punk-pink);
+        &:hover { 
+            background: var(--punk-yellow); 
+            border-color: #000; 
+            transform: rotate(-10deg) scale(1.2); 
+            box-shadow: 3px 3px 0 var(--punk-pink);
+            img { filter: brightness(0); } 
+        }
+    }
+
+    /* --- 2. 顶栏 (Top Bar) --- */
+    .top-bar {
+        background: rgba(20, 0, 26, 0.85);
+        border-bottom: 4px ridge var(--punk-cyan);
+        padding-top: 10px;
+        backdrop-filter: blur(8px) saturate(180%);
+    }
+    .top-bar::before {
+        content: "★ ANARCHY_UI ★";
+        position: absolute;
+        left: 30px; top: 20px;
+        color: var(--punk-pink); font-weight: 900; font-size: 16px;
+        font-family: var(--font-en);
+        text-shadow: 0 0 5px var(--punk-pink);
+    }
+    .search-box {
+        background: #000; border: 3px solid var(--punk-pink);
+        box-shadow: -4px 4px 0 var(--punk-cyan);
+        padding: 8px 15px; color: #fff;
+        width: 200px;
+        clip-path: polygon(0 0, 100% 0, 100% 80%, 90% 100%, 0 100%);
+        &:hover, &:focus-within, &.expanded { 
+            width: 250px;
+            border-color: var(--punk-yellow); 
+            background: #111; 
+            box-shadow: -6px 6px 0 var(--punk-pink); 
+            transform: translate(2px, -2px);
+            clip-path: none;
+        }
+        input { font-weight: bold; font-size: 13px; color: var(--punk-cyan); }
+        svg { fill: var(--punk-cyan); }
+    }
+    .top-links a { 
+        color: #fff; font-weight: 900; font-family: var(--font-en); text-transform: uppercase;
+        padding: 5px 10px; border: 1px solid transparent; 
+    }
+    .top-links a:hover { 
+        color: #000; 
+        background: var(--punk-yellow); 
+        border: 1px solid #000;
+        transform: skewX(-15deg);
+        box-shadow: 4px 4px 0 var(--punk-pink);
+    }
+    .sys-text { color: var(--punk-cyan); font-weight: 900; text-shadow: 0 0 4px var(--punk-cyan); }
+
+    /* --- 3. 巨幕区 (Hero Section - 拼贴海报艺术) --- */
+    .hero-section {
+        background: #000;
+        border: none; box-shadow: none;
+        padding: calc(var(--top-bar-height) + 80px) 40px 60px;
+        margin-top: calc(-1 * var(--top-bar-height));
+        min-height: 520px;
+        display: flex; flex-direction: column; justify-content: center;
+        position: relative;
+        overflow: hidden;
+    }
+    .hero-bg { 
+        display: block;
+        filter: grayscale(100%) contrast(2) invert(100%) brightness(0.6);
+        opacity: 0.4;
+    } 
+    
+    /* 巨大背景粗暴印刷字体斜印 */
+    .hero-section::before {
+        content: "DESTROY\A SYSTEM\00a0\00a0FUTURE";
+        white-space: pre; position: absolute; bottom: -5%; right: -5%;
+        font-family: var(--font-en); font-size: 16vw; line-height: 0.75;
+        color: rgba(255, 0, 85, 0.08); font-weight: 900; z-index: 0;
+        transform: rotate(12deg) skewX(-10deg); pointer-events: none;
+    }
+
+    .hero-overlay { 
+        display: block;
+        background: linear-gradient(135deg, rgba(34,0,42,0.95) 0%, rgba(20,0,26,0.5) 70%, transparent 100%);
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 2;
+        background: #000; border: 4px solid var(--punk-pink); padding: 45px;
+        box-shadow: -20px 20px 0 rgba(0, 255, 204, 0.7);
+        max-width: none; width: 100%;
+        margin-top: 0;
+        margin-bottom: 20px;
+        /* 暴力撕裂感硬折边切角 */
+        clip-path: polygon(0 0, 95% 0, 100% 15%, 100% 100%, 8% 100%, 0 85%);
+    }
+    /* 模拟撕碎胶带封边效果 */
+    .hero-content::after {
+        content: "RIOT ART";
+        position: absolute; top: 10px; right: -30px;
+        background: var(--punk-yellow); color: #000;
+        font-family: var(--font-en); font-weight: 900; font-size: 12px;
+        padding: 5px 30px; transform: rotate(45deg);
+        box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+    }
+
+    .hero-tag {
+        background: var(--punk-cyan); color: #000; display: inline-block;
+        padding: 4px 15px;
+        font-weight: 900; font-family: var(--font-en); letter-spacing: 1px;
+        font-size: 14px; margin-bottom: 25px; transform: rotate(-2deg);
+    }
+    
+    .hero-title {
+        font-family: var(--font-en);
+        font-size: 65px; color: #fff;
+        line-height: 0.95; text-transform: uppercase; margin-bottom: 25px;
+        letter-spacing: -3px; font-weight: 900; max-width: 100%;
+        word-wrap: break-word;
+        text-shadow: 4px 4px 0 var(--punk-pink), -2px -2px 0 var(--punk-cyan);
+    }
+    
+    .hero-subtitle { 
+        color: #ddd; font-weight: bold; font-size: 15px; 
+        border-left: 6px dashed var(--punk-pink);
+        background: rgba(255,255,255,0.03);
+        padding: 15px 20px; max-width: 800px; line-height: 1.7; 
+    }
+    
+    .hero-btn {
+        background: var(--punk-pink);
+        color: #fff !important;
+        font-family: var(--font-en); font-size: 18px; font-weight: 900;
+        padding: 12px 35px; border: 3px solid #fff; margin-top: 35px;
+        display: inline-flex; align-items: center;
+        transition: 0s; box-shadow: 5px 5px 0 #000;
+        transform: skewX(-10deg);
+        &:hover {
+            background: var(--punk-yellow);
+            color: #000 !important;
+            border-color: #000;
+            transform: skewX(-10deg) translate(-5px, -5px); 
+            box-shadow: 10px 10px 0 var(--punk-cyan);
+        }
+    }
+
+    /* 独立警示悬挂时间快 */
+    .hero-date {
+        position: absolute;
+        right: 50px; top: calc(var(--top-bar-height) + 30px);
+        background: #000; border: 4px solid var(--punk-yellow);
+        padding: 15px 25px; text-align: center;
+        box-shadow: 8px 8px 0 var(--punk-pink);
+        z-index: 5;
+        transform: rotate(4deg);
+    }
+    .hero-date-tag { color: var(--punk-cyan); font-size: 11px; font-weight: 900; letter-spacing: 2px; }
+    .hero-date-num { font-size: 52px; color: var(--punk-yellow); font-family: var(--font-en); font-weight: 900; line-height: 0.9; margin: 8px 0; }
+    .hero-date-sub { display: none; }
+    .hero-date::after {
+        content: "";
+        display: block; width: 100%; height: 20px; margin-top: 10px;
+        background: repeating-linear-gradient(90deg, var(--punk-pink), var(--punk-pink) 4px, transparent 4px, transparent 8px);
+    }
+
+    /* --- 4. 文章列表 (Post Cards - 拼贴海报画幅) --- */
+    .home-content-section { 
+        background: transparent;
+        padding-top: 50px; 
+        grid-template-columns: 2fr 1fr;
+    }
+    .section-title {
+        font-family: var(--font-zh);
+        font-weight: 900; font-size: 30px; color: #fff;
+        border-bottom: 6px dotted var(--punk-pink); padding-bottom: 12px; margin-bottom: 45px;
+        display: flex; align-items: center; gap: 15px;
+    }
+    .section-title span { 
+        font-family: var(--font-en); font-size: 13px; 
+        background: var(--punk-pink); color: #fff; padding: 4px 12px;
+        font-weight: 900; transform: rotate(-3deg);
+    }
+
+    .post-card { height: auto; margin-bottom: 60px; overflow: visible !important; }
+    .post-card-inner {
+        background: var(--bg-panel); border: 3px solid var(--punk-cyan);
+        box-shadow: -10px 10px 0 rgba(255, 0, 85, 0.5);
+        display: flex; flex-direction: column; transition: 0s;
+        position: relative; overflow: visible;
+        clip-path: polygon(0 0, 100% 0, 100% 90%, 93% 100%, 0 100%);
+    }
+    /* 卡片顶角“胶带粘贴”粗糙视觉 */
+    .post-card-inner::before {
+        content: "☠ ATTACK";
+        position: absolute; top: -12px; left: 20px; 
+        background: var(--punk-yellow); color: #000;
+        font-family: var(--font-en); font-size: 11px; font-weight: 900;
+        padding: 2px 15px; transform: rotate(-5deg);
+        box-shadow: 2px 2px 0 #000;
+        z-index: 10;
+    }
+    .post-card:hover .post-card-inner {
+        transform: translate(4px, -4px);
+        box-shadow: -15px 15px 0 var(--punk-yellow); 
+        border-color: var(--punk-pink);
+        clip-path: none;
+    }
+    .post-card-bg { 
+        height: 190px; border-bottom: 3px solid var(--punk-cyan);
+        filter: grayscale(100%) contrast(1.8) sepia(50%); transition: filter 0.15s; position: relative; 
+    }
+    .post-card:hover .post-card-bg { filter: grayscale(20%) contrast(1.4) hue-rotate(-50deg); }
+    
+    .post-card-overlay { position: relative; background: transparent; padding: 25px; display: block; color: #fff; }
+    .card-tag {
+        background: #000; color: var(--punk-pink); font-family: var(--font-en);
+        font-weight: 900; border: 2px solid var(--punk-pink); 
+        padding: 3px 12px; display: inline-block; margin-bottom: 15px;
+        font-size: 12px; text-transform: uppercase;
+    }
+    .card-title { color: #fff; font-size: 22px; font-weight: 900; margin-bottom: 15px; white-space: normal; line-height: 1.2; }
+    .card-title:hover { color: var(--punk-cyan); }
+    .card-desc { color: #bbb; font-size: 14px; margin-bottom: 25px; line-height: 1.6; }
+    .card-meta { border-top: 2px dashed var(--punk-pink); padding-top: 15px; color: var(--punk-cyan); font-family: var(--font-en); font-weight: 900; font-size: 12px; }
+
+    /* --- 5. 公告板 (Announce) - 地下演出版告示板 --- */
+    .announce-box {
+        background: #110016;
+        border: 4px dashed var(--punk-pink); color: #fff;
+        padding: 30px; box-shadow: -8px 8px 0 var(--punk-cyan); position: relative; overflow: hidden;
+        transition: 0s;
+        &:hover { 
+            background: var(--punk-pink); border-color: #fff; color: #fff; 
+            box-shadow: 0 0 25px rgba(255,0,85,0.6);
+            .announce-tag { background: #000; color: var(--punk-yellow); border-color: #000; } 
+            .announce-desc { color: #000; } 
+            .announce-date-big { color: #fff; }
+        }
+    }
+    .announce-box::before {
+        content: "⚡";
+        position: absolute; right: 0; bottom: -20px;
+        font-size: 130px; font-weight: 900; color: rgba(0, 255, 204, 0.1);
+        line-height: 1; pointer-events: none;
+    }
+    .announce-box:hover::before { color: rgba(255,255,255,0.2); }
+    
+    .announce-tag { background: var(--punk-cyan); color: #000; font-weight: 900; padding: 3px 10px; border: 1px solid #000; font-family: var(--font-en); font-size: 11px; }
+    .announce-date-big { color: var(--punk-yellow); font-family: var(--font-en); font-size: 38px; font-weight: 900; line-height: 1; margin-top: 10px; text-shadow: 2px 2px 0 #000; }
+    .announce-title { font-size: 19px; font-weight: 900; text-transform: uppercase; margin: 15px 0 10px; line-height: 1.3; color: #fff; }
+    .announce-desc { font-weight: bold; color: #999; font-size: 13px; line-height: 1.5; }
+
+    /* --- 6. 文章内页 (Article Layout) --- */
+    #view-article { background: var(--bg-main); }
+    .art-header {
+        background: #000; border: 4px solid var(--punk-pink);
+        padding: 50px; box-shadow: -15px 15px 0 rgba(0,255,204,0.3);
+        margin-bottom: 50px; position: relative;
+        clip-path: polygon(0 0, 100% 0, 100% 93%, 95% 100%, 0 100%);
+    }
+    /* 尖锐四角十字刺标 */
+    .art-header::before { 
+        content: "✖ ✖ ✖"; 
+        position: absolute; top: 15px; left: 20px; 
+        color: var(--punk-cyan); font-family: var(--font-en); font-weight: 900; letter-spacing: 5px;
+    }
+
+    .art-title { font-family: var(--font-zh); font-size: 45px; font-weight: 900; color: #fff; text-transform: uppercase; line-height: 1.1; margin-bottom: 30px; letter-spacing: -1px; word-wrap: break-word; }
+    .art-title span { background: var(--punk-pink); padding: 2px 12px; color: #fff; transform: rotate(-1deg); display: inline-block; }
+    
+    .art-meta { background: var(--bg-panel); color: #fff; padding: 12px 20px; display: inline-flex; flex-wrap: wrap; gap: 20px; font-family: var(--font-en); font-weight: 900; font-size: 13px; border: 2px solid var(--punk-cyan); }
+    .art-meta-link { color: var(--punk-yellow); }
+    
+    .art-content {
+        background: #050007;
+        border: 4px solid var(--punk-pink); padding: 50px; box-shadow: 15px 15px 0 #000; color: #eee;
+        h1, h2 { font-family: var(--font-zh); font-weight: 900; color: #fff; border: none; text-transform: uppercase; }
+        h1 { font-size: 2.3em; border-bottom: 5px dashed var(--punk-cyan); padding-bottom: 12px; color: var(--punk-pink); text-shadow: 2px 2px 0 #000; }
+        h2 { background: var(--punk-yellow); color: #000; display: inline-block; padding: 6px 18px; border: 3px solid #000; box-shadow: -5px 5px 0 var(--punk-pink); transform: rotate(1deg) skewX(-10deg); margin-top: 45px; font-size: 1.7em; }
+        blockquote { background: #1c0024; color: #fff; border: none; border-left: 10px solid var(--punk-pink); border-right: 10px solid var(--punk-pink); padding: 25px; font-weight: bold; font-size: 16px; margin: 35px 0; line-height: 1.7; box-shadow: inset 0 0 15px rgba(0,0,0,0.6); }
+        pre { background: #000; border: 3px solid var(--punk-cyan); border-radius: 0; box-shadow: -6px 6px 0 var(--punk-pink); padding-top: 45px; position: relative; }
+        pre::before { content: "☢_CORE_DUMP"; position: absolute; top: 0; left: 0; background: var(--punk-pink); color: #fff; font-family: var(--font-en); font-weight: 900; font-size: 11px; padding: 4px 15px; border-bottom: 3px solid var(--punk-cyan); border-right: 3px solid var(--punk-cyan); }
+        img { border: 4px solid var(--punk-pink); box-shadow: -8px 8px 0 var(--punk-cyan); border-radius: 0; margin: 25px 0; max-width: 100%; }
+        a { color: #000; background: var(--punk-cyan); font-weight: 900; padding: 1px 8px; border: 2px solid #000; text-decoration: none; display: inline-block; transform: rotate(-2deg); box-shadow: 3px 3px 0 var(--punk-pink); transition: 0s; }
+        a:hover { background: var(--punk-pink); color: #fff; box-shadow: none; transform: translate(3px, 3px); }
+    }
+
+    /* --- 7. 侧边小部件 (Widgets) --- */
+    .art-widget-title { background: var(--punk-pink); color: #fff; padding: 6px 15px; font-family: var(--font-en); font-weight: 900; font-size: 16px; display: inline-block; margin-bottom: 25px; text-transform: uppercase; border: 2px solid #fff; box-shadow: -4px 4px 0 var(--punk-cyan); transform: rotate(-2deg); }
+    .rel-card { border: 3px solid var(--punk-pink); background: #110018; box-shadow: -5px 5px 0 #000; margin-bottom: 20px; transition: 0s; padding: 15px; }
+    .rel-card:hover { background: var(--punk-cyan); transform: scale(1.02); box-shadow: -8px 8px 0 var(--punk-pink); .rel-title { color: #000; } }
+    .rel-title { font-weight: 900; color: #fff; font-size: 15px; line-height: 1.4; }
+    .rel-img { border: 2px solid var(--punk-cyan); border-radius: 0; }
+    
+    .cat-list-item { border-bottom: 2px dashed var(--punk-pink); padding: 12px 0; }
+    .cat-list-link { font-weight: 900; color: #fff; font-size: 16px; text-transform: uppercase; }
+    .cat-list-link:hover { color: var(--punk-cyan); }
+    .cat-list-count { background: var(--punk-yellow); border: 2px solid #000; color: #000; padding: 2px 8px; font-weight: 900; font-family: var(--font-en); margin-left: 10px; font-size: 11px; }
+
+    /* --- 8. 滚动文字带 & 页脚 (Marquee Footer) --- */
+    @keyframes marqueeX { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+    .app-footer { position: relative; padding-top: 90px; padding-bottom: 50px; background: #000; color: #fff; border: none; font-family: var(--font-en); font-weight: 900; font-size: 14px; text-align: center; overflow: hidden; border-top: 4px ridge var(--punk-pink); }
+    .app-footer::before {
+        content: "⚡ NO FUTURE /// BLOW UP THE SYSTEM /// ANARCHY NOW /// RIOT GEAR /// PUNK SOUL /// EVERYDAY COMPLAINT ///";
+        position: absolute; top: 0; left: 0; width: 200%;
+        background: var(--punk-pink); color: #fff;
+        font-family: var(--font-en); font-size: 22px; font-weight: 900;
+        padding: 6px 0; border-bottom: 4px solid #000;
+        white-space: nowrap; animation: marqueeX 12s linear infinite;
+        pointer-events: none;
+        transform: rotate(-1.5deg) scale(1.02);
+    }
+    
+    /* 工具栏与调色板高亮 */
+    .toolbar-item { background: #000; border: 3px solid var(--punk-pink); box-shadow: -4px 4px 0 var(--punk-cyan); margin-bottom: 12px; transition: 0s; }
+    .toolbar-item:hover { background: var(--punk-yellow); transform: translate(2px, -2px); box-shadow: -6px 6px 0 var(--punk-pink); svg { fill: #000; stroke: #000; } }
+    .palette-item { border-radius: 0; border: 2px solid #fff; }
+    .palette-item[data-theme-style='punk'].active, .palette-item[data-theme-style='punk']:hover { background: var(--punk-pink); border: 2px solid #fff; box-shadow: -4px 4px 0 var(--punk-cyan); transform: scale(1.1); }
+
+    /* 全局滚动条高对比叛逆化 */
+    ::-webkit-scrollbar { width: 14px; }
+    ::-webkit-scrollbar-track { background: #110018; border-left: 3px solid var(--punk-pink); }
+    ::-webkit-scrollbar-thumb { background: var(--punk-cyan); border: 3px solid #000; border-radius: 0; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--punk-yellow); }
+}
+
+/* --- 特有动效：暴力高频抽搐闪烁 (Riot Glitch Click) --- */
+@keyframes punkFlicker {
+    0% { opacity: 1; transform: scaleY(1) skewX(0deg); filter: hue-rotate(0deg); }
+    5% { opacity: 0.8; transform: skewX(-15deg); filter: hue-rotate(90deg); }
+    10% { opacity: 1; transform: scaleY(0.95); }
+    15% { opacity: 0.9; transform: skewX(10deg); filter: invert(100%); }
+    20% { opacity: 1; transform: scaleY(1) skewX(0deg); filter: hue-rotate(0deg); }
+    100% { opacity: 1; }
+}
+[data-theme='punk'] .brand-text h1:hover { 
+    animation: punkFlicker 0.4s steps(1) infinite;
+    color: var(--punk-yellow);
+    box-shadow: 5px 5px 0 #fff;
+}
