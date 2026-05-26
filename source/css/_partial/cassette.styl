@@ -1,0 +1,378 @@
+/* @theme 磁带未来主义 cassette */
+/* ==========================================================================
+   磁带未来主义风格 (Cassette Futurism / Retro-futurism) - 模拟时代终端
+   ========================================================================== */
+
+[data-theme='cassette']
+    /* --- 核心色彩与排版体系 --- */
+    --bg-main: #DCD9CD          /* 经典旧电子设备米白/塑料灰 */
+    --bg-sidebar: #22252A       /* 录像带/磁带外壳深炭黑 */
+    --bg-panel: #EAE7DC         /* 浅色控制面板底色 */
+    --text-main: #1D2021        /* 哑光深灰文本 */
+    --text-sub: #665C54         /* 工业标牌暗黄褐 */
+    --border: #22252A           /* 粗重的机械缝隙线条 */
+    
+    /* 标志性复古未来霓虹/信号色 */
+    --crt-green: #33FF33        /* 阴极射线管荧光绿 */
+    --analog-orange: #FE8019    /* 录音指示灯橙 */
+    --analog-red: #FB4934       /* 磁带流线红 */
+    --analog-yellow: #FABD2F    /* 复古标牌黄 */
+    
+    --font-zh: 'Courier New', 'Noto Sans SC', 'PingFang SC', monospace
+    --font-en: 'Courier New', 'Consolas', monospace /* 强制等宽矩阵字体 */
+    
+    --sidebar-width: 290px
+    --top-bar-height: 70px
+    --content-padding: 50px
+    
+    --analog-border: 4px solid var(--border)
+    --deck-shadow: 6px 6px 0px rgba(0,0,0,0.15)
+
+/* ================= 全局模拟信号重构 ================= */
+[data-theme='cassette'] body
+    background-color: var(--bg-main)
+    color: var(--text-main)
+    font-family: var(--font-zh)
+    position: relative
+
+/* 1. CRT 电视扫描线与微弱闪烁特效 */
+[data-theme='cassette'] body::after
+    content: ""
+    position: fixed
+    top: 0
+    left: 0
+    width: 100vw
+    height: 100vh
+    /* 物理扫描线栅格 */
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.08) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 255, 0, 0.03))
+    background-size: 100% 4px, 6px 100%
+    pointer-events: none
+    z-index: 9999
+
+/* 2. 80年代经典的彩条走线背景（橙/红/黄低保和度赛道线） */
+[data-theme='cassette'] body::before
+    content: ""
+    position: fixed
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    background: linear-gradient(to right, transparent 350px, var(--analog-red) 350px, var(--analog-red) 354px, var(--analog-orange) 354px, var(--analog-orange) 358px, var(--analog-yellow) 358px, var(--analog-yellow) 362px, transparent 362px)
+    z-index: -1
+    pointer-events: none
+
+/* 强制物理硬件倒角（小圆角微凹陷感，类似模具塑料成型） */
+[data-theme='cassette'] *
+    border-radius: 6px !important
+
+/* ================= 侧边栏：磁带机舱视觉 ================= */
+[data-theme='cassette'] .sidebar
+    background-color: var(--bg-sidebar)
+    border-right: 5px solid #161819
+    padding: 30px 0 20px
+    box-shadow: inset -10px 0 20px rgba(0,0,0,0.4)
+
+/* 品牌区：复古卡式带标签感 */
+[data-theme='cassette'] .brand
+    background: #EAE7DC
+    border: 3px solid var(--border)
+    margin: 10px 20px 30px
+    padding: 12px
+    box-shadow: inset 2px 2px 5px rgba(0,0,0,0.3)
+    position: relative
+
+/* 磁带小孔视觉装饰 */
+[data-theme='cassette'] .brand::before,
+[data-theme='cassette'] .brand::after
+    content: ""
+    position: absolute
+    bottom: 6px
+    width: 10px
+    height: 10px
+    background: var(--bg-sidebar)
+    border-radius: 50% !important
+
+[data-theme='cassette'] .brand::before
+    left: 15px
+
+[data-theme='cassette'] .brand::after
+    right: 15px
+
+[data-theme='cassette'] .brand-text h1
+    font-family: var(--font-en)
+    font-size: 20px
+    font-weight: bold
+    color: var(--bg-sidebar)
+    text-transform: uppercase
+    letter-spacing: 1px
+
+[data-theme='cassette'] .brand-text span
+    font-family: var(--font-en)
+    color: var(--analog-orange)
+    font-weight: bold
+
+/* 导航项：物理按键（Mechanical Deck Buttons） */
+[data-theme='cassette'] .nav-label
+    font-family: var(--font-en)
+    color: #8F3F71
+    padding: 0 20px
+    font-weight: bold
+    font-size: 11px
+
+[data-theme='cassette'] .nav-item
+    margin: 6px 20px
+    background: #32302F
+    border: 2px solid #1D2021
+    border-bottom: 4px solid #1D2021 /* 做出琴键立体感 */
+    height: auto
+    padding: 10px
+    transition: all 0.1s ease
+
+[data-theme='cassette'] .nav-item .zh
+    color: #BDAE93
+    font-family: var(--font-zh)
+    font-size: 14px
+
+[data-theme='cassette'] .nav-item .en
+    color: var(--analog-yellow)
+    font-family: var(--font-en)
+    font-size: 10px
+
+/* 按键按下动效 */
+[data-theme='cassette'] .nav-item:hover, 
+[data-theme='cassette'] .nav-item.active
+    background: #1D2021
+    border-bottom: 2px solid #1D2021
+    transform: translateY(2px) /* 物理下压 */
+
+[data-theme='cassette'] .nav-item:hover .zh, 
+[data-theme='cassette'] .nav-item.active .zh
+    color: var(--crt-green)
+    text-shadow: 0 0 4px var(--crt-green) /* 荧光发光 */
+
+/* 用户与头像区：复古软盘/雷达监视器 */
+[data-theme='cassette'] .user-info *
+    color: #BDAE93 !important
+
+[data-theme='cassette'] .avatar
+    border: 3px solid #1D2021
+    filter: sepia(0.8) contrast(1.2) /* 营造老照片/老式监视器感 */
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.8)
+
+[data-theme='cassette'] .user-desc
+    font-size: 12px
+    border-left: 2px solid var(--analog-orange)
+    padding-left: 8px
+
+/* ================= 顶栏与交互组件 ================= */
+[data-theme='cassette'] .top-bar
+    left: var(--sidebar-width) !important
+    background: rgba(220, 217, 205, 0.9)
+    border-bottom: var(--analog-border)
+    backdrop-filter: blur(4px)
+
+/* 搜索框：塑料凹槽嵌入式 */
+[data-theme='cassette'] .search-box
+    background: #C5C2B6
+    border: 2px solid #A8A59A
+    box-shadow: inset 2px 2px 5px rgba(0,0,0,0.15)
+
+[data-theme='cassette'] .search-box input
+    font-family: var(--font-en)
+    color: var(--text-main)
+
+/* 系统状态：数字化仪表盘 (VU Meter) */
+[data-theme='cassette'] .sys-text
+    font-family: var(--font-en)
+    background: #1D2021
+    color: var(--crt-green) !important
+    padding: 4px 10px
+    border: 2px solid #32302F
+    box-shadow: inset 0 0 6px rgba(0,255,0,0.5)
+
+[data-theme='cassette'] .sys-text *
+    color: var(--crt-green) !important
+
+/* ================= 巨幕区重构 (Dashboard System) ================= */
+[data-theme='cassette'] .hero-section
+    background-color: #282828
+    margin: 20px
+    border: var(--analog-border)
+    box-shadow: var(--deck-shadow)
+
+[data-theme='cassette'] .hero-overlay
+    background: radial-gradient(circle at center, transparent 30%, rgba(0,0,0,0.4) 100%)
+
+[data-theme='cassette'] .hero-content
+    background: #1D2021
+    border: 3px solid #32302F
+    padding: 30px !important
+    margin: 30px !important
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.8)
+
+[data-theme='cassette'] .hero-title
+    font-family: var(--font-en)
+    color: #FFF !important
+    text-shadow: 0 0 8px rgba(255,255,255,0.3)
+
+[data-theme='cassette'] .hero-subtitle
+    color: var(--crt-green) !important
+    font-family: var(--font-en)
+    border-left: 3px solid var(--crt-green)
+    padding-left: 10px
+    text-shadow: 0 0 4px var(--crt-green)
+
+[data-theme='cassette'] .hero-btn
+    background: var(--analog-orange) !important
+    color: #1D2021 !important
+    font-weight: bold
+    border: 2px solid var(--border) !important
+    box-shadow: 3px 3px 0px rgba(0,0,0,0.3)
+
+/* ================= 列表卡片与网格 (Hardware Modules) ================= */
+[data-theme='cassette'] .section-title
+    font-family: var(--font-en)
+    background: var(--border)
+    color: var(--bg-main)
+    padding: 4px 14px
+    font-size: 14px
+    text-transform: uppercase
+
+[data-theme='cassette'] .post-card-inner
+    border: var(--analog-border)
+    background: var(--bg-panel)
+    box-shadow: var(--deck-shadow)
+
+[data-theme='cassette'] .post-card-bg
+    filter: sepia(0.5) saturate(1.2) contrast(1.1)
+
+[data-theme='cassette'] .card-title
+    color: var(--text-main)
+
+[data-theme='cassette'] .card-tag
+    color: var(--analog-red)
+    font-weight: bold
+
+/* 公告板：仪器标签风格 */
+[data-theme='cassette'] .announce-box
+    border: 2px dashed var(--border) !important
+    background: #E0DDD3
+    box-shadow: none
+
+[data-theme='cassette'] .announce-date-big
+    color: var(--analog-orange)
+    font-family: var(--font-en)
+
+/* ================= 对话元素深度风格化 (Data Transceiver) ================= */
+[data-theme='cassette'] .chat-container
+    background: #D4D1C4
+    border: var(--analog-border)
+    box-shadow: inset 3px 3px 10px rgba(0,0,0,0.1)
+
+/* 接收端：老式微型计算机黑底绿字终端 */
+[data-theme='cassette'] .chat-bubble.received
+    background: #1D2021
+    color: var(--crt-green)
+    border: 3px solid #32302F
+    box-shadow: var(--deck-shadow)
+    font-family: var(--font-en)
+
+[data-theme='cassette'] .chat-bubble.received *
+    color: var(--crt-green) !important
+
+[data-theme='cassette'] .chat-bubble.received::before
+    border-bottom: 5px solid #1D2021
+    border-left: 5px solid #1D2021
+    background: #1D2021
+
+/* 发送端：塑料标牌色块（黄色警示带风格） */
+[data-theme='cassette'] .chat-bubble.sent
+    background: var(--analog-yellow)
+    color: var(--border)
+    border: var(--analog-border)
+    box-shadow: var(--deck-shadow)
+    font-weight: bold
+
+[data-theme='cassette'] .chat-bubble.sent *
+    color: var(--border) !important
+
+[data-theme='cassette'] .chat-bubble.sent::before
+    border-top: 5px solid var(--border)
+    border-right: 5px solid var(--border)
+    background: var(--analog-yellow)
+
+/* 控制台输入区域：打字机/键盘槽 */
+[data-theme='cassette'] .chat-input-wrapper
+    border: var(--analog-border)
+    background: #282828
+    padding: 5px
+
+[data-theme='cassette'] .chat-input
+    background: #1D2021
+    color: #FFF
+    border: 2px solid #32302F
+    padding: 15px
+
+[data-theme='cassette'] .chat-submit-btn
+    background: var(--analog-orange)
+    color: #1D2021
+    border-left: var(--analog-border)
+    font-family: var(--font-en)
+
+[data-theme='cassette'] .chat-submit-btn:hover
+    background: var(--analog-red)
+    color: #FFF
+
+/* ================= 文章详情页 (Technical Dossier) ================= */
+[data-theme='cassette'] .art-header
+    background: #C5C2B6
+    border: var(--analog-border)
+    padding: 30px
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.05)
+
+[data-theme='cassette'] .art-title
+    font-family: var(--font-zh)
+    color: var(--text-main)
+
+/* 正文重构：等宽说明书排版 */
+[data-theme='cassette'] .art-content
+    font-family: var(--font-zh)
+    letter-spacing: 0.5px
+
+[data-theme='cassette'] .art-content h2
+    font-family: var(--font-zh)
+    border-bottom: 3px solid var(--border)
+    color: var(--text-main)
+    padding-bottom: 5px
+    font-weight: bold
+
+[data-theme='cassette'] .art-content code
+    background: #C5C2B6 !important
+    color: var(--analog-red) !important
+    font-family: var(--font-en)
+
+[data-theme='cassette'] .art-content pre
+    background: #1D2021
+    border: var(--analog-border)
+    box-shadow: var(--deck-shadow)
+
+[data-theme='cassette'] .art-content pre code
+    color: #EBDBB2 !important
+    background: transparent !important
+
+/* 顶部磁带行进式进度条 */
+[data-theme='cassette'] #top-progress-bar
+    height: 6px !important
+    /* 橙黑相间的磁带引带（Leader Tape）视效 */
+    background: repeating-linear-gradient(45deg, var(--analog-orange), var(--analog-orange) 10px, var(--border) 10px, var(--border) 20px)
+
+/* ================= 工具类与动画 ================= */
+/* 经典低频数码跳动（用于悬浮琴键按键时的阻尼感） */
+@keyframes tape-flutter
+    0%, 100%
+        transform: translateY(2px)
+    50%
+        transform: translateY(3px)
+
+[data-theme='cassette'] .nav-item:hover
+    animation: tape-flutter 0.2s infinite ease-in-out
