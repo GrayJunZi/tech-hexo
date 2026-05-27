@@ -131,6 +131,13 @@
             0 8px 24px rgba(0, 0, 0, 0.02),
             inset 0 1px 2px rgba(255, 255, 255, 0.8);
         transition: var(--fluid-transition);
+
+        .top-links a {
+            text-shadow: 0 0 15px rgba(255, 255, 255, 1), 0 0 5px rgba(255, 255, 255, 0.8);
+            &:hover {
+                text-shadow: 0 0 20px rgba(255, 255, 255, 1), 0 0 10px rgba(0, 113, 227, 0.2);
+            }
+        }
     }
 
     /* 搜索框：液态凹面水池 */
@@ -156,6 +163,7 @@
     /* --- 3. 巨幕区 (Hero Section 水光折射天幕) --- */
     .hero-section {
         background: transparent;
+        margin-top: 20px; /* 与顶栏拉开距离 */
     }
 
     .hero-overlay {
@@ -165,6 +173,10 @@
             rgba(255, 255, 255, 0) 100%);
         backdrop-filter: blur(4px);
         -webkit-backdrop-filter: blur(4px);
+    }
+
+    .hero-tag {
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.9), 0 0 20px rgba(255, 255, 255, 0.4);
     }
 
     .hero-title { 
@@ -183,6 +195,7 @@
         line-height: 1.7;
         font-weight: 400;
         max-width: 600px;
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.9), 0 0 20px rgba(255, 255, 255, 0.4);
     }
 
     /* 独立液态水滴舱：日期标签 */
@@ -244,6 +257,12 @@
     /* --- 4. 极致流体形变文章卡片 (Post Cards) --- */
     .home-content-section {
         background: transparent;
+    }
+
+    .post-card {
+        overflow: visible !important;
+        background: transparent;
+        border-radius: 36px;
     }
 
     .post-card-inner {
