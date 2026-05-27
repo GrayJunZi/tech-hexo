@@ -1,149 +1,411 @@
-/* @theme 简约风 light */
-/* ================= 简约风变量定义 (Simple Theme Variables) ================= */
+/* @theme 简约风 light  */
+/* ================= 极致液态流体玻璃变量 (Hyper-Liquid Glass Variables) ================= */
 [data-theme='light'] {
-    --bg-sidebar: #ffffff;
-    --bg-main: #f8f9fa;
-    --bg-content: #ffffff;
-    --bg-panel: #ffffff;
-    --text-main: #2c3e50;
-    --text-sub: #7f8c8d;
-    --border: #e0e0e0;
+    /* 降低不透明度至临界点，完全依靠多层高级滤镜撑起厚度感 */
+    --bg-sidebar: rgba(255, 255, 255, 0.25);
+    /* 核心主背景：利用四个超大彩色流体球（通过CSS渐变动画模拟）在底层流动，为玻璃提供折射源 */
+    --bg-main: radial-gradient(circle at 10% 20%, rgba(0, 113, 227, 0.15) 0%, transparent 40%),
+               radial-gradient(circle at 90% 80%, rgba(0, 199, 190, 0.15) 0%, transparent 40%),
+               radial-gradient(circle at 50% 50%, rgba(255, 149, 0, 0.08) 0%, transparent 50%),
+               #f5f5f7;
+    --bg-content: rgba(255, 255, 255, 0.1);
+    --bg-panel: rgba(255, 255, 255, 0.25);
+    --text-main: #1d1d1f; 
+    --text-sub: #6e6e73;
     
-    --color-orange: #3498db; /* 简约风改用蓝色作为主色调 */
-    --font-zh: 'Inter', 'Source Sans Pro', 'PingFang SC', sans-serif;
-    --font-en: 'Montserrat', sans-serif;
+    /* 模拟液体边缘张力的复合边框色（高亮极光白与水滴暗折射） */
+    --border: rgba(255, 255, 255, 0.75);
+    --border-dark: rgba(0, 113, 227, 0.06);
+    
+    --color-orange: #0071e3; /* 流体核心：水溶性苹果蓝 */
+    --font-zh: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue', sans-serif;
+    --font-en: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+    
+    /* 液态水滴形变专用：超长缓动、大柔和度的贝塞尔曲线 */
+    --fluid-transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* ================= 简约风特定装饰 (Simple Theme Decorations) ================= */
+/* ================= 极致液态流体玻璃装饰 (Hyper-Liquid Glass Decorations) ================= */
 [data-theme='light'] {
-    /* 移除科技感阴影和边框 */
+
+    /* --- 0. 全局流体画布注入 --- */
+    body {
+        background: var(--bg-main);
+        background-attachment: fixed;
+        background-size: 200% 200%;
+        animation: fluidBackgroundMove 20s ease infinite; /* 底层色彩像水流一样缓慢涌动 */
+    }
+
+    /* --- 1. 侧边栏重构 (Sidebar 液态悬浮流动舱) --- */
     .sidebar {
         background-color: var(--bg-sidebar);
+        /* 极致的模糊与色彩拉伸，使底层涌动的色彩折射出完美的液体质感 */
+        backdrop-filter: blur(40px) saturate(250%);
+        -webkit-backdrop-filter: blur(40px) saturate(250%);
         border-right: 1px solid var(--border);
-        box-shadow: none;
+        /* 核心液态光折射阴影：利用三重阴影堆叠出玻璃的厚度与边缘的高亮水贴感 */
+        box-shadow: 
+            20px 0 50px rgba(0, 0, 0, 0.02),
+            inset -2px 0 3px rgba(255, 255, 255, 0.7),
+            inset -8px 0 20px rgba(255, 255, 255, 0.2);
         padding: 60px 0;
+        transition: var(--fluid-transition);
     }
 
-    .brand-icon {
-        fill: var(--color-orange);
-    }
-
-    .nav-item {
-        &::before, &::after { display: none; }
-        .zh { font-weight: 500; }
-        &.active .zh, &:hover .zh { color: var(--color-orange); }
-        &.active, &:hover { background: rgba(52, 152, 219, 0.05); }
-    }
-
-    .post-card-inner {
-        border-radius: 8px;
-        border: 1px solid var(--border);
-        box-shadow: 0 4px 6px rgba(0,0,0,0.02);
-        background: #fff;
-    }
-    .post-card:hover .post-card-inner {
-        transform: translateY(-2px);
-        box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-    }
-    .post-card-bg { filter: brightness(1); }
-    .post-card-overlay { background: linear-gradient(to top, rgba(255,255,255,0.9) 0%, transparent 100%); }
-    .card-title, .card-desc, .card-meta { color: var(--text-main); }
-    .card-title { color: #2c3e50; }
-    .card-desc { color: #7f8c8d; }
-
-    .top-bar {
-        background: rgba(255, 255, 255, 0.8);
-        backdrop-filter: blur(10px);
-        border-bottom: 1px solid var(--border);
-    }
-
-    .search-box {
-        background: #f1f3f5;
-        border-radius: 20px;
-        &:hover, &:focus-within { border-color: var(--color-orange); background: #fff; }
-    }
-
-    .hero-section {
-        background: #fff;
-    }
-    .hero-overlay {
-        background: linear-gradient(90deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.6) 50%, transparent 100%);
-    }
-    .hero-title { 
-        color: #2c3e50; 
-        text-shadow: 0 0 30px rgba(255,255,255,1); 
-    }
-    .hero-date {
-        border-left-color: var(--color-orange);
-        background: rgba(255,255,255,0.7);
-        backdrop-filter: blur(8px);
-        padding: 10px 20px;
-        border-radius: 0 10px 10px 0;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-    }
-    .hero-date-num { color: #2c3e50; }
-    
-    .hero-btn {
-        background: var(--color-orange);
-        color: #fff !important;
-        border-radius: 30px;
-        padding: 12px 30px;
-        border: none;
-        box-shadow: 0 6px 20px rgba(52, 152, 219, 0.3);
+    /* 侧边栏整体悬浮液态形变 */
+    .brand {
+        transition: var(--fluid-transition);
+        .brand-icon {
+            fill: var(--text-main);
+            filter: drop-shadow(0 4px 12px rgba(0, 113, 227, 0.3));
+            transition: var(--fluid-transition);
+        }
         &:hover {
-            background: #2980b9;
-            color: #fff !important;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.4);
+            transform: scale(1.04) translateY(-2px);
+            filter: saturate(160%);
+            .brand-icon {
+                transform: rotate(5deg) scale(1.1);
+            }
         }
     }
 
-    .art-content {
-        h1 { border-bottom: 2px solid var(--color-orange); color: #2c3e50; }
-        h2 { border-bottom: none; color: #34495e; background: #f8f9fa; padding: 10px 15px; border-left: 4px solid var(--color-orange); }
-        blockquote { background: #f8f9fa; border-left-color: #bdc3c7; }
-        pre { background: #fdfdfd; border: 1px solid #eee; code { color: #444; } }
+    /* 导航项：水滴融合与细胞分裂式（Gooey-like）视觉交互 */
+    .nav-item {
+        margin: 10px 22px;
+        border-radius: 20px; /* 大圆角水滴状 */
+        transition: var(--fluid-transition);
+        position: relative;
+        border: 1px solid rgba(255, 255, 255, 0);
+
+        &::before, &::after { 
+            display: none; 
+        }
+
+        .zh { 
+            font-weight: 600;
+            transition: var(--fluid-transition);
+            position: relative;
+            z-index: 2;
+        }
+        
+        /* 激活状态：饱满的水浆包裹感 */
+        &.active { 
+            /* 使用带有高光的微渐变流体色 */
+            background: linear-gradient(135deg, rgba(0, 113, 227, 0.85) 0%, rgba(0, 160, 255, 0.85) 100%);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            /* 外发光+内倒角高光，营造出凸起的水晶果冻质感 */
+            box-shadow: 
+                0 12px 24px rgba(0, 113, 227, 0.3),
+                inset 0 3px 6px rgba(255, 255, 255, 0.5),
+                inset 0 -3px 6px rgba(0, 0, 0, 0.1);
+            transform: scale(1.02);
+            
+            .zh { 
+                color: #ffffff; 
+                text-shadow: 0 2px 6px rgba(0, 113, 227, 0.4);
+            }
+        }
+
+        /* 悬浮状态：如同水滴在玻璃表面延展融合 */
+        &:hover:not(.active) { 
+            background: rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            /* 制造一个极轻微的内凹高光 */
+            box-shadow: 
+                0 6px 15px rgba(0, 0, 0, 0.02),
+                inset 0 2px 4px rgba(255, 255, 255, 0.4);
+            transform: translateY(-2px) translateX(6px); /* 向上向右丝滑延展 */
+            
+            .zh { 
+                color: var(--color-orange); 
+            }
+        }
     }
 
-    .app-footer {
-        background: #fff;
-        border-top: 1px solid var(--border);
+    /* --- 2. 顶栏 (Top Bar 极高饱和度滤光镜) --- */
+    .top-bar {
+        background: rgba(255, 255, 255, 0.35);
+        backdrop-filter: blur(50px) saturate(280%); /* 进一步拉高滤镜，让后方流体背景完全融化 */
+        -webkit-backdrop-filter: blur(50px) saturate(280%);
+        border-bottom: 1px solid var(--border);
+        box-shadow: 
+            0 8px 32px rgba(0, 0, 0, 0.01),
+            inset 0 -1px 0 rgba(255, 255, 255, 0.3);
+        transition: var(--fluid-transition);
     }
 
-    .glitch-layer, .pjax-glitch-layer { display: none !important; }
-    .jump-char, .wave-char { animation: none !important; }
-
-    /* 简约风特有动效：柔和缩放与外发光 */
-    .brand:hover {
-        transform: scale(1.02);
-        filter: drop-shadow(0 0 8px rgba(52, 152, 219, 0.3));
+    /* 搜索框：液态膨胀水银视觉 */
+    .search-box {
+        background: rgba(0, 0, 0, 0.03);
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.03);
+        transition: var(--fluid-transition);
+        
+        &:hover, &:focus-within { 
+            border-color: rgba(0, 113, 227, 0.5);
+            background: rgba(255, 255, 255, 0.7); 
+            /* 悬浮时呈现出向外张开的饱满水银感 */
+            box-shadow: 
+                0 15px 30px rgba(0, 0, 0, 0.04),
+                inset 0 2px 4px rgba(255, 255, 255, 0.6);
+            transform: scale(1.05);
+        }
     }
-    .user-info:hover .avatar {
-        transform: scale(1.05);
-        box-shadow: 0 0 15px rgba(52, 152, 219, 0.4);
-        transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+    /* --- 3. 巨幕区 (Hero Section 水光折射天幕) --- */
+    .hero-section {
+        background: transparent;
     }
 
-    /* 导航栏图标选中颜色修正 */
-    .nav-item.active .nav-icon, .nav-item:hover .nav-icon {
-        filter: invert(53%) sepia(82%) saturate(3015%) hue-rotate(180deg) brightness(95%) contrast(92%) !important;
+    .hero-overlay {
+        /* 多层叠加微弱色彩的液体折射渐变 */
+        background: linear-gradient(125deg, 
+            rgba(245, 245, 247, 0.9) 0%, 
+            rgba(235, 242, 250, 0.6) 40%, 
+            rgba(255, 255, 255, 0) 100%);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
     }
 
-    /* Hero区域内容预览优化 */
+    .hero-title { 
+        color: #1d1d1f; 
+        font-weight: 800;
+        letter-spacing: -1px;
+        /* 利用两层极其柔和的白色投影模拟文字后方的液态聚光折射效果 */
+        text-shadow: 0 4px 20px #fff, 0 10px 40px rgba(255,255,255,0.6); 
+    }
+
     .hero-subtitle { 
-        color: #2c3e50; /* 加深颜色 */
-        background: none; /* 去掉突兀背景 */
+        color: #424245;
+        background: none;
         backdrop-filter: none;
         padding: 0;
         margin-left: 0;
-        line-height: 1.8;
+        line-height: 1.7;
         font-weight: 400;
         max-width: 600px;
     }
 
-    /* 文章卡片描述颜色加深 */
-    .card-desc {
-        color: #34495e !important;
+    /* 独立液态水滴舱：日期标签 */
+    .hero-date {
+        border-left: none;
+        background: rgba(255, 255, 255, 0.35);
+        backdrop-filter: blur(30px) saturate(180%);
+        -webkit-backdrop-filter: blur(30px) saturate(180%);
+        padding: 16px 32px;
+        border-radius: 30px; /* 超大圆角 */
+        border: 1px solid var(--border);
+        /* 精准堆叠阴影：外柔和阴影 + 内部环形边缘高光 = 液态厚度 */
+        box-shadow: 
+            0 20px 45px rgba(0, 0, 0, 0.04), 
+            inset 0 4px 6px rgba(255, 255, 255, 0.7),
+            inset 0 -4px 10px rgba(255, 255, 255, 0.2);
+        margin-left: 15px;
+        transition: var(--fluid-transition);
+        
+        &:hover {
+            transform: translateY(-6px) scale(1.03);
+            background: rgba(255, 255, 255, 0.5);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.08), inset 0 4px 8px rgba(255, 255, 255, 0.8);
+        }
+    }
+
+    .hero-date-num { 
+        color: var(--color-orange); 
+        font-weight: bold;
+    }
+    
+    /* 高级张力流体果冻按钮 */
+    .hero-btn {
+        background: linear-gradient(135deg, #0071e3 0%, #00b4ff 100%);
+        color: #fff !important;
+        border-radius: 28px;
+        padding: 16px 40px;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        font-weight: 600;
+        box-shadow: 
+            0 10px 30px rgba(0, 113, 227, 0.4),
+            inset 0 3px 6px rgba(255, 255, 255, 0.4);
+        transition: var(--fluid-transition);
+        
+        &:hover {
+            transform: scale(1.06) translateY(-3px);
+            box-shadow: 
+                0 20px 45px rgba(0, 113, 227, 0.55),
+                inset 0 4px 8px rgba(255, 255, 255, 0.5);
+        }
+    }
+
+    /* --- 4. 极致流体形变文章卡片 (Post Cards) --- */
+    .home-content-section {
+        background: transparent;
+    }
+
+    .post-card-inner {
+        border-radius: 36px; /* 超高弧度圆角，消除一切硬直感 */
+        border: 1px solid var(--border);
+        /* 超凡拟真立体玻璃阴影体系 */
+        box-shadow: 
+            0 20px 40px rgba(0, 0, 0, 0.02), 
+            inset 0 2px 3px rgba(255, 255, 255, 0.8),
+            inset 0 -2px 15px rgba(255, 255, 255, 0.2),
+            inset 0 10px 30px rgba(255, 255, 255, 0.15);
+        background: var(--bg-panel);
+        backdrop-filter: blur(25px) saturate(160%);
+        -webkit-backdrop-filter: blur(25px) saturate(160%);
+        transition: var(--fluid-transition);
+    }
+
+    /* 鼠标移入：卡片如同水滴受热膨胀，浮起并高度透明化 */
+    .post-card:hover .post-card-inner {
+        transform: translateY(-12px) scale(1.025);
+        background: rgba(255, 255, 255, 0.5);
+        border-color: rgba(255, 255, 255, 0.9);
+        box-shadow: 
+            0 40px 80px rgba(0, 0, 0, 0.08), 
+            inset 0 3px 4px rgba(255, 255, 255, 0.9),
+            inset 0 -5px 25px rgba(255, 255, 255, 0.3);
+    }
+
+    /* 卡片内部封面的流体溶解过渡 */
+    .post-card-bg { 
+        filter: brightness(1.03) contrast(0.92) saturate(110%);
+        border-radius: 36px 36px 0 0; 
+        transition: var(--fluid-transition);
+    }
+    
+    .post-card:hover .post-card-bg {
+        transform: scale(1.04);
+        filter: brightness(1.05) contrast(0.95) saturate(120%);
+    }
+
+    .post-card-overlay { 
+        /* 极其丝滑的水溶性渐变底色 */
+        background: linear-gradient(to top, rgba(255, 255, 255, 0.99) 25%, rgba(255, 255, 255, 0.3) 75%, rgba(255, 255, 255, 0) 100%);
+    }
+
+    .card-title { 
+        color: #1d1d1f; 
+        font-weight: 700; 
+    }
+
+    .card-desc { 
+        color: #424245 !important;
         font-weight: 400;
+        line-height: 1.6;
+    }
+
+    /* --- 5. 文章内页流体质感升华 (Article Content) --- */
+    .art-content {
+        h1 { 
+            border-bottom: 2px solid var(--border-dark);
+            color: #1d1d1f; 
+            font-weight: 700; 
+        }
+        
+        /* 融雪温润的二级流体标题块 */
+        h2 { 
+            border-bottom: none;
+            color: #1d1d1f; 
+            background: rgba(255, 255, 255, 0.55); 
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            padding: 16px 28px; 
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            box-shadow: 
+                inset 0 2px 4px rgba(255,255,255,0.7),
+                0 4px 15px rgba(0,0,0,0.01);
+            border-left: none;
+        }
+
+        /* 纯澈无瑕的水浆引用块 */
+        blockquote { 
+            background: rgba(0, 113, 227, 0.03);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-left: 5px solid var(--color-orange); 
+            border-radius: 6px 24px 24px 6px;
+            border-top: 1px solid rgba(255,255,255,0.4);
+            border-bottom: 1px solid rgba(255,255,255,0.4);
+            color: #323235;
+            box-shadow: inset 30px 0 40px rgba(0, 113, 227, 0.015);
+        }
+
+        /* 半透明冰晶代码舱 */
+        pre { 
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border); 
+            border-radius: 22px;
+            box-shadow: 
+                inset 0 2px 4px rgba(255, 255, 255, 0.7),
+                0 10px 30px rgba(0, 0, 0, 0.01);
+            
+            code { 
+                color: #1d1d1f;
+            } 
+        }
+    }
+
+    /* --- 6. 核心资产交互 (User Panel & Avatar Liquid Scale) --- */
+    .user-info .avatar {
+        /* 使用高度拟真橡胶/液体的三次贝塞尔反弹曲线 */
+        transition: all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+        border: 2px solid rgba(255, 255, 255, 0.9);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.03);
+    }
+
+    /* 头像液化水滴张力放大效果 */
+    .user-info:hover .avatar {
+        transform: scale(1.16) rotate(6deg);
+        border-color: var(--color-orange);
+        box-shadow: 
+            0 15px 30px rgba(0, 113, 227, 0.3),
+            0 0 0 6px rgba(0, 113, 227, 0.12);
+    }
+
+    /* 导航栏图标选中流体变色 */
+    .nav-item.active .nav-icon {
+        filter: brightness(0) invert(1) drop-shadow(0 4px 6px rgba(0, 113, 227, 0.25)) !important;
+    }
+    
+    .nav-item:hover:not(.active) .nav-icon {
+        filter: invert(36%) sepia(91%) saturate(2238%) hue-rotate(193deg) brightness(97%) contrast(106%) !important;
+    }
+
+    /* --- 7. 页脚底舱与全局重置 (Footer & Flow Reset) --- */
+    .app-footer {
+        background: rgba(255, 255, 255, 0.35);
+        backdrop-filter: blur(30px) saturate(180%);
+        -webkit-backdrop-filter: blur(30px) saturate(180%);
+        border-top: 1px solid var(--border);
+        box-shadow: inset 0 2px 3px rgba(255, 255, 255, 0.5);
+    }
+
+    /* 严控杂质动画，防掉帧并确保全页呈现纯净的流体质感 */
+    .glitch-layer, .pjax-glitch-layer { 
+        display: none !important; 
+    }
+    
+    .jump-char, .wave-char { 
+        animation: none !important; 
+    }
+}
+
+/* ================= 全局核心液态动画引擎 (Liquid Animation Core) ================= */
+@keyframes fluidBackgroundMove {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
     }
 }
