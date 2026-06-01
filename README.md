@@ -4,8 +4,20 @@ Tech 是一个风格简明、动效丰富的 Hexo 主题，在[3-hexo](https://g
 
 最初它的目的在于构造一个简单的战术风博客主题，当前随着改进它已成为包容多种风格可以任意新增和切换风格的主题。
 
-![视觉效果预览](source/img/review.jpg)
-
+<table>
+<tr>
+    <td><img src="source/img/review.jpg" alt="预览1" width="400"/></td>
+    <td><img src="source/img/review (2).jpg" alt="预览2" width="400"/></td>
+    <td><img src="source/img/review (3).jpg" alt="预览3" width="400"/></td>
+</tr>
+</table>
+<table>
+<tr>
+    <td><img src="source/img/review (4).jpg" alt="预览4" width="400"/></td>
+    <td><img src="source/img/review (5).jpg" alt="预览5" width="400"/></td>
+    <td><img src="source/img/review (6).jpg" alt="预览6" width="400"/></td>
+</tr>
+</table>
 **在线体验**：https://sanqi-normal.github.io/
 
 
